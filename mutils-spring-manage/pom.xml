@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.minsin</groupId>
+	<artifactId>mutils-spring-manage</artifactId>
+	<version>0.1</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>mutils-core</module>
+		<module>mutils-excel</module>
+		<module>mutils-alipay</module>
+		<module>mutils-yiketong</module>
+		<module>mutils-wechatpay</module>
+		<module>mutils-dianwoda</module>
+		<module>mutils-tetuipush</module>
+		<module>mutils-file</module>
+		<module>mutils-spring-boot-autoconfigure</module>
+		<module>mutils-spring-boot-starter</module>
+
+		<module>mutils-kuaidi100</module>
+		<module>mutils-test-example</module>
+	</modules>
+
+	<properties>
+		<mutils.version>0.1</mutils.version>
+		<commons-lang3.version>3.5</commons-lang3.version>
+		<spring-boot.version>2.1.0.RELEASE</spring-boot.version>
+		<fastjson.version>1.2.54</fastjson.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<httpclient.version>4.5.5</httpclient.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-core</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-excel</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-alipay</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-yiketong</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-wechatpay</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-kuaidi100</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-dianwoda</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-tetuipush</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-file</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-spring-boot-autoconfigure</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-spring-boot-starter</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+				<exclusions>
+					<exclusion>
+						<artifactId>org.springframework.boot</artifactId>
+						<groupId>spring-boot-aop</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>org.springframework.boot</artifactId>
+						<groupId>spring-boot-jdbc</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

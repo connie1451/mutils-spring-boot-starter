@@ -1,0 +1,87 @@
+{
+  "groups": [
+    {
+      "name": "mutils",
+      "type": "cn.minsin.spring.boot.autoconfigure.MutilsProperties",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties"
+    },
+    {
+      "name": "mutils.alipay",
+      "type": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties",
+      "sourceMethod": "public cn.minsin.spring.boot.autoconfigure.MutilsProperties.AlipayConfig getAlipay() "
+    },
+    {
+      "name": "mutils.excel",
+      "type": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$ExcelConfig",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties",
+      "sourceMethod": "public cn.minsin.spring.boot.autoconfigure.MutilsProperties.ExcelConfig getExcel() "
+    }
+  ],
+  "properties": [
+    {
+      "name": "mutils.alipay.appid",
+      "type": "java.lang.String",
+      "description": "支付宝appid",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.appid",
+      "type": "java.lang.String",
+      "description": "支付宝appid",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.notify-url",
+      "type": "java.lang.String",
+      "description": "回调地址 完整路径",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.notify-url",
+      "type": "java.lang.String",
+      "description": "回调地址 完整路径",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.private-key",
+      "type": "java.lang.String",
+      "description": "支付宝私钥",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.private-key",
+      "type": "java.lang.String",
+      "description": "支付宝私钥",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.public-key",
+      "type": "java.lang.String",
+      "description": "支付宝公钥",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.alipay.public-key",
+      "type": "java.lang.String",
+      "description": "支付宝公钥",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$AlipayConfig"
+    },
+    {
+      "name": "mutils.excel.error-template-url",
+      "type": "java.lang.String",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$ExcelConfig"
+    },
+    {
+      "name": "mutils.excel.error-template-url",
+      "type": "java.lang.String",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties$ExcelConfig"
+    },
+    {
+      "name": "mutils.functions",
+      "type": "cn.minsin.core.init.MutilsFunctions[]",
+      "sourceType": "cn.minsin.spring.boot.autoconfigure.MutilsProperties"
+    }
+  ],
+  "hints": []
+}

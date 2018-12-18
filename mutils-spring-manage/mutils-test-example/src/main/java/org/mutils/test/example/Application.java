@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import cn.minsin.core.init.AlipayConfig;
+
 @SpringBootApplication(exclude=DataSourceAutoConfiguration.class)
 public class Application implements CommandLineRunner {
 
@@ -14,7 +16,8 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		
+		AlipayConfig alipayConfig = AlipayConfig.alipayConfig;
+		System.out.println(alipayConfig.getAppid());
 	}
 
 }

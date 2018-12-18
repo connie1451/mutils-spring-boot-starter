@@ -1,8 +1,38 @@
 package cn.minsin.core.init;
 
-public class YiKeTongConfig {
+import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.tools.StringUtil;
 
-	public static String corp_key;// = "6845678513658223";
-	public static String corp_secret;// = "p6jX1xP71EWBbB1Bcxky51u7e77H39XD";
-	public static String api_url;// = "http://api.1ketong.com:81/ykt-pool/";
+public class YiKeTongConfig implements InitConfig {
+	public static YiKeTongConfig yiKeTongConfig;
+	
+	private  String corpKey;// = "6845678513658223";
+	private  String corpSecret;// = "p6jX1xP71EWBbB1Bcxky51u7e77H39XD";
+	private  String apiUrl;// = "http://api.1ketong.com:81/ykt-pool/";
+	
+	public String getCorpKey() {
+		return corpKey;
+	}
+	public void setCorpKey(String corpKey) {
+		this.corpKey = corpKey;
+	}
+	public String getCorpSecret() {
+		return corpSecret;
+	}
+	public void setCorpSecret(String corpSecret) {
+		this.corpSecret = corpSecret;
+	}
+	public String getApiUrl() {
+		return apiUrl;
+	}
+	public void setApiUrl(String apiUrl) {
+		this.apiUrl = apiUrl;
+	}
+	@Override
+	public void done() {
+		if(StringUtil.isBlank(corpKey,corpSecret,apiUrl)) {
+			throw new MutilsException("移客通初始化失败,请检查配置文件是否正确.");
+		}
+		yiKeTongConfig =this;
+	}
 }

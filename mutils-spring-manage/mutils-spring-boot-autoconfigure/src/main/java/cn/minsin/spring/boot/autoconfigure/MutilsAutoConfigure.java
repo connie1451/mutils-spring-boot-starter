@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 
 import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.InitConfig;
 import cn.minsin.core.init.MutilsFunctions;
 
 @Configuration
@@ -29,10 +30,37 @@ public class MutilsAutoConfigure {
 			MutilsFunctions[] functions = properties.getFunctions();
 			Assert.notNull(functions,"Functions in properties must not be null.");
 			for (MutilsFunctions mutilsFunctions : functions) {
+				String name = mutilsFunctions.getName();
+				int index = mutilsFunctions.getIndex();
 				try {
-					log.info("{} was initialize successful.",mutilsFunctions.getName());
+					InitConfig init=null;
+					switch (index) {
+					case 1:
+						init= properties.getAlipay();
+						break;
+					case 2:
+						init= properties.getWechatpay();
+						break;
+					case 3:
+						init= properties.getExcel();
+						break;
+					case 4:
+						init= properties.getFile();
+						break;
+					case 5:
+						init= properties.getKuaidi100();
+						break;
+					case 6:
+						init= properties.getYiketong();
+						break;
+					case 7:
+						init= properties.getDianwoda();
+						break;
+					}
+					init.done();
+					log.info("{} was initialize successful.",name);
 				}catch (Exception e) {
-					throw new MutilsException(mutilsFunctions.getName()+" was initialize failed,Please check properties.");
+					throw new MutilsException(name+" was initialize failed,Please check properties.");
 				}
 			}
 		}

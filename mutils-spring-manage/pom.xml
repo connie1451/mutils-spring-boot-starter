@@ -14,13 +14,10 @@
 		<module>mutils-yiketong</module>
 		<module>mutils-wechatpay</module>
 		<module>mutils-dianwoda</module>
-		<module>mutils-tetuipush</module>
 		<module>mutils-file</module>
 		<module>mutils-spring-boot-autoconfigure</module>
 		<module>mutils-spring-boot-starter</module>
-
 		<module>mutils-kuaidi100</module>
-		<module>mutils-test-example</module>
 	</modules>
 
 	<properties>
@@ -68,11 +65,6 @@
 			<dependency>
 				<groupId>cn.minsin</groupId>
 				<artifactId>mutils-dianwoda</artifactId>
-				<version>${mutils.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.minsin</groupId>
-				<artifactId>mutils-tetuipush</artifactId>
 				<version>${mutils.version}</version>
 			</dependency>
 			<dependency>

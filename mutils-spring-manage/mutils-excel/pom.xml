@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>mutils-excel</artifactId>
 	<packaging>jar</packaging>
-	<name>mutils-excel Maven Webapp</name>
+	<name>mutils-excel</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<poi.version>4.0.0</poi.version>
@@ -44,7 +44,4 @@
 		</dependency>
 
 	</dependencies>
-	<build>
-		<finalName>mutils-excel</finalName>
-	</build>
 </project>

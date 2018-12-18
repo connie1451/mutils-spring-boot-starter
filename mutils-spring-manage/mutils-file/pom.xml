@@ -10,8 +10,8 @@
 		<version>0.1</version>
 	</parent>
 	<artifactId>mutils-file</artifactId>
-	<packaging>war</packaging>
-	<name>mutils-file Maven Webapp</name>
+	<packaging>jar</packaging>
+	<name>mutils-file</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<poi.version>4.0.0</poi.version>

@@ -96,16 +96,6 @@
 				<version>${spring-boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>org.springframework.boot</artifactId>
-						<groupId>spring-boot-aop</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>org.springframework.boot</artifactId>
-						<groupId>spring-boot-jdbc</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->

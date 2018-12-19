@@ -8,6 +8,7 @@ public enum MutilsFunctions {
 	FILE("FILE",4), 
 	KUAIDI100("KUAIDI100",5),
 	YIKETONG("YIKETONG",6), 
+	MINIPROGRAM("MINIPROGRAM",8), 
 	DIANWODA("DIANWODA",7);
 
 	private String name;

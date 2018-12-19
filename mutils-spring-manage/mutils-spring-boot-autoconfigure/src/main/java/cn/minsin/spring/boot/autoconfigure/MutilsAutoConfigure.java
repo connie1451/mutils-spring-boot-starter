@@ -56,6 +56,9 @@ public class MutilsAutoConfigure {
 					case 7:
 						init= properties.getDianwoda();
 						break;
+					case 8:
+						init= properties.getDianwoda();
+						break;
 					}
 					init.done();
 					log.info("{} was initialize successful.",name);

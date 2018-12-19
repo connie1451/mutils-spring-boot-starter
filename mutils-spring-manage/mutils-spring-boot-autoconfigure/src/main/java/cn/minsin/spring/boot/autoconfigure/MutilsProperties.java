@@ -32,6 +32,16 @@ public class MutilsProperties {
 	
 	private DianWoDaConfig dianwoda = new DianWoDaConfig();
 	
+	private MiniProgramConfig miniprogram = new MiniProgramConfig();
+	
+
+	public MiniProgramConfig getMiniprogram() {
+		return miniprogram;
+	}
+
+	public void setMiniprogram(MiniProgramConfig miniprogram) {
+		this.miniprogram = miniprogram;
+	}
 
 	public DianWoDaConfig getDianwoda() {
 		return dianwoda;
@@ -201,6 +211,22 @@ public class MutilsProperties {
 		 * *此属性不用填写
 		 * 这是对于ExcelConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.DianWoDaConfig} 查看各属性的意义
+		 */
+		private String description;
+		
+		public String getDescription() {
+			return description;
+		}
+		
+		public void setDescription(String description) {
+			this.description = description;
+		}
+	}
+	static class MiniProgramConfig extends cn.minsin.core.init.MiniProgramConfig{
+		/**
+		 * *此属性不用填写
+		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 请查看{@link cn.minsin.core.init.MiniProgramConfig} 查看各属性的意义
 		 */
 		private String description;
 		

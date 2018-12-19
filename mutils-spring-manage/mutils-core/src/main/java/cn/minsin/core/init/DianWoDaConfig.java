@@ -16,6 +16,10 @@ public class DianWoDaConfig implements InitConfig {
 	private String sercret;
 	
 	private String format ="json";
+	
+	public Long getTimestamp() {
+		return System.currentTimeMillis()/1000;
+	}
 
 	public String getUrl() {
 		return url;

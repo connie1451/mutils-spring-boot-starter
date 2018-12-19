@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Functions 所需要集成的基类
+ * Functions 所需要继承的基类
  * 
  * @author minsin
  *

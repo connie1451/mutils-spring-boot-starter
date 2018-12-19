@@ -39,4 +39,25 @@ public class MapUtil {
 		}
 		return hashMap;
 	}
+
+	/**
+	 * 初始化hashmap并且将参数放入map
+	 * @param k
+	 * @param v
+	 * @return
+	 */
+	public static <K,V> Map<K,V> newInstance(Class<K> k,Class<V> v){
+		return new HashMap<>();
+	}
+	/**
+	 * 初始化hashmap并且将参数放入map
+	 * @param k
+	 * @param v
+	 * @return
+	 */
+	public static <K,V> Map<K,V> newInstanceAndPut(K k,V v){
+		 Map<K, V> map = new HashMap<K,V>();
+		 map.put(k, v);
+		 return map;
+	}
 }

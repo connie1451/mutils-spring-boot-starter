@@ -5,16 +5,15 @@ import org.apache.commons.lang3.math.NumberUtils;
 public class NumberUtil extends NumberUtils {
 
 	public static boolean isNumbers(String... str) {
-		if (str == null || str.length == 0) {
+		try {
+			for (String string : str) {
+				if (!NumberUtils.isCreatable(string))
+					return false;
+			}
+			return true;
+		} catch (Exception e) {
 			return false;
 		}
-		boolean flag = true;
-		for (String string : str) {
-			if (!NumberUtils.isCreatable(string))
-				flag = false;
-			break;
-		}
-		return flag;
 	}
 
 }

@@ -24,6 +24,12 @@ public class MutilsException extends RuntimeException{
 		super(msg,cause);
 		this.msg = msg;
 	}
+	
+	
+
+	public MutilsException(Throwable cause) {
+		super(cause);
+	}
 
 	public String getMsg() {
 		return msg;

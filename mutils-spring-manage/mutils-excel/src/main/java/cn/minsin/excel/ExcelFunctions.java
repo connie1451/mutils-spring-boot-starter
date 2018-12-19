@@ -3,6 +3,7 @@
  */
 package cn.minsin.excel;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +29,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.ExcelConfig;
 import cn.minsin.core.tools.StringUtil;
 
 /**
@@ -367,27 +370,17 @@ public class ExcelFunctions {
 
 	public static void error(HttpServletResponse resp,String message,Exception error) {
 		try {
+			String errorTemplateUrl = ExcelConfig.excelConfig.getErrorTemplatePath();
 			String errorMessage = error==null?"":error.getMessage();
-			ExcelFunctions.builder(getExcelTempalte("excel/error.xlsx"))
-			.sheet(0).row(6).cell(0,message+"\n\n"+errorMessage).export(resp,"错误概要");
+			ExcelFunctions.builder(new FileInputStream(errorTemplateUrl))
+			.sheet(ExcelConfig.excelConfig.getErrorTemplateSheetIndex())
+			.row(ExcelConfig.excelConfig.getErrorTemplateRowIndex())
+			.cell(ExcelConfig.excelConfig.getErrorTemplateCellIndex()
+					,message+"\n\n"+errorMessage)
+			.export(resp,ExcelConfig.excelConfig.getErrorTemplateExportName());
 		} catch (Exception e) {
-			throw new RuntimeException("resources下缺少error.xlsx模板文件");
+			throw new MutilsException(e);
 		}
-	}
-	
-	/**
-	 * 获取Excel文件
-	 * @param excelName
-	 * @return
-	 * 2018年10月31日
-	 * @author  mintonzhang@163.com
-	 */
-	public static InputStream getExcelTempalte(String excelName) {
-        InputStream inStream = ExcelFunctions.class.getClassLoader().getResourceAsStream(excelName);
-        if(inStream==null) {
-        	throw new RuntimeException("resources/下缺少 "+excelName+" 模板文件");
-        }
-        return inStream;
 	}
 	
 	/**

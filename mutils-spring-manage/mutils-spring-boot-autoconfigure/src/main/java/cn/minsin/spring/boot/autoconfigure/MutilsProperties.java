@@ -128,7 +128,7 @@ public class MutilsProperties {
 	static class AlipayConfig extends cn.minsin.core.init.AlipayConfig {
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于AlipayConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.AlipayConfig} 查看各属性的意义
 		 */
 		private String description;
@@ -145,7 +145,7 @@ public class MutilsProperties {
 	static class FileConfig extends cn.minsin.core.init.FileConfig{
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于FileConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.AlipayConfig} 查看各属性的意义
 		 */
 		private String description;
@@ -161,7 +161,7 @@ public class MutilsProperties {
 	static class KuaiDi100Config extends cn.minsin.core.init.KuaiDi100Config{
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于KuaiDi100Config 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.KuaiDi100Config} 查看各属性的意义
 		 */
 		private String description;
@@ -177,7 +177,7 @@ public class MutilsProperties {
 	static class WechatPayConfig extends cn.minsin.core.init.WechatPayConfig{
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于WechatPayConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.WechatPayConfig} 查看各属性的意义
 		 */
 		private String description;
@@ -193,7 +193,7 @@ public class MutilsProperties {
 	static class YiKeTongConfig extends cn.minsin.core.init.YiKeTongConfig{
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于YiKeTongConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.YiKeTongConfig} 查看各属性的意义
 		 */
 		private String description;
@@ -209,7 +209,7 @@ public class MutilsProperties {
 	static class DianWoDaConfig extends cn.minsin.core.init.DianWoDaConfig{
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于DianWoDaConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.DianWoDaConfig} 查看各属性的意义
 		 */
 		private String description;
@@ -225,7 +225,7 @@ public class MutilsProperties {
 	static class MiniProgramConfig extends cn.minsin.core.init.MiniProgramConfig{
 		/**
 		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
+		 * 这是对于MiniProgramConfig 的一个简单的描述.
 		 * 请查看{@link cn.minsin.core.init.MiniProgramConfig} 查看各属性的意义
 		 */
 		private String description;

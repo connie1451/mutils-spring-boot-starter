@@ -63,7 +63,7 @@ public class MutilsAutoConfigure {
 					init.done();
 					log.info("{} was initialize successful.",name);
 				}catch (Exception e) {
-					throw new MutilsException(name+" was initialize failed,Please check properties.");
+					throw new MutilsException(e,name+" was initialize failed,Please check properties.");
 				}
 			}
 		}

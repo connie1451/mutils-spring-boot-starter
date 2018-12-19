@@ -1,5 +1,8 @@
 package cn.minsin.core.init;
 
+import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.tools.StringUtil;
+
 public class AlipayConfig implements InitConfig {
 	
 	public static AlipayConfig alipayConfig;
@@ -107,9 +110,9 @@ public class AlipayConfig implements InitConfig {
 
 	@Override
 	public void done() {
-//		if(StringUtil.isBlank(appid,privateKey,publicKey,notifyUrl,returnUrl,url)) {
-//			throw new MutilsException("支付宝支付初始化失败,请检查配置文件是否正确.");
-//		}
+		if(StringUtil.isBlank(appid,privateKey,publicKey,notifyUrl,returnUrl,url)) {
+			throw new MutilsException("支付宝支付初始化失败,请检查配置文件是否正确.");
+		}
 		alipayConfig = this;
 	}
 }

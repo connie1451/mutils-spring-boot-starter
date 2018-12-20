@@ -17,6 +17,7 @@ import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 
+import cn.minsin.core.init.AlipayConfig;
 import cn.minsin.core.web.VO;
 
 /**
@@ -33,36 +34,25 @@ public class AlipayFunctions {
 	 * @param price
 	 * @return
 	 */
-	public static String createWebAlipayParams(String out_trade_no, BigDecimal price) {
-		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID,
-				AlipayConfig.RSA_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY,
-				AlipayConfig.SIGNTYPE);
+	public static String createWebAlipayParams(String out_trade_no, BigDecimal price,String title) {
 		AlipayTradePrecreateRequest alipayRequest = new AlipayTradePrecreateRequest();
 		Map<String, Object> map = new HashMap<>();
-		map.put("subject", "赞币充值");
+		map.put("subject", title);
 		map.put("out_trade_no", out_trade_no);
 		map.put("total_amount", price);
 		alipayRequest.setBizContent(JSON.toJSONString(map));
-		// alipayRequest.setReturnUrl(AlipayConfig.return_url);// 设置回调地址
-		alipayRequest.setNotifyUrl(AlipayConfig.notify_url);// 设置回调地址
+		alipayRequest.setNotifyUrl(AlipayConfig.alipayConfig.getNotifyUrl());// 设置回调地址
 		map.clear();
 		map.put("orderNum", out_trade_no);// 订单号
 		try {
-			AlipayTradePrecreateResponse response = alipayClient.execute(alipayRequest);
-
+			AlipayTradePrecreateResponse response = initAlipayClient().execute(alipayRequest);
 			if (response.isSuccess()) {
-				// 拼接路径
-				// String url = CommonUtils.properties.getProperty("qrCodeWebPath");
-				// map.put("alipay",url+CommonUtils.createQrcode(response.getQrCode()));
-				// String s = map.get("alipay").toString().replace("\\", "/");
 				return response.getQrCode();
-			} else {
-				map.put("alipay", "");
-			}
+			} 
 		} catch (Exception e) {
-			map.put("alipay", "");
+			e.printStackTrace();
 		}
-		return "";
+		return null;
 	}
 
 	/**
@@ -77,18 +67,14 @@ public class AlipayFunctions {
 		try {
 			// 进行保留两位小数
 			price = price.setScale(2, RoundingMode.DOWN);
-			// 支付宝接口调用
-			AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID,
-					AlipayConfig.RSA_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET,
-					AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
 			AlipayTradeAppPayRequest alipayRequest = new AlipayTradeAppPayRequest();
 			AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
 			model.setOutTradeNo(out_trade_no);
 			model.setTotalAmount(price.toString());
 			model.setSubject(title);
 			alipayRequest.setBizModel(model);
-			alipayRequest.setNotifyUrl(AlipayConfig.notify_url);// 设置回调地址
-			AlipayTradeAppPayResponse response = alipayClient.sdkExecute(alipayRequest);
+			alipayRequest.setNotifyUrl(AlipayConfig.alipayConfig.getNotifyUrl());// 设置回调地址
+			AlipayTradeAppPayResponse response = initAlipayClient().sdkExecute(alipayRequest);
 			if (response.isSuccess()) {
 				return response.getBody();
 			}
@@ -106,21 +92,28 @@ public class AlipayFunctions {
 	 * @author  mintonzhang@163.com
 	 */
 	public static VO transfer(TransferModel model) {
-		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID,
-				AlipayConfig.RSA_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY,
-				AlipayConfig.SIGNTYPE);
-		
 		AlipayFundTransToaccountTransferRequest  alipayRequest = new AlipayFundTransToaccountTransferRequest();
 		alipayRequest.setBizContent(JSON.toJSONString(model));
 		AlipayFundTransToaccountTransferResponse response = null;
 		try {
-			response = alipayClient.execute(alipayRequest);
+			response = initAlipayClient().execute(alipayRequest);
 			return VO.builder()
 					.put("code", response.getCode())
 					.put("sub_msg", response.getSubMsg());
 		} catch (AlipayApiException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return null;
+	}
+	
+	static AlipayClient initAlipayClient() {
+		return new DefaultAlipayClient(
+				AlipayConfig.alipayConfig.getServerUrl(), 
+				AlipayConfig.alipayConfig.getAppid(),
+				AlipayConfig.alipayConfig.getPrivateKey(), 
+				AlipayConfig.alipayConfig.getFormat(), 
+				AlipayConfig.alipayConfig.getCharset(),
+				AlipayConfig.alipayConfig.getPublicKey(),
+				AlipayConfig.alipayConfig.getSignType());
 	}
 }

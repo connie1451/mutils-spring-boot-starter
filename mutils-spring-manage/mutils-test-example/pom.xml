@@ -19,10 +19,12 @@
 		<dependency>
 			<groupId>cn.minsin</groupId>
 			<artifactId>mutils-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.minsin</groupId>
-			<artifactId>mutils-excel</artifactId>
+			<exclusions>
+				<exclusion>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-yiketong</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>

@@ -71,6 +71,15 @@ public class HttpClientFactory {
 		return HttpClientBuilder.create().build();
 	}
 
+	
+	public static CloseableHttpClient getInstance() {
+		BasicHttpClientConnectionManager connManager = new BasicHttpClientConnectionManager(
+				RegistryBuilder.<ConnectionSocketFactory>create()
+						.register("http", PlainConnectionSocketFactory.getSocketFactory())
+						.register("https", SSLConnectionSocketFactory.getSocketFactory()).build(),
+				null, null, null);
+		return HttpClientBuilder.create().setConnectionManager(connManager).build();
+	}
 	/**
 	 * 模拟浏览器post提交
 	 * 

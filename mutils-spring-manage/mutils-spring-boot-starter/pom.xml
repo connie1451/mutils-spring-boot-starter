@@ -26,10 +26,6 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.minsin</groupId>
-			<artifactId>mutils-wechatpay</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.minsin</groupId>
 			<artifactId>mutils-dianwoda</artifactId>
 		</dependency>
 		<dependency>

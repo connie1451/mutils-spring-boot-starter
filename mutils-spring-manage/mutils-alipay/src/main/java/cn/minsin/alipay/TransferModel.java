@@ -1,10 +1,8 @@
 package cn.minsin.alipay;
 
-import java.io.Serializable;
+import cn.minsin.core.rule.ModelRule;
 
-import com.alibaba.fastjson.JSON;
-
-public class TransferModel implements Serializable {
+public class TransferModel extends ModelRule {
 
 	   /**
 	 * 
@@ -108,21 +106,9 @@ public class TransferModel implements Serializable {
 		this.remark = remark;
 		return this;
 	}
-
-	
-	
-	private TransferModel() {
-		super();
-	}
-
 	
 	public static TransferModel init() {
 		return new TransferModel();
-	}
-
-	@Override
-	public String toString() {
-		return JSON.toJSONString(this);
 	}
     
 }

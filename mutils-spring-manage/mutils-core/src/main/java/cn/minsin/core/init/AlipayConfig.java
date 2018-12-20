@@ -7,13 +7,12 @@ public class AlipayConfig implements InitConfig {
 	
 	public static AlipayConfig alipayConfig;
 
-	/**
-	 * 支付宝的APPID 需要在官方申请
-	 */
+	//支付宝的APPID 需要在官方申请
 	private String appid;
 
 	// 2.私钥 pkcs8格式的
 	private String privateKey;
+	
 	// 3.支付宝公钥
 	private String publicKey;
 
@@ -21,11 +20,10 @@ public class AlipayConfig implements InitConfig {
 	private String notifyUrl;
 
 	// 5.页面跳转同步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	// 商户可以自定义同步跳转地址
 	private String returnUrl;
 
 	// 6.请求网关地址
-	private String url;
+	private String serverUrl ="https://openapi.alipay.com/gateway.do";
 
 	// 7.编码
 	private String charset = "UTF-8";
@@ -33,7 +31,7 @@ public class AlipayConfig implements InitConfig {
 	// 8.返回格式
 	private String format = "json";
 
-	// 9.加密类型
+	// 9.加密类型(推荐使用RSA2)
 	private String signType = "RSA2";
 
 	public String getAppid() {
@@ -76,12 +74,13 @@ public class AlipayConfig implements InitConfig {
 		this.returnUrl = returnUrl;
 	}
 
-	public String getUrl() {
-		return url;
+
+	public String getServerUrl() {
+		return serverUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
 	}
 
 	public String getCharset() {
@@ -110,7 +109,7 @@ public class AlipayConfig implements InitConfig {
 
 	@Override
 	public void done() {
-		if(StringUtil.isBlank(appid,privateKey,publicKey,notifyUrl,returnUrl,url)) {
+		if(StringUtil.isBlank(appid,privateKey,publicKey,notifyUrl,returnUrl,serverUrl)) {
 			throw new MutilsException("支付宝支付初始化失败,请检查配置文件是否正确.");
 		}
 		alipayConfig = this;

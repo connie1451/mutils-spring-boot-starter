@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.minsin</groupId>
 	<artifactId>mutils-spring-manage</artifactId>
+	<name>mutils-spring-manage</name>
+	<description>a mini utils for java.</description>
+	<url>https://github.com/mintonzhang/mutils-spring-boot-starter</url>
 	<version>0.1</version>
 	<packaging>pom</packaging>
 	<modules>
@@ -12,12 +13,13 @@
 		<module>mutils-excel</module>
 		<module>mutils-alipay</module>
 		<module>mutils-yiketong</module>
-		<module>mutils-wechatpay</module>
 		<module>mutils-dianwoda</module>
 		<module>mutils-file</module>
 		<module>mutils-spring-boot-autoconfigure</module>
 		<module>mutils-spring-boot-starter</module>
 		<module>mutils-kuaidi100</module>
+    <module>mutils-wechat-wechatpay-core</module>
+    <module>mutils-wechat-miniprogram</module>
 	</modules>
 
 	<properties>
@@ -50,11 +52,6 @@
 			<dependency>
 				<groupId>cn.minsin</groupId>
 				<artifactId>mutils-yiketong</artifactId>
-				<version>${mutils.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.minsin</groupId>
-				<artifactId>mutils-wechatpay</artifactId>
 				<version>${mutils.version}</version>
 			</dependency>
 			<dependency>
@@ -112,11 +109,42 @@
 
 		</dependencies>
 	</dependencyManagement>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>mintonzhang</name>
+			<email>mintonzhang@163.com</email>
+			<organization>mutils</organization>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/mintonzhang/mutils-spring-boot-starter</url>
+		<connection>https://github.com/mintonzhang/mutils-spring-boot-starter.git</connection>
+		<developerConnection>https://github.com/mintonzhang</developerConnection>
+	</scm>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>releases</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -124,4 +152,66 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- sonatype提供了自动release的插件，这意味着运行mvn clean deploy后不用手动去close-> release了，此插件会自动release我们的项目到Maven中央仓库。 -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.7</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>oss</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

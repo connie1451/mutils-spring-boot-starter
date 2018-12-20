@@ -26,21 +26,29 @@ public class MutilsProperties {
 	
 	private KuaiDi100Config kuaidi100 = new KuaiDi100Config();
 	
-	private WechatPayConfig wechatpay = new WechatPayConfig();
+	private  WechatPayCoreConfig wechatPayCoreConfig = new WechatPayCoreConfig();
 	
 	private YiKeTongConfig yiketong = new YiKeTongConfig();
 	
 	private DianWoDaConfig dianwoda = new DianWoDaConfig();
 	
-	private MiniProgramConfig miniprogram = new MiniProgramConfig();
+	private WechatMiniProgramConfig wechatMiniProgramConfig = new WechatMiniProgramConfig();
 	
 
-	public MiniProgramConfig getMiniprogram() {
-		return miniprogram;
+	public WechatPayCoreConfig getWechatPayCoreConfig() {
+		return wechatPayCoreConfig;
 	}
 
-	public void setMiniprogram(MiniProgramConfig miniprogram) {
-		this.miniprogram = miniprogram;
+	public void setWechatPayCoreConfig(WechatPayCoreConfig wechatPayCoreConfig) {
+		this.wechatPayCoreConfig = wechatPayCoreConfig;
+	}
+
+	public WechatMiniProgramConfig getWechatMiniProgramConfig() {
+		return wechatMiniProgramConfig;
+	}
+
+	public void setWechatMiniProgramConfig(WechatMiniProgramConfig wechatMiniProgramConfig) {
+		this.wechatMiniProgramConfig = wechatMiniProgramConfig;
 	}
 
 	public DianWoDaConfig getDianwoda() {
@@ -57,14 +65,6 @@ public class MutilsProperties {
 
 	public void setKuaidi100(KuaiDi100Config kuaidi100) {
 		this.kuaidi100 = kuaidi100;
-	}
-
-	public WechatPayConfig getWechatpay() {
-		return wechatpay;
-	}
-
-	public void setWechatpay(WechatPayConfig wechatpay) {
-		this.wechatpay = wechatpay;
 	}
 
 	public YiKeTongConfig getYiketong() {
@@ -174,11 +174,11 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class WechatPayConfig extends cn.minsin.core.init.WechatPayConfig{
+	static class WechatPayCoreConfig extends cn.minsin.core.init.WechatPayCoreConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于WechatPayConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.WechatPayConfig} 查看各属性的意义
+		 * 请查看{@link cn.minsin.core.init.WechatPayCoreConfig} 查看各属性的意义
 		 */
 		private String description;
 		
@@ -222,11 +222,11 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class MiniProgramConfig extends cn.minsin.core.init.MiniProgramConfig{
+	static class WechatMiniProgramConfig extends cn.minsin.core.init.WechatMiniProgramConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于MiniProgramConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.MiniProgramConfig} 查看各属性的意义
+		 * 请查看{@link cn.minsin.core.init.WechatMiniProgramConfig} 查看各属性的意义
 		 */
 		private String description;
 		

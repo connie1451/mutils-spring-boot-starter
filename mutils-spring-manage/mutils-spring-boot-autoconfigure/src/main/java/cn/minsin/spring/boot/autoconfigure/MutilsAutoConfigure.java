@@ -39,7 +39,7 @@ public class MutilsAutoConfigure {
 						init= properties.getAlipay();
 						break;
 					case 2:
-						init= properties.getWechatpay();
+						init= properties.getWechatPayCoreConfig();
 						break;
 					case 3:
 						init= properties.getExcel();
@@ -57,7 +57,7 @@ public class MutilsAutoConfigure {
 						init= properties.getDianwoda();
 						break;
 					case 8:
-						init= properties.getDianwoda();
+						init= properties.getWechatMiniProgramConfig();
 						break;
 					}
 					init.done();

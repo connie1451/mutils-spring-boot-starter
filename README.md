@@ -1,4 +1,4 @@
-mutils-spring-boot-starter 是一款基于JDK8,springboot 2.0.0 构建的工具类.
+mutils-spring-boot-starter 是一款基于JDK8,SpringBoot 2.0.0 构建的工具类.
 统一集成的功能如下：
  - 支付宝支付
  - 微信支付(小程序、app、web)

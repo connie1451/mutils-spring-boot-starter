@@ -8,12 +8,12 @@ mutils-spring-boot-starter 是一款基于JDK8,springboot 2.0.0 构建的工具�
  - excel(自主研发对excel的快捷导入导出)
  - 快递100(快递服务查询)
  - file(上传文件路径提供便捷配置)
-1.mutils-core中的web包内提供VO(极大的减少了创建实体类的工作量)、Result、Page等web服务常见的包装类.
+~1.mutils-core中的web包内提供VO(极大的减少了创建实体类的工作量)、Result、Page等web服务常见的包装类.
   tools中提供了日常使用的帮助类,如Stringutil、NumberUtil、DateUtil等等,可继承额外拓展.
-2.file生成的规则是xxx-副本,如果有相同文件则会生成xxx-副本(序号)
-3.基于springboot，开发者可以简单的在yml或properties中简单的配置(在配置文件中出现提示)，更快的上手！
-4.后期我们会完善注释为中英文双版，让对英语不熟悉的人也能够快速的找到问题所在！
-我们将会持续更新。
+~2.file生成的规则是xxx-副本,如果有相同文件则会生成xxx-副本(序号)
+~3.基于springboot，开发者可以简单的在yml或properties中简单的配置(在配置文件中出现提示)，更快的上手！
+~4.后期我们会完善注释为中英文双版，让对英语不熟悉的人也能够快速的找到问题所在！
+~我们将会持续更新。
 
 为什么会有这样的一个开源项目的诞生？
  	相信大部分开发者都使用过wechatPay,这个项目的API确实方便了很多人体验到了微信支付的快捷;

@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.minsin</groupId>
 		<artifactId>mutils-spring-manage</artifactId>
-		<version>0.1</version>
+		<version>${mutils.version}</version>
 	</parent>
 	<artifactId>mutils-spring-boot-starter</artifactId>
 	<name>mutils-spring-boot-starter</name>
@@ -43,6 +43,14 @@
 		<dependency>
 			<groupId>cn.minsin</groupId>
 			<artifactId>mutils-yiketong</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.minsin</groupId>
+			<artifactId>mutils-wechat-miniprogram</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.minsin</groupId>
+			<artifactId>mutils-wechat-wechatpay-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

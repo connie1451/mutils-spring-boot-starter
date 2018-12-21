@@ -1,5 +1,0 @@
-mutils:
-  functions:  - alipay
-  alipay:    appid: 123123
-    format: utf-8
-  

@@ -27,135 +27,6 @@ import cn.minsin.core.thirdpart.HttpClientFactory;
  */
 public class WeChatPayFunctions {
 	
-//	/**
-//	 * 生成JSAPI微信支付
-//	 * 
-//	 * @date 2018年6月26日
-//	 * @author mintonzhang@163.com
-//	 * @param orderNumber
-//	 * @param price
-//	 * @return 返回xml字符串
-//	 */
-//	public static String createWeiXinPayXml(String out_trade_no, BigDecimal price, String ip) {
-//		/* 公众账号ID appid */
-//		String appid = WeixinFunctions.APPID;
-//
-//		/* 商户号 mch_id */
-//		String mch_id = WeixinFunctions.PARTNER;
-//
-//		/* 随机字符串 nonce_str */
-//		// 8位日期
-//		String currTime = TenpayUtil.getCurrTime();
-//		String strTime = currTime.substring(8, currTime.length());
-//		// 四位随机数
-//		String strRandom = TenpayUtil.buildRandom(4) + "";
-//		// 10位序列号,可以自行调整。
-//		String nonce_str = strTime + strRandom;
-//
-//		/* 商品描述 body */
-//		String body = "充值";
-//		/* 金额 total_fee */
-//		BigDecimal sessionmoney = new BigDecimal(price.toString());
-//		String finalmoney = String.format("%.2f", sessionmoney);
-//		finalmoney = finalmoney.replace(".", "");
-//		int intMoney = Integer.parseInt(finalmoney);
-//
-//		// 总金额以分为单位，不带小数点
-//		int total_fee = intMoney;
-//		/* 终端 spbill_create_ip */
-//		String spbill_create_ip = ip;
-//		/* 通知地址 notify_url */
-//		String notify_url = WeixinFunctions.notify_url;
-//		/* 交易类型 trade_type */
-//		String trade_type = "APP";
-//		String divice_info = "WEB";
-//		/* 签名 sign */
-//		SortedMap<String, String> packageParams = new TreeMap<String, String>();
-//		packageParams.put("appid", APPID);
-//		packageParams.put("mch_id", mch_id);
-//		packageParams.put("nonce_str", nonce_str);
-//		packageParams.put("body", body);
-//		packageParams.put("device_info", divice_info);
-//		packageParams.put("out_trade_no", out_trade_no);
-//		// packageParams.put("openid", openId);
-//		packageParams.put("total_fee", "" + total_fee);
-//		packageParams.put("spbill_create_ip", spbill_create_ip);
-//		packageParams.put("notify_url", notify_url);
-//		packageParams.put("trade_type", trade_type);
-//		String sign = SignUtil.createSign(packageParams,PARTNER_KEY);
-//		String xml = "<xml>" + "<appid>" + appid + "</appid>" + "<body><![CDATA[" + body + "]]></body>" + "<mch_id>"
-//				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str + "</nonce_str>" + "<notify_url>" + notify_url
-//				+ "</notify_url>" + "<out_trade_no>" + out_trade_no + "</out_trade_no>" + "<spbill_create_ip>"
-//				+ spbill_create_ip + "</spbill_create_ip>" + "<total_fee>" + total_fee + "</total_fee>" + "<trade_type>"
-//				+ trade_type + "</trade_type>" + "<sign>" + sign + "</sign>" + "<device_info>" + divice_info
-//				+ "</device_info></xml>";
-//		return xml;
-//	}
-//
-//	/**
-//	 * 生成统一下单
-//	 * 
-//	 * @date 2018年6月26日
-//	 * @author mintonzhang@163.com
-//	 * @param orderNumber
-//	 * @param price
-//	 * @return 返回xml字符串
-//	 */
-//	public static String createWeiXinPayXmlWeb(String out_trade_no, BigDecimal price, String ip,String title,String trade_type) {
-//
-//		/* 公众账号ID appid */
-//		String appid = WeixinFunctions.APPID;
-//
-//		/* 商户号 mch_id */
-//		String mch_id = WeixinFunctions.PARTNER;
-//
-//		/* 随机字符串 nonce_str */
-//		// 8位日期
-//		String currTime = TenpayUtil.getCurrTime();
-//		String strTime = currTime.substring(8, currTime.length());
-//		// 四位随机数
-//		String strRandom = TenpayUtil.buildRandom(4) + "";
-//		// 10位序列号,可以自行调整。
-//		String nonce_str = strTime + strRandom;
-//
-//		/* 商户订单号 out_trade_no */
-//
-//		/* 金额 total_fee */
-//		BigDecimal sessionmoney = new BigDecimal(price.toString());
-//		String finalmoney = String.format("%.2f", sessionmoney);
-//		finalmoney = finalmoney.replace(".", "");
-//		int intMoney = Integer.parseInt(finalmoney);
-//
-//		// 总金额以分为单位，不带小数点
-//		int total_fee = intMoney;
-//		/* 终端 spbill_create_ip */
-//		String spbill_create_ip = ip;
-//		/* 通知地址 notify_url */
-//		String notify_url = WeixinFunctions.notify_url;
-//		/* 签名 sign */
-//		SortedMap<String, String> packageParams = new TreeMap<String, String>();
-//		packageParams.put("appid", appid);
-//		packageParams.put("mch_id", mch_id);
-//		packageParams.put("nonce_str", nonce_str);
-//		packageParams.put("body", title);
-//		// packageParams.put("attach", attach);
-//		packageParams.put("out_trade_no", out_trade_no);
-//
-//		// 这里写的金额为1 分到时修改
-//		packageParams.put("total_fee", "" + total_fee);
-//		packageParams.put("spbill_create_ip", spbill_create_ip);
-//		packageParams.put("notify_url", notify_url);
-//
-//		packageParams.put("trade_type", trade_type);
-//		String sign = SignUtil.createSign(packageParams,PARTNER_KEY);
-//		String xml = "<xml>" + "<appid>" + appid + "</appid>" + "<body><![CDATA[" + title + "]]></body>" + "<mch_id>"
-//				+ mch_id + "</mch_id>" + "<nonce_str>" + nonce_str + "</nonce_str>" + "<notify_url>" + notify_url
-//				+ "</notify_url>" + "<out_trade_no>" + out_trade_no + "</out_trade_no>" + "<spbill_create_ip>"
-//				+ spbill_create_ip + "</spbill_create_ip>" + "<total_fee>" + total_fee + "</total_fee>" + "<trade_type>"
-//				+ trade_type + "</trade_type>" + "<sign>" + sign + "</sign>" + "</xml>";
-//		return xml;
-//
-//	}
 
 	/**
 	 * 生成微信支付js需要的提交参数
@@ -165,7 +36,8 @@ public class WeChatPayFunctions {
 	 * @param doXMLParse
 	 * @return
 	 */
-	public static Map<String, String> createJSAPIPayParamter(Map<String, String> doXMLParse) {
+	public static Map<String, String> createJSAPIPayParamter(BaseWeChatPayModel model) {
+		Map<String, String> doXMLParse = unifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
 		try {
@@ -190,7 +62,8 @@ public class WeChatPayFunctions {
 	 * @param doXMLParse
 	 * @return
 	 */
-	public static Map<String, String> createMiniProgramPayParamter(Map<String, String> doXMLParse) {
+	public static Map<String, String> createMiniProgramPayParamter(BaseWeChatPayModel model) {
+		Map<String, String> doXMLParse = unifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
 		try {
@@ -215,7 +88,8 @@ public class WeChatPayFunctions {
 	}
 
 	
-	public static Map<String, String> createAppPayParamter(Map<String, String> doXMLParse) {
+	public static Map<String, String> createAppPayParamter(BaseWeChatPayModel model) {
+		Map<String, String> doXMLParse = unifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
 		try {

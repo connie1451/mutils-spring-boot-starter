@@ -26,6 +26,9 @@ public class FileConfig implements InitConfig {
 		if(StringUtil.isBlank(saveDisk)) {
 			throw new MutilsException("文件上传  初始化失败,请检查配置文件是否正确.");
 		}
+		if(!saveDisk.endsWith("/")) {
+			throw new MutilsException("文件上传  初始化失败,结尾必须为'/'");
+		}
 		fileConfig = this;
 	}
 }

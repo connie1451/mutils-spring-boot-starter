@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import cn.minsin.core.init.FileConfig;
 import cn.minsin.core.tools.DateUtil;
 
 public class FileFunctions {
@@ -23,20 +26,18 @@ public class FileFunctions {
 	}
 
 	/**
-	 * 保存文件 文件名生成策略： 如果文件存在 将会以-副本(xx)的形式进行自动增长 如果文件不存在 将会直接生成这样的规则
+	 * 保存单个文件
 	 * 
 	 * @param file
-	 * @param b        可以从MultipartFile.getBytes()
-	 * @param savePath D://upload//
 	 * @return
-	 * @throws Exception 2018年7月26日
-	 * @author mintonzhang@163.com
 	 */
-	public static String saveFile(String saveDisk, String fileName, byte[] b) {
+	public static String saveFile(MultipartFile file) {
 		try {
+
+			String fileName = file.getOriginalFilename();
 			String gName = fileName;
 			String savePath = DateUtil.date2String(new Date(), "yyyyMMdd/");
-			String path = saveDisk + savePath;
+			String path = FileConfig.fileConfig.getSaveDisk() + savePath;
 			// 定义上传路径
 			checkPath(path);
 			int count = 0;
@@ -55,14 +56,66 @@ public class FileFunctions {
 				}
 				// 写入文件
 				OutputStream out = new FileOutputStream(fileUrl);
-				out.write(b);
+				out.write(file.getBytes());
 				out.flush();
 				out.close();
 				return savePath + gName;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
+		return null;
 	}
+
+	/**
+	 * 批量保存文件
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public static String[] saveFiles(MultipartFile[] file) {
+		String[] result = new String[file.length];
+
+		for (int i = 0; i < result.length; i++) {
+			String saveFile = saveFile(file[i]);
+			if (saveFile != null) {
+				result[i] = saveFile;
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * 判断是否超过最大文件数量
+	 *
+	 * @param files
+	 * @param length     最大length
+	 * @param isRequired 是否必填
+	 * @return 2018年7月30日
+	 */
+	public final static boolean maxLength(MultipartFile[] files, int length, boolean isRequired) {
+		if (files != null) {
+			return files.length > length ? true : false;
+		}
+		return isRequired;
+	}
+
+	/**
+	 * 判断是否大于限制的size
+	 *
+	 * @param files 文件
+	 * @param mSize M做单位
+	 * @return 大于限制大小返回true 反之false 2018年7月27日
+	 */
+	public final static boolean checkSize(MultipartFile[] files, int mSize) {
+		Long limitSize = (mSize * 1024L * 1024L);
+		Long sumSize = 0L;
+		if (files != null && files.length > 0) {
+			for (MultipartFile multipartFile : files) {
+				sumSize += multipartFile.getSize();// size的单位为kb
+			}
+		}
+		return sumSize > limitSize ? true : false;
+	}
+
 }

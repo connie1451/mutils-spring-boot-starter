@@ -10,8 +10,9 @@ import org.mutils.wechat.miniprogram.model.Code2SessionReturnModel;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatMiniProgramConfig;
+import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.thirdpart.HttpClientFactory;
 
 
@@ -20,13 +21,13 @@ import cn.minsin.core.thirdpart.HttpClientFactory;
  * @author minsin
  *
  */
-public class MiniProgramFunctions {
+public class MiniProgramFunctions extends FunctionRule {
 	
 	/**
 	 * 获取sessionkey和openid,一般用于小程序授权登录.
 	 * @return
 	 */
-	public static Code2SessionReturnModel jscode2session(String code) {
+	public static Code2SessionReturnModel jscode2session(String code)  throws MutilsErrorException  {
 		try {
 			String url ="https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 			
@@ -46,7 +47,7 @@ public class MiniProgramFunctions {
 			System.out.println("response= " + string);
 	        return JSON.parseObject(string,Code2SessionReturnModel.class);
 		}catch (Exception e) {
-			throw new MutilsException(e, "小程序使用code换取openid等信息失败");
+			throw new MutilsErrorException(e, "小程序使用code换取openid等信息失败");
 		}
 	}
 

@@ -20,9 +20,7 @@ public class VO extends HashMap<String, Object> implements Serializable {
 	 */
 	private static final long serialVersionUID = 6208106294465026862L;
 
-	private VO() {
-		super();
-	}
+	protected VO() {}
 
 	/**
 	 * builder新对象
@@ -34,14 +32,6 @@ public class VO extends HashMap<String, Object> implements Serializable {
 		return new VO();
 	}
 
-	/**
-	 * Object不能是一个对象
-	 * 
-	 * @param key
-	 * @param value
-	 * @return 2018年10月12日
-	 * @author mintonzhang@163.com
-	 */
 	public VO put(String key, Object value) {
 		super.put(key, value==null?"":value);
 		return this;
@@ -59,9 +49,7 @@ public class VO extends HashMap<String, Object> implements Serializable {
 	/**
 	 * 转换成指定对象
 	 * @param clazz
-	 * @return
-	 * 2018年10月12日
-	 * @author  mintonzhang@163.com
+	 * @return 指定Class
 	 */
 	public <T> T getObject(Class<T> clazz){
 		try {

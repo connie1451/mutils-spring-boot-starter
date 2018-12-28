@@ -5,15 +5,12 @@ package cn.minsin.excel;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +26,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.ExcelConfig;
+import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.StringUtil;
 
 /**
@@ -55,7 +54,7 @@ import cn.minsin.core.tools.StringUtil;
  * @author mintonzhang
  * @2018年10月11日
  */
-public class ExcelFunctions {
+public class ExcelFunctions extends FunctionRule {
 
 	private ExcelVersion excelVersion;
 
@@ -105,7 +104,7 @@ public class ExcelFunctions {
 			Workbook workbook = WorkbookFactory.create(in);
 			return new ExcelFunctions(workbook instanceof HSSFWorkbook?ExcelVersion.VERSION_2003:ExcelVersion.VERSION_2007, workbook);
 		} catch (Exception e) {
-			throw new Exception("Excel读取失败！");
+			throw new MutilsException(e,"Excel读取失败！");
 		}
 	}
 	/**
@@ -122,7 +121,7 @@ public class ExcelFunctions {
 			Workbook workbook = WorkbookFactory.create(in);
 			return new ExcelFunctions(excelVersion, workbook);
 		} catch (Exception e) {
-			throw new Exception("Excel读取失败！");
+			throw new MutilsException(e,"Excel读取失败！");
 		}
 	}
 	/**
@@ -138,7 +137,7 @@ public class ExcelFunctions {
 		try {
 			return WorkbookFactory.create(in);
 		} catch (Exception e) {
-			throw new Exception("Excel读取失败！");
+			throw new MutilsException(e,"Excel读取失败！");
 		}
 	}
 	
@@ -147,18 +146,20 @@ public class ExcelFunctions {
 	 * @param excelVersion
 	 * @return
 	 * 2018年10月14日
-	 * @author  mintonzhang@163.com
 	 */
 	public ExcelFunctions version(ExcelVersion excelVersion) {
 		this.excelVersion =excelVersion;
 		return this;
 	}
 	
+	public Workbook getWorkBook() {
+		return workbook;
+	}
+	
 	/**
 	 * 获取当前excel的Version
 	 * @return
 	 * 2018年10月14日
-	 * @author  mintonzhang@163.com
 	 */
 	public ExcelVersion getVersion() {
 		return excelVersion;
@@ -169,22 +170,16 @@ public class ExcelFunctions {
 	 * 
 	 * @param filename
 	 *            无后缀的文件名 2018年10月11日
-	 * @author mintonzhang@163.com
 	 * @throws Exception
 	 */
-	public void export(String filename) throws Exception {
+	public void export(String filename) throws MutilsErrorException {
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(filename + excelVersion.getSuffix());
 			workbook.write(fileOutputStream);
 			fileOutputStream.close();
+			workbook.close();
 		} catch (Exception e) {
-			throw new Exception("Excel读取失败！");
-		} finally {
-			try {
-				workbook.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			throw new MutilsErrorException(e,"Excel读取失败！");
 		}
 	}
 
@@ -196,21 +191,16 @@ public class ExcelFunctions {
 	 * @author mintonzhang@163.com
 	 * @throws Exception
 	 */
-	public void export(HttpServletResponse resp, String fileName) throws Exception {
+	public void export(HttpServletResponse resp, String fileName) throws MutilsErrorException {
 		try {
 			fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1") + excelVersion.getSuffix();
 			resp.setCharacterEncoding("utf-8");
 			resp.setContentType("application/x-msdownload; charset=utf-8");
 			resp.setHeader("content-disposition", "attachment;filename=" + fileName);
 			workbook.write(resp.getOutputStream());
+			workbook.close();
 		} catch (Exception e) {
-			throw new Exception("Excel读取失败！");
-		} finally {
-			try {
-				workbook.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			throw new MutilsErrorException(e,"Excel读取失败！");
 		}
 	}
 
@@ -289,19 +279,17 @@ public class ExcelFunctions {
 	 * @param cellIndex
 	 *            需要获取的cell下标数组
 	 * @return 2018年10月11日
-	 * @author mintonzhang@163.com
 	 */
-	public Map<String, List<Map<Integer, Object>>> cellValueList(String[] sheetNames, int startRowIndex,
-			int[] cellIndex) {
-		Map<String, List<Map<Integer, Object>>> returnMap = new HashMap<>();
+	public Map<String, ExcelRowModel> getCellValueList(String[] sheetNames, int startRowIndex, int[] cellIndex)  throws MutilsErrorException  {
+		Map<String, ExcelRowModel> returnMap = new HashMap<>();
 		for (String name : sheetNames) {
 			int index = 0;
 			Sheet aimSheet = workbook.getSheet(name);
 			Iterator<Row> rowIterator = aimSheet.rowIterator();
-			List<Map<Integer, Object>> list = new ArrayList<>();
+			ExcelRowModel list = new ExcelRowModel();
 			while (rowIterator.hasNext()) {
 
-				Map<Integer, Object> map = new HashMap<>();
+				Map<Integer, Object> cells = new HashMap<>();
 				Row next = rowIterator.next();
 				if (index < startRowIndex) {
 					index++;
@@ -313,11 +301,11 @@ public class ExcelFunctions {
 					if (value != null) {
 						isAllNull = false;
 					}
-					map.put(i, value);
+					cells.put(i, value);
 				}
 				if (isAllNull)
 					continue;
-				list.add(map);
+				list.setCells(cells);
 			}
 			returnMap.put(name, list);
 		}
@@ -368,7 +356,7 @@ public class ExcelFunctions {
 		return StringUtil.filterSpace(cellValue);
 	}
 
-	public static void error(HttpServletResponse resp,String message,Exception error) {
+	public static void error(HttpServletResponse resp,String message,Exception error) throws  MutilsException{
 		try {
 			String errorTemplateUrl = ExcelConfig.excelConfig.getErrorTemplatePath();
 			String errorMessage = error==null?"":error.getMessage();
@@ -379,7 +367,7 @@ public class ExcelFunctions {
 					,message+"\n\n"+errorMessage)
 			.export(resp,ExcelConfig.excelConfig.getErrorTemplateExportName());
 		} catch (Exception e) {
-			throw new MutilsException(e);
+			throw new MutilsException(e,"错误模板读取失败");
 		}
 	}
 	
@@ -407,4 +395,21 @@ public class ExcelFunctions {
 			return year;
 		}
 	}
+	
+	/**
+	 * 获取Excel文件
+	 * @param excelName
+	 * @return eg:static/xxx.xlsx
+	 * 2018年10月31日
+	 * @author  mintonzhang@163.com
+	 */
+	public static InputStream getExcelTempalte(String excelName) {
+        InputStream inStream = ExcelFunctions.class.getClassLoader().getResourceAsStream(excelName);
+        if(inStream==null) {
+        	throw new MutilsException(excelName+" 模板文件不存在.");
+        }
+        return inStream;
+	}
+	
+	
 }

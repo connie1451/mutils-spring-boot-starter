@@ -19,8 +19,9 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * 
 	 * @param order_original_id
 	 * @return
+	 * @throws Exception 
 	 */
-	public static JSONObject orderAcceptedTest(String order_original_id) {
+	public static JSONObject orderAcceptedTest(String order_original_id) throws Exception {
 		return DianWoDaFunctions.doSend("/api/v3/order-accepted-test.json",
 				VO.builder().put("order_original_id", order_original_id));
 	}
@@ -30,8 +31,9 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * 
 	 * @param order_original_id
 	 * @return
+	 * @throws Exception 
 	 */
-	public static JSONObject orderArriveTest(String order_original_id) {
+	public static JSONObject orderArriveTest(String order_original_id) throws Exception {
 		return DianWoDaFunctions.doSend("/api/v3/order-arrive-test.json",
 				VO.builder().put("order_original_id", order_original_id));
 	}
@@ -41,8 +43,9 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * 完成取货（测试接口仅测试环境有效）
 	 * @param order_original_id
 	 * @return
+	 * @throws Exception 
 	 */
-	public static JSONObject orderFetchTest(String order_original_id) {
+	public static JSONObject orderFetchTest(String order_original_id) throws Exception {
 		return DianWoDaFunctions.doSend("/api/v3/order-fetch-test.json",
 				VO.builder().put("order_original_id", order_original_id));
 	}
@@ -51,8 +54,9 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * 完成配送（测试接口仅测试环境有效）
 	 * @param order_original_id
 	 * @return
+	 * @throws Exception 
 	 */
-	public static JSONObject orderFinishTest(String order_original_id) {
+	public static JSONObject orderFinishTest(String order_original_id) throws Exception {
 		return DianWoDaFunctions.doSend("/api/v3/order-finish-test.json",
 				VO.builder().put("order_original_id", order_original_id));
 	}

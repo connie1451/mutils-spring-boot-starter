@@ -14,7 +14,10 @@ import org.mutils.wechat.wechatpay.core.model.BaseWeChatPayModel;
 import org.mutils.wechat.wechatpay.core.util.ParseXmlUtil;
 import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
+import cn.minsin.core.exception.MutilsErrorException;
+import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.WechatPayCoreConfig;
+import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.thirdpart.HttpClientFactory;
 
 
@@ -25,7 +28,7 @@ import cn.minsin.core.thirdpart.HttpClientFactory;
  * @author mintonzhang
  * @date 2018年6月22日
  */
-public class WeChatPayFunctions {
+public class WeChatPayFunctions extends FunctionRule {
 	
 
 	/**
@@ -36,7 +39,7 @@ public class WeChatPayFunctions {
 	 * @param doXMLParse
 	 * @return
 	 */
-	public static Map<String, String> createJSAPIPayParamter(BaseWeChatPayModel model) {
+	public static Map<String, String> createJSAPIPayParamter(BaseWeChatPayModel model) throws MutilsErrorException {
 		Map<String, String> doXMLParse = unifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
@@ -51,10 +54,11 @@ public class WeChatPayFunctions {
 			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
 			sortMap.put("paySign", sign);
 			sortMap.put("prepay_id", doXMLParse.get("prepay_id"));
+			return sortMap;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "发起JSAPI支付失败");
 		}
-		return sortMap;
+	
 	}
 	
 	/**
@@ -62,7 +66,7 @@ public class WeChatPayFunctions {
 	 * @param doXMLParse
 	 * @return
 	 */
-	public static Map<String, String> createMiniProgramPayParamter(BaseWeChatPayModel model) {
+	public static Map<String, String> createMiniProgramPayParamter(BaseWeChatPayModel model)  throws MutilsErrorException{
 		Map<String, String> doXMLParse = unifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
@@ -81,14 +85,14 @@ public class WeChatPayFunctions {
 			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
 			sortMap.put("paySign", sign);
 			sortMap.remove("appId");
+			return sortMap;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "发起小程序支付失败");
 		}
-		return sortMap;
 	}
 
 	
-	public static Map<String, String> createAppPayParamter(BaseWeChatPayModel model) {
+	public static Map<String, String> createAppPayParamter(BaseWeChatPayModel model) throws MutilsErrorException {
 		Map<String, String> doXMLParse = unifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
@@ -106,10 +110,11 @@ public class WeChatPayFunctions {
 			sortMap.put("prepayid", prepayid);
 			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
 			sortMap.put("sign", sign);
+			return sortMap;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "发起APP支付失败");
 		}
-		return sortMap;
+
 	}
 
 	/**
@@ -120,7 +125,7 @@ public class WeChatPayFunctions {
 	 * @param url
 	 * @return
 	 */
-	public static Map<String, Object> createInitJSConfig(String url) {
+	public static Map<String, Object> createInitJSConfig(String url) throws MutilsErrorException {
 //		try {
 //			/* 公众账号ID appid */
 //			String appid = WeixinFunctions.APPID;//
@@ -176,7 +181,7 @@ public class WeChatPayFunctions {
 	 * @return
 	 */
 	public static String createRefundXml(String transaction_id, String out_refund_no, int total_fee,
-			int refund_fee) {
+			int refund_fee)  throws MutilsErrorException{
 //		/* 随机字符串 nonce_str */
 //		// 8位日期
 //		String currTime = TenpayUtil.getCurrTime();
@@ -219,7 +224,7 @@ public class WeChatPayFunctions {
 	 * @return
 	 */
 	public static String createWithdrawXml(String out_refund_no, BigDecimal amount, String openId,
-			String re_user_name) {
+			String re_user_name) throws MutilsErrorException {
 //		/* 随机字符串 nonce_str */
 //		// 8位日期
 //		String currTime = TenpayUtil.getCurrTime();
@@ -259,7 +264,7 @@ public class WeChatPayFunctions {
 	 * @param xmlParam
 	 * @return
 	 */
-	public static Map<String, String> getRefundMap(String url, String xmlParam) {
+	public static Map<String, String> getRefundMap(String url, String xmlParam) throws MutilsErrorException {
 
 		System.out.println("xml是:" + xmlParam);
 		try {
@@ -279,9 +284,8 @@ public class WeChatPayFunctions {
 			httpclient.close();
 			return ParseXmlUtil.doXMLParse(jsonStr);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "发起退款失败");
 		}
-		return null;
 	}
 
 	/**
@@ -289,12 +293,11 @@ public class WeChatPayFunctions {
 	 * @param xmlParam
 	 * @return
 	 */
-	public static Map<String, String> unifiedOrder(BaseWeChatPayModel model){
+	public static Map<String, String> unifiedOrder(BaseWeChatPayModel model) throws MutilsErrorException{
 		String xmlParam = model.toXml( WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
 		System.out.println("xml是:" + xmlParam);
 		CloseableHttpClient httpclient = HttpClientFactory.getInstance();// 先初始化;
 		HttpPost httpost = HttpClientFactory.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getUnifiedOrderUrl());
-		SortedMap<String, String> sortMap = new TreeMap<>();
 		try {
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			HttpResponse response = httpclient.execute(httpost);
@@ -307,15 +310,14 @@ public class WeChatPayFunctions {
 			httpclient.close();
 			return  ParseXmlUtil.doXMLParse(jsonStr);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "发起统一下单失败");
 		}
-		return sortMap;
 	}
 	
 	
 	static boolean checkMap(Map<String, String> doXMLParse) {
 		if(doXMLParse==null||doXMLParse.isEmpty()) {
-			throw new RuntimeException("统一支付XML生成失败,无法进行下一步操作. The value from unifiedOrder method is null,please check the parameters.");
+			throw new MutilsException("统一支付XML生成失败,无法进行下一步操作. The value from unifiedOrder method is null,please check the parameters.");
 		}
 		return true;
 	}

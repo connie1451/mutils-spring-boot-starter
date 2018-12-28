@@ -6,8 +6,8 @@ import cn.minsin.core.tools.StringUtil;
 public class YiKeTongConfig implements InitConfig {
 	public static YiKeTongConfig yiKeTongConfig;
 	
-	private  String corpKey;// = "6845678513658223";
-	private  String corpSecret;// = "p6jX1xP71EWBbB1Bcxky51u7e77H39XD";
+	private  String corpKey;// = "";
+	private  String corpSecret;// = "";
 	private  String apiUrl;// = "http://api.1ketong.com:81/ykt-pool/";
 	
 	public String getCorpKey() {

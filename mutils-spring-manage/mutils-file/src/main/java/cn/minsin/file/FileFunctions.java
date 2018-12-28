@@ -1,16 +1,19 @@
 package cn.minsin.file;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.FileConfig;
+import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.DateUtil;
 
-public class FileFunctions {
+public class FileFunctions extends FunctionRule {
 
 	/**
 	 * path中不能出现\
@@ -31,9 +34,8 @@ public class FileFunctions {
 	 * @param file
 	 * @return
 	 */
-	public static String saveFile(MultipartFile file) {
+	public static String saveFile(MultipartFile file) throws MutilsErrorException {
 		try {
-
 			String fileName = file.getOriginalFilename();
 			String gName = fileName;
 			String savePath = DateUtil.date2String(new Date(), "yyyyMMdd/");
@@ -62,9 +64,8 @@ public class FileFunctions {
 				return savePath + gName;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "保存文件失败");
 		}
-		return null;
 	}
 
 	/**
@@ -72,10 +73,10 @@ public class FileFunctions {
 	 * 
 	 * @param file
 	 * @return
+	 * @throws Exception
 	 */
-	public static String[] saveFiles(MultipartFile[] file) {
+	public static String[] saveFiles(MultipartFile[] file) throws MutilsErrorException {
 		String[] result = new String[file.length];
-
 		for (int i = 0; i < result.length; i++) {
 			String saveFile = saveFile(file[i]);
 			if (saveFile != null) {
@@ -93,7 +94,7 @@ public class FileFunctions {
 	 * @param isRequired 是否必填
 	 * @return 2018年7月30日
 	 */
-	public final static boolean maxLength(MultipartFile[] files, int length, boolean isRequired) {
+	public static boolean maxLength(MultipartFile[] files, int length, boolean isRequired) {
 		if (files != null) {
 			return files.length > length ? true : false;
 		}
@@ -107,7 +108,7 @@ public class FileFunctions {
 	 * @param mSize M做单位
 	 * @return 大于限制大小返回true 反之false 2018年7月27日
 	 */
-	public final static boolean checkSize(MultipartFile[] files, int mSize) {
+	public static boolean checkSize(MultipartFile[] files, int mSize) {
 		Long limitSize = (mSize * 1024L * 1024L);
 		Long sumSize = 0L;
 		if (files != null && files.length > 0) {
@@ -116,6 +117,55 @@ public class FileFunctions {
 			}
 		}
 		return sumSize > limitSize ? true : false;
+	}
+
+	// true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
+	public static void copy(File f, File nf, boolean flag) throws MutilsErrorException {
+		try {
+			// 判断是否存在
+			if (f.exists()) {
+				// 判断是否是目录
+				if (f.isDirectory()) {
+					if (flag) {
+						// 制定路径，以便原样输出
+						nf = new File(nf + "/" + f.getName());
+						// 判断文件夹是否存在，不存在就创建
+						if (!nf.exists()) {
+							nf.mkdirs();
+						}
+					}
+					flag = true;
+					// 获取文件夹下所有的文件及子文件夹
+					File[] l = f.listFiles();
+					// 判断是否为null
+					if (null != l) {
+						for (File ll : l) {
+							// 循环递归调用
+							copy(ll, nf, flag);
+						}
+					}
+				} else {
+					System.out.println("正在复制：" + f.getAbsolutePath());
+					System.out.println("到：" + nf.getAbsolutePath() + "\\" + f.getName());
+					// 获取输入流
+					FileInputStream fis = new FileInputStream(f);
+					// 获取输出流
+					FileOutputStream fos = new FileOutputStream(nf + "/" + f.getName());
+
+					int i;
+					byte[] b = new byte[1024];
+					// 读取文件
+					while ((i = fis.read(b)) != -1) {
+						// 写入文件，复制
+						fos.write(b, 0, i);
+					}
+					fos.close();
+					fis.close();
+				}
+			}
+		} catch (Exception e) {
+			throw new MutilsErrorException(e, "文件复制失败");
+		}
 	}
 
 }

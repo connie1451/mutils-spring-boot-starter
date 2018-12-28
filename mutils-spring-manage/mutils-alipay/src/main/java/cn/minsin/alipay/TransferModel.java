@@ -4,45 +4,45 @@ import cn.minsin.core.rule.ModelRule;
 
 public class TransferModel extends ModelRule {
 
-	   /**
-	 * 
-	 */
+	/**
+	* 
+	*/
 	private static final long serialVersionUID = 5266308521996557923L;
 
 	/**
-     * 逻辑单号
-     */
-    private String out_biz_no;
+	 * 逻辑单号
+	 */
+	private String out_biz_no;
 
-    /**
-     * 收款方账户类型
-     */
-    private String payee_type;
+	/**
+	 * 收款方账户类型
+	 */
+	private String payee_type;
 
-    /**
-     * 收款方支付宝账号
-     */
-    private String payee_account;
+	/**
+	 * 收款方支付宝账号
+	 */
+	private String payee_account;
 
-    /**
-     * 转账金额
-     */
-    private String amount;
+	/**
+	 * 转账金额
+	 */
+	private String amount;
 
-    /**
-     * 转账名称
-     */
-    private String payer_show_name;
+	/**
+	 * 转账名称
+	 */
+	private String payer_show_name;
 
-    /**
-     * 提现用户的真实姓名
-     */
-    private String payee_real_name;
+	/**
+	 * 提现用户的真实姓名
+	 */
+	private String payee_real_name;
 
-    /**
-     * 转账备注
-     */
-    private String remark;
+	/**
+	 * 转账备注
+	 */
+	private String remark;
 
 	public String getOut_biz_no() {
 		return out_biz_no;
@@ -106,9 +106,9 @@ public class TransferModel extends ModelRule {
 		this.remark = remark;
 		return this;
 	}
-	
+
 	public static TransferModel init() {
 		return new TransferModel();
 	}
-    
+
 }

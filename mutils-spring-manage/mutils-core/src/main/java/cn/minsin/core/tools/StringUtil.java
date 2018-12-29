@@ -9,45 +9,36 @@ import org.apache.commons.lang3.StringUtils;
 public class StringUtil extends StringUtils {
 
 	// js提交到后台可能出现的错误情况,但提交上的值并不是null或""
-	private static final String[] keys = { "undefined", "null" };
+	private static  String[] keys = { "undefined", "null" };
 
 	/**
-	 * 检查是否缺少参数
+	 *   是否包含参数值为空的数据
 	 *
 	 * @param param 需要检查的为空的参数们
-	 * @return true 缺少 false 不缺少
-	 * @date 2018年6月11日
+	 * @return true 有 false 无 
 	 */
 	public static boolean isBlank(Object... param) {
-		if (param == null || param.length == 0) {
-			return false;
-		}
 		for (Object object : param) {
-			if (object == null || "".equals(object) || object.toString().length() == 0) {
+			if(object==null||isBlank(object.toString())) {
 				return true;
 			}
 		}
-		return false;
+		return param.length==0?true:false;
 	}
 
 	/**
-	 * 是否全部为空
+	 *     是否全部参数都为空
 	 *
 	 * @param param 需要检查的为空的参数们
-	 * @return true 缺少 false 不缺少
-	 * @date 2018年6月11日
-	 * @author mintonzhang@163.com
+	 * @return true 全部为空 false 数据中有非空数据
 	 */
 	public static boolean isAllBlank(Object... param) {
-		if (param == null || param.length == 0) {
-			return false;
-		}
 		for (Object object : param) {
-			if (object != null && !"".equals(object) && object.toString().length() >= 0) {
-				return true;
+			if(object!=null&&isNotBlank(object.toString())) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -57,7 +48,7 @@ public class StringUtil extends StringUtils {
 	 * @param filterKey
 	 * @return 2018年7月27日
 	 */
-	public static final String filterSearchKey(String str, String... filterKey) {
+	public static  String filterSearchKey(String str, String... filterKey) {
 		str = filterSpace(str);
 		if (filterKey != null && filterKey.length > 0 && str != null) {
 			for (String string : filterKey) {
@@ -74,7 +65,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月21日
 	 */
-	public static final String filterSpace(String str) {
+	public static  String filterSpace(String str) {
 		str = StringUtils.isBlank(str) ? null : str.trim();
 		for (String key : keys) {
 			if (key.equals(str))
@@ -89,24 +80,8 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月21日
 	 */
-	public static final String filterAllSpace(String str) {
+	public static  String filterAllSpace(String str) {
 		return filterSpace(str) == null ? null : str.replace(" ", "");
-	}
-
-	/**
-	 * 关键字 模糊查询
-	 * 
-	 * @param key
-	 * @param type -1 为%key 0为 %key% 1为key% 其他默认为0
-	 * @return 2018年7月27日
-	 */
-	public static final String likeSearch(String key, Integer type) {
-
-		key = filterSearchKey(key);
-		if (key != null) {
-			return type == -1 ? "%" + key : type == 1 ? key + "%" : "%" + key + "%";
-		}
-		return null;
 	}
 
 	/**
@@ -116,8 +91,7 @@ public class StringUtil extends StringUtils {
 	 * @param type -1 为%key 0为 %key% 1为key% 其他默认为0
 	 * @return 2018年7月27日
 	 */
-	public static final String likeSearch(String key, String filterKey, Integer type) {
-
+	public static  String likeSearch(String key, int type,String... filterKey) {
 		key = filterSearchKey(key, filterKey);
 		if (key != null) {
 			return type == -1 ? "%" + key : type == 1 ? key + "%" : "%" + key + "%";
@@ -130,7 +104,7 @@ public class StringUtil extends StringUtils {
 	 * 
 	 * @return 2018年9月12日
 	 */
-	public static final String getUUIDForLength(int length) {
+	public static  String getUUIDForLength(int length) {
 		if (length < 1 || length > 32) {
 			length = 32;
 		}
@@ -143,7 +117,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月30日
 	 */
-	public static final String replaceSemicolonToEnglish(String str) {
+	public static  String replaceSemicolonToEnglish(String str) {
 		if (StringUtil.isBlank(str))
 			return null;
 		return str.replace("；", ";");
@@ -155,7 +129,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月30日
 	 */
-	public static final String replaceColonToEnglish(String str) {
+	public static  String replaceColonToEnglish(String str) {
 		if (StringUtil.isBlank(str))
 			return null;
 		return str.replace("：", ":");
@@ -167,9 +141,9 @@ public class StringUtil extends StringUtils {
 	 * @param str       待定字符串
 	 * @param length    长度
 	 * @param allowNull 是否可以为空
-	 * @return true为不满足条件 false为满足条件 2018年9月8日
+	 * @return true为不满足条件 false为满足条件 
 	 */
-	public static final boolean checkStringLength(String str, int length, boolean allowNull) {
+	public static  boolean checkStringLength(String str, int length, boolean allowNull) {
 		if (StringUtil.isBlank(str)) {
 			return !allowNull;
 		}
@@ -223,7 +197,7 @@ public class StringUtil extends StringUtils {
 	 * @return
 	 */
 	public static String removeFormat(String str) {
-		str = StringUtil.filterAllSpace(str);
+		str = filterAllSpace(str);
 		if (str == null)
 			return null;
 		return str.replace("\r", "").replace("\n", "").replace("\t", "");
@@ -236,7 +210,6 @@ public class StringUtil extends StringUtils {
 	 * @return true 包含中文字符 false 不包含中文字符
 	 */
 	public static boolean isContainChinese(String str) {
-
 		if (StringUtil.isBlank(str))
 			return false;
 		Pattern p = Pattern.compile("[\u4E00-\u9FA5|\\！|\\，|\\。|\\（|\\）|\\《|\\》|\\“|\\”|\\？|\\：|\\；|\\【|\\】]");

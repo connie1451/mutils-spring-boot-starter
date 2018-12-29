@@ -18,7 +18,7 @@ import org.mutils.wechat.wechatpay.core.util.SignUtil;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatPayCoreConfig;
 import cn.minsin.core.rule.FunctionRule;
-import cn.minsin.core.thirdpart.HttpClientFactory;
+import cn.minsin.core.tools.HttpClientUtil;
 
 /**
  * 微信配置文件(微信支付，微信公众号)
@@ -196,11 +196,11 @@ public class WeChatPayFunctions extends FunctionRule {
 		String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
 		slog.info("refund xml is {}", xmlParam);
 		try {
-			CloseableHttpClient httpclient = HttpClientFactory.getSSLInstance(true,
+			CloseableHttpClient httpclient = HttpClientUtil.getSSLInstance(
 					WechatPayCoreConfig.wechatPayConfig.getPartnerId(),
 					WechatPayCoreConfig.wechatPayConfig.getCertificatePath(),
 					WechatPayCoreConfig.wechatPayConfig.getCertificateFormat());
-			HttpPost httpost = HttpClientFactory.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getRefundUrl());
+			HttpPost httpost = HttpClientUtil.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getRefundUrl());
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			HttpResponse response = httpclient.execute(httpost);
 			String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -222,8 +222,8 @@ public class WeChatPayFunctions extends FunctionRule {
 	public static Map<String, String> createUnifiedOrder(BaseWeChatPayModel model) throws MutilsErrorException {
 		String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
 		slog.info("createUnifiedOrder xml is {}", xmlParam);
-		CloseableHttpClient httpclient = HttpClientFactory.getInstance();// 先初始化;
-		HttpPost httpost = HttpClientFactory.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getUnifiedOrderUrl());
+		CloseableHttpClient httpclient = HttpClientUtil.getInstance();// 先初始化;
+		HttpPost httpost = HttpClientUtil.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getUnifiedOrderUrl());
 		try {
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			HttpResponse response = httpclient.execute(httpost);

@@ -17,6 +17,7 @@ import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 
+import cn.minsin.alipay.model.TransferModel;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.AlipayConfig;
 import cn.minsin.core.rule.FunctionRule;
@@ -56,7 +57,7 @@ public class AlipayFunctions extends FunctionRule {
 			}
 			return null;
 		} catch (Exception e) {
-			throw new MutilsErrorException(e, "支付宝创建网页支付失败");
+			throw new MutilsErrorException(e, "支付宝创建网页支付失败 ");
 		}
 	}
 

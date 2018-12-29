@@ -26,6 +26,7 @@ public class Result implements Serializable {
 	 * 操作失败
 	 */
 	public final static int FAIL = 201;
+	
 	/**
 	 * Session失效、过期、超时
 	 */
@@ -104,13 +105,11 @@ public class Result implements Serializable {
 
 	/* 以下为构建方法 */
 	public Result data(String key, Object value) {
-//		multidata.put(key,value instanceof VO?((VO) value).toObject():value);
 		multidata.put(key, value);
 		return this;
 	}
 
 	public Result data(Object value) {
-		// data = value instanceof VO?((VO) value).toObject():value;
 		data = value;
 		return this;
 	}
@@ -179,7 +178,7 @@ public class Result implements Serializable {
 	/**
 	 * 构建后端用户过期
 	 * 
-	 * @param message this default is '缺少必要参数'
+	 * @param message this default is '用户已失效'
 	 * @return 2018年10月10日
 	 * @author mintonzhang@163.com
 	 */

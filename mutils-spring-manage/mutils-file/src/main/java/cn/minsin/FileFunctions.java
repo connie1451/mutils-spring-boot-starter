@@ -1,4 +1,4 @@
-package cn.minsin.file;
+package cn.minsin;
 
 import java.io.File;
 import java.io.FileInputStream;

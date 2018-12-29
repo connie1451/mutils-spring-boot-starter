@@ -1,4 +1,4 @@
-package cn.minsin.excel;
+package cn.minsin.excel.model;
 
 import java.util.Map;
 

@@ -23,6 +23,7 @@ import cn.minsin.core.init.DianWoDaConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.MapUtil;
 import cn.minsin.dianwoda.model.OrderModel;
+import cn.minsin.dianwoda.util.SignUtil;
 
 public class DianWoDaFunctions extends FunctionRule {
 	

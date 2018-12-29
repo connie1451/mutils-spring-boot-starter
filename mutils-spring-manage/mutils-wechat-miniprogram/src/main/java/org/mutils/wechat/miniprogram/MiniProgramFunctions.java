@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSON;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatMiniProgramConfig;
 import cn.minsin.core.rule.FunctionRule;
-import cn.minsin.core.thirdpart.HttpClientFactory;
+import cn.minsin.core.tools.HttpClientUtil;
 
 
 /**
@@ -38,7 +38,7 @@ public class MiniProgramFunctions extends FunctionRule {
 			url = url.replace("APPID", miniProgramConfig.getAppid())
 				 .replace("SECRET", miniProgramConfig.getAppSecret())
 			     .replace("JSCODE", code);
-			HttpGet get = HttpClientFactory.getGetMethod(url);
+			HttpGet get = HttpClientUtil.getGetMethod(url);
 			
 			CloseableHttpClient build = HttpClientBuilder.create().build();
 			CloseableHttpResponse response = build.execute(get);

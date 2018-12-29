@@ -1,4 +1,4 @@
-package cn.minsin.yiketong;
+package cn.minsin.yiketong.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

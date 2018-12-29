@@ -2,11 +2,7 @@ package org.mutils.wechat.wechatpay.core.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
@@ -19,7 +15,6 @@ public abstract class BaseWeChatPayModel extends ModelRule {
 	 * 
 	 */
 	private static final long serialVersionUID = -6916140873435262221L;
-
 
 	private String sign; 
 	
@@ -55,37 +50,5 @@ public abstract class BaseWeChatPayModel extends ModelRule {
 			}
 		}
 		return sb.append("</xml>").toString();
-	}
-	
-	public SortedMap<String, String>  toTreeMap() {
-		SortedMap<String, String> tree = new TreeMap<>();
-		
-		for (Field field : getAllFields()) {
-			int modifiers = field.getModifiers();
-			if (Modifier.isStatic(modifiers) || !Modifier.isPrivate(modifiers)) {
-				continue;
-			}
-			try {
-				String key = field.getName();
-				field.setAccessible(true);
-				Object object = field.get(this);
-				if(object!=null&&!"".equals(object.toString())) {
-					tree.put(key, object.toString());
-				}
-			}catch (Exception e) {
-				e.printStackTrace();
-				continue;
-			}
-		}
-		return tree;
-	}
-
-	private Set<Field> getAllFields(){
-		Field[] fields = this.getClass().getDeclaredFields();
-		Field[] de = BaseWeChatPayModel.class.getDeclaredFields();
-		Set<Field> hashset = new HashSet<>();
-		hashset.addAll(Arrays.asList(fields));
-		hashset.addAll(Arrays.asList(de));
-		return hashset;
 	}
 }

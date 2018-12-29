@@ -1,4 +1,4 @@
-package cn.minsin.yiketong;
+package cn.minsin.yiketong.model;
 
 import cn.minsin.core.rule.ModelRule;
 

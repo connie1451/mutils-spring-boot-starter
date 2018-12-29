@@ -17,7 +17,8 @@ import org.apache.http.util.EntityUtils;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.KuaiDi100Config;
 import cn.minsin.core.rule.FunctionRule;
-import cn.minsin.core.thirdpart.HttpClientFactory;
+import cn.minsin.core.tools.HttpClientUtil;
+import cn.minsin.kuaidi100.util.MD5Util;
 
 /**
  * 快递100物流查询
@@ -36,13 +37,13 @@ public class KuaiDi100Functions extends FunctionRule{
 	public  String getLogistics(String logisticsCode, String logisticsNumber)  throws MutilsErrorException{
 		try {
 			String param = "{\"com\":\"" + logisticsNumber + "\",\"num\":\"" + logisticsCode + "\"}";
-			String sign = KuaiDi100MD5.encode(param + KuaiDi100Config.kuaiDi100Config.getKey() + KuaiDi100Config.kuaiDi100Config.getCustomer());
+			String sign = MD5Util.encode(param + KuaiDi100Config.kuaiDi100Config.getKey() + KuaiDi100Config.kuaiDi100Config.getCustomer());
 			List<NameValuePair> params = new ArrayList<>();
 			params.add(new BasicNameValuePair("param", param));
 			params.add(new BasicNameValuePair("sign", sign));
 			params.add(new BasicNameValuePair("customer", KuaiDi100Config.kuaiDi100Config.getCustomer()));
-			CloseableHttpClient httpclient = HttpClientFactory.getSSLInstance(false,null,null,null);
-			HttpPost post = HttpClientFactory.getPostMethod(KuaiDi100Config.kuaiDi100Config.getUrl());
+			CloseableHttpClient httpclient = HttpClientUtil.getInstance();
+			HttpPost post = HttpClientUtil.getPostMethod(KuaiDi100Config.kuaiDi100Config.getUrl());
 			post.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
 			HttpResponse response = httpclient.execute(post);
 			String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");

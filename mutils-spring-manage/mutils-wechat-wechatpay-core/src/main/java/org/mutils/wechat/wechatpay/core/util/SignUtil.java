@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 
-import cn.minsin.core.thirdpart.MD5Util;
 
 public class SignUtil {
 

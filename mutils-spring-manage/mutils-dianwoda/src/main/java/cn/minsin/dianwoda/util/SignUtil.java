@@ -1,4 +1,4 @@
-package cn.minsin.dianwoda;
+package cn.minsin.dianwoda.util;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

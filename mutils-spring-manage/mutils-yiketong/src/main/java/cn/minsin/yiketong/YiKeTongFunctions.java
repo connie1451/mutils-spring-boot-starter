@@ -20,7 +20,9 @@ import com.alibaba.fastjson.JSONObject;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.YiKeTongConfig;
 import cn.minsin.core.rule.FunctionRule;
-import cn.minsin.core.thirdpart.ParamUtil;
+import cn.minsin.yiketong.model.ResultModel;
+import cn.minsin.yiketong.util.ParamUtil;
+import cn.minsin.yiketong.util.SignUtil;
 
 /**
  * 移客通号码转发功能

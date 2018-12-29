@@ -31,6 +31,7 @@ import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.ExcelConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.StringUtil;
+import cn.minsin.excel.model.ExcelRowModel;
 
 /**
  * 解析Excel

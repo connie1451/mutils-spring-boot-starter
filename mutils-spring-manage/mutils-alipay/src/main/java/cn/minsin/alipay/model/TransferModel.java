@@ -1,4 +1,4 @@
-package cn.minsin.alipay;
+package cn.minsin.alipay.model;
 
 import cn.minsin.core.rule.ModelRule;
 

@@ -27,52 +27,53 @@ import cn.minsin.core.init.WechatMiniProgramConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.HttpClientUtil;
 
-
 /**
  * 小程序相关接口
+ * 
  * @author minsin
  *
  */
 public class MiniProgramFunctions extends FunctionRule {
-	
+
 	/**
-	 * 获取sessionkey和openid,一般用于小程序授权登录. 
+	 * 获取sessionkey和openid,一般用于小程序授权登录.
+	 * 
 	 * @param code 小程序获取的code
 	 * @return
 	 * @throws MutilsErrorException
 	 */
-	public static Code2SessionReturnModel jscode2session(String code)  throws MutilsErrorException  {
+	public static Code2SessionReturnModel jscode2session(String code) throws MutilsErrorException {
 		try {
-			String url ="https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
-			
+			String url = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
+
 			WechatMiniProgramConfig miniProgramConfig = WechatMiniProgramConfig.wechatMiniProgramConfig;
-			
-			url = url.replace("APPID", miniProgramConfig.getAppid())
-				 .replace("SECRET", miniProgramConfig.getAppSecret())
-			     .replace("JSCODE", code);
+
+			url = url.replace("APPID", miniProgramConfig.getAppid()).replace("SECRET", miniProgramConfig.getAppSecret())
+					.replace("JSCODE", code);
 			HttpGet get = HttpClientUtil.getGetMethod(url);
-			
+
 			CloseableHttpClient build = HttpClientBuilder.create().build();
 			CloseableHttpResponse response = build.execute(get);
 			HttpEntity entity = response.getEntity();
 			String string = EntityUtils.toString(entity);
 			response.close();
 			build.close();
-			slog.info("Code2SessionReturnModel string is {}",string);
-	        return JSON.parseObject(string,Code2SessionReturnModel.class);
-		}catch (Exception e) {
+			slog.info("Code2SessionReturnModel string is {}", string);
+			return JSON.parseObject(string, Code2SessionReturnModel.class);
+		} catch (Exception e) {
 			throw new MutilsErrorException(e, "小程序使用code换取openid等信息失败");
 		}
 	}
-	
+
 	/**
-	 * 解密用户敏感数据获取用户信息
-	 * 
+	 *   	解密用户敏感数据获取用户信息
+	 * 	 注意wx.login() 必须要在wx.getUserinfo()前调用
 	 * @param sessionKey    数据进行加密签名的密钥
 	 * @param encryptedData 包括敏感数据在内的完整用户信息的加密数据
 	 * @param iv            加密算法的初始向量
+	 * @throws MutilsErrorException
 	 */
-	public static UserInfoModel getUserInfo(String encryptedData, String code, String iv) {
+	public static UserInfoModel getUserInfo(String encryptedData, String code, String iv) throws MutilsErrorException {
 		try {
 			Code2SessionReturnModel jscode2session = jscode2session(code);
 			// 被加密的数据
@@ -99,14 +100,11 @@ public class MiniProgramFunctions extends FunctionRule {
 			parameters.init(new IvParameterSpec(ivByte));
 			cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// 初始化
 			byte[] resultByte = cipher.doFinal(dataByte);
-			if (null != resultByte && resultByte.length > 0) {
-				String result = new String(resultByte, "UTF-8");
-				return JSONObject.parseObject(result, UserInfoModel.class);
-			}
+			String result = new String(resultByte, "UTF-8");
+			return JSONObject.parseObject(result, UserInfoModel.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new MutilsErrorException(e, "解析小程序密文失败");
 		}
-		return null;
 	}
 
 }

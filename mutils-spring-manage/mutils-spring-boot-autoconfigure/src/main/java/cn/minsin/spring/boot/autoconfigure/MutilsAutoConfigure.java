@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.Assert;
 
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.InitConfig;
@@ -27,8 +26,8 @@ public class MutilsAutoConfigure {
 		}
 
 		public void init() {
+			log.info("配置文件中的function参数配置之后才能初始化. Choosed functions will be initialize.");
 			MutilsFunctions[] functions = properties.getFunctions();
-			Assert.notNull(functions,"Functions in properties must not be null.");
 			for (MutilsFunctions mutilsFunctions : functions) {
 				String name = mutilsFunctions.getName();
 				int index = mutilsFunctions.getIndex();
@@ -39,7 +38,7 @@ public class MutilsAutoConfigure {
 						init= properties.getAlipay();
 						break;
 					case 2:
-						init= properties.getWechatPayCoreConfig();
+						init= properties.getWechatPayCore();
 						break;
 					case 3:
 						init= properties.getExcel();
@@ -57,11 +56,11 @@ public class MutilsAutoConfigure {
 						init= properties.getDianwoda();
 						break;
 					case 8:
-						init= properties.getWechatMiniProgramConfig();
+						init= properties.getWechatMiniProgram();
 						break;
 					}
 					init.done();
-					log.info("{} was initialize successful.",name);
+					log.info("{} 功能初始化成功.{} was initialize successful.",name,name);
 				}catch (Exception e) {
 					throw new MutilsException(e,name+" was initialize failed,Please check properties.");
 				}

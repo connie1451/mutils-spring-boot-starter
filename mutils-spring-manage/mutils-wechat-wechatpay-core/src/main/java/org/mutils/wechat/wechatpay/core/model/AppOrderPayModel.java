@@ -1,6 +1,6 @@
 package org.mutils.wechat.wechatpay.core.model;
 
-public class AppOrderPayModel extends BaseWeChatPayModel {
+public class AppOrderPayModel extends PayModel {
 
 	/**
 	 * 

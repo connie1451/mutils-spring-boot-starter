@@ -18,70 +18,22 @@ public class MutilsProperties {
 	/**
 	 * 支付宝初始化参数 {@code cn.minsin.core.init.AlipayConfig}
 	 */
-	private AlipayConfig alipay = new AlipayConfig();
+	private Alipay alipay = new Alipay();
 
-	private ExcelConfig excel = new ExcelConfig();
+	private Excel excel = new Excel();
 	
-	private FileConfig file = new FileConfig();
+	private File file = new File();
 	
-	private KuaiDi100Config kuaidi100 = new KuaiDi100Config();
+	private KuaiDi100 kuaidi100 = new KuaiDi100();
 	
-	private  WechatPayCoreConfig wechatPayCoreConfig = new WechatPayCoreConfig();
+	private  WechatPayCore wechatPayCore = new WechatPayCore();
 	
-	private YiKeTongConfig yiketong = new YiKeTongConfig();
+	private YiKeTong yiketong = new YiKeTong();
 	
-	private DianWoDaConfig dianwoda = new DianWoDaConfig();
+	private DianWoDa dianwoda = new DianWoDa();
 	
-	private WechatMiniProgramConfig wechatMiniProgramConfig = new WechatMiniProgramConfig();
+	private WechatMiniProgram wechatMiniProgram = new WechatMiniProgram();
 	
-
-	public WechatPayCoreConfig getWechatPayCoreConfig() {
-		return wechatPayCoreConfig;
-	}
-
-	public void setWechatPayCoreConfig(WechatPayCoreConfig wechatPayCoreConfig) {
-		this.wechatPayCoreConfig = wechatPayCoreConfig;
-	}
-
-	public WechatMiniProgramConfig getWechatMiniProgramConfig() {
-		return wechatMiniProgramConfig;
-	}
-
-	public void setWechatMiniProgramConfig(WechatMiniProgramConfig wechatMiniProgramConfig) {
-		this.wechatMiniProgramConfig = wechatMiniProgramConfig;
-	}
-
-	public DianWoDaConfig getDianwoda() {
-		return dianwoda;
-	}
-
-	public void setDianwoda(DianWoDaConfig dianwoda) {
-		this.dianwoda = dianwoda;
-	}
-
-	public KuaiDi100Config getKuaidi100() {
-		return kuaidi100;
-	}
-
-	public void setKuaidi100(KuaiDi100Config kuaidi100) {
-		this.kuaidi100 = kuaidi100;
-	}
-
-	public YiKeTongConfig getYiketong() {
-		return yiketong;
-	}
-
-	public void setYiketong(YiKeTongConfig yiketong) {
-		this.yiketong = yiketong;
-	}
-
-	public ExcelConfig getExcel() {
-		return excel;
-	}
-
-	public void setExcel(ExcelConfig excel) {
-		this.excel = excel;
-	}
 
 	public MutilsFunctions[] getFunctions() {
 		return functions;
@@ -90,25 +42,74 @@ public class MutilsProperties {
 	public void setFunctions(MutilsFunctions[] functions) {
 		this.functions = functions;
 	}
-	
-	public AlipayConfig getAlipay() {
+
+	public Alipay getAlipay() {
 		return alipay;
 	}
 
-	public void setAlipay(AlipayConfig alipay) {
+	public void setAlipay(Alipay alipay) {
 		this.alipay = alipay;
 	}
-	
-	public FileConfig getFile() {
+
+	public Excel getExcel() {
+		return excel;
+	}
+
+	public void setExcel(Excel excel) {
+		this.excel = excel;
+	}
+
+	public File getFile() {
 		return file;
 	}
 
-	public void setFile(FileConfig file) {
+	public void setFile(File file) {
 		this.file = file;
 	}
 
+	public KuaiDi100 getKuaidi100() {
+		return kuaidi100;
+	}
 
-	static class ExcelConfig extends cn.minsin.core.init.ExcelConfig {
+	public void setKuaidi100(KuaiDi100 kuaidi100) {
+		this.kuaidi100 = kuaidi100;
+	}
+
+	public WechatPayCore getWechatPayCore() {
+		return wechatPayCore;
+	}
+
+	public void setWechatPayCore(WechatPayCore wechatPayCore) {
+		this.wechatPayCore = wechatPayCore;
+	}
+
+	public YiKeTong getYiketong() {
+		return yiketong;
+	}
+
+	public void setYiketong(YiKeTong yiketong) {
+		this.yiketong = yiketong;
+	}
+
+	public DianWoDa getDianwoda() {
+		return dianwoda;
+	}
+
+	public void setDianwoda(DianWoDa dianwoda) {
+		this.dianwoda = dianwoda;
+	}
+
+	public WechatMiniProgram getWechatMiniProgram() {
+		return wechatMiniProgram;
+	}
+
+	public void setWechatMiniProgram(WechatMiniProgram wechatMiniProgram) {
+		this.wechatMiniProgram = wechatMiniProgram;
+	}
+
+
+
+	static class Excel extends cn.minsin.core.init.ExcelConfig {
 		
 		/**
 		 * *此属性不用填写
@@ -125,7 +126,7 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class AlipayConfig extends cn.minsin.core.init.AlipayConfig {
+	static class Alipay extends cn.minsin.core.init.AlipayConfig {
 		/**
 		 * *此属性不用填写
 		 * 这是对于AlipayConfig 的一个简单的描述.
@@ -142,7 +143,7 @@ public class MutilsProperties {
 		}
 		
 	}
-	static class FileConfig extends cn.minsin.core.init.FileConfig{
+	static class File extends cn.minsin.core.init.FileConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于FileConfig 的一个简单的描述.
@@ -158,7 +159,7 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class KuaiDi100Config extends cn.minsin.core.init.KuaiDi100Config{
+	static class KuaiDi100 extends cn.minsin.core.init.KuaiDi100Config{
 		/**
 		 * *此属性不用填写
 		 * 这是对于KuaiDi100Config 的一个简单的描述.
@@ -174,7 +175,7 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class WechatPayCoreConfig extends cn.minsin.core.init.WechatPayCoreConfig{
+	static class WechatPayCore extends cn.minsin.core.init.WechatPayCoreConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于WechatPayConfig 的一个简单的描述.
@@ -190,7 +191,7 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class YiKeTongConfig extends cn.minsin.core.init.YiKeTongConfig{
+	static class YiKeTong extends cn.minsin.core.init.YiKeTongConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于YiKeTongConfig 的一个简单的描述.
@@ -206,7 +207,7 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class DianWoDaConfig extends cn.minsin.core.init.DianWoDaConfig{
+	static class DianWoDa extends cn.minsin.core.init.DianWoDaConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于DianWoDaConfig 的一个简单的描述.
@@ -222,7 +223,7 @@ public class MutilsProperties {
 			this.description = description;
 		}
 	}
-	static class WechatMiniProgramConfig extends cn.minsin.core.init.WechatMiniProgramConfig{
+	static class WechatMiniProgram extends cn.minsin.core.init.WechatMiniProgramConfig{
 		/**
 		 * *此属性不用填写
 		 * 这是对于MiniProgramConfig 的一个简单的描述.

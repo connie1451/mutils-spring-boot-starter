@@ -9,6 +9,7 @@ import java.util.Date;
 import org.springframework.web.multipart.MultipartFile;
 
 import cn.minsin.core.exception.MutilsErrorException;
+import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.FileConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.DateUtil;
@@ -19,7 +20,6 @@ public class FileFunctions extends FunctionRule {
 	 * path中不能出现\
 	 * 
 	 * @param path 2018年9月8日
-	 * @author mintonzhang@163.com
 	 */
 	public static void checkPath(String path) {
 		File file = new File(path);
@@ -69,16 +69,21 @@ public class FileFunctions extends FunctionRule {
 	}
 
 	/**
-	 * 批量保存文件
+	 * 批量保存文件 如果一个文件报错，不会阻断保存进程
 	 * 
 	 * @param file
 	 * @return
 	 * @throws Exception
 	 */
-	public static String[] saveFiles(MultipartFile[] file) throws MutilsErrorException {
+	public static String[] saveFiles(MultipartFile[] file) throws MutilsException {
 		String[] result = new String[file.length];
 		for (int i = 0; i < result.length; i++) {
-			String saveFile = saveFile(file[i]);
+			String saveFile = null;
+			try {
+				saveFile = saveFile(file[i]);
+			} catch (MutilsErrorException e) {
+				slog.info("{} save failed.error message {}", file[i].getOriginalFilename(),e);
+			}
 			if (saveFile != null) {
 				result[i] = saveFile;
 			}
@@ -106,7 +111,7 @@ public class FileFunctions extends FunctionRule {
 	 *
 	 * @param files 文件
 	 * @param mSize M做单位
-	 * @return 大于限制大小返回true 反之false 2018年7月27日
+	 * @return 大于限制大小返回true 反之false
 	 */
 	public static boolean checkSize(MultipartFile[] files, int mSize) {
 		Long limitSize = (mSize * 1024L * 1024L);
@@ -119,7 +124,13 @@ public class FileFunctions extends FunctionRule {
 		return sumSize > limitSize ? true : false;
 	}
 
-	// true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
+	/**
+	 * 
+	 * @param f    源目录
+	 * @param nf   目标目录
+	 * @param flag 是否覆盖原文件夹 true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
+	 * @throws MutilsErrorException
+	 */
 	public static void copy(File f, File nf, boolean flag) throws MutilsErrorException {
 		try {
 			// 判断是否存在

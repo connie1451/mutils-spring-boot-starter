@@ -7,6 +7,9 @@ public class WechatPayCoreConfig implements InitConfig {
 
 	public static WechatPayCoreConfig wechatPayConfig;
 
+	//微信分配的公众账号ID 并不是app或小程序的appid 退款时必填
+	private String publicAppId;
+	
 	// 商户id
 	private String partnerId;
 
@@ -28,12 +31,28 @@ public class WechatPayCoreConfig implements InitConfig {
 	// 退款证书格式
 	private String certificateFormat = "PKCS12";// 证书格式
 
-	// 是否包含退款 如果为true 如果为true certificatePath、refundUrl、certificateFormat必填
+	// 是否包含退款 如果为true 如果为true certificatePath、refundUrl、certificateFormat, publicAppId必填
 	private boolean withRefund = false;
+	
+	//提现地址
+	private String withdrawUrl ="https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+	
+	
 
 	public boolean isWithRefund() {
 		return withRefund;
 	}
+
+	
+	public String getWithdrawUrl() {
+		return withdrawUrl;
+	}
+
+	public void setWithdrawUrl(String withdrawUrl) {
+		this.withdrawUrl = withdrawUrl;
+	}
+
+
 
 	public void setWithRefund(boolean withRefund) {
 		this.withRefund = withRefund;
@@ -95,13 +114,21 @@ public class WechatPayCoreConfig implements InitConfig {
 		this.certificateFormat = certificateFormat;
 	}
 
+	public String getPublicAppId() {
+		return publicAppId;
+	}
+
+	public void setPublicAppId(String publicAppId) {
+		this.publicAppId = publicAppId;
+	}
+
 	@Override
 	public void done() {
 		if (StringUtil.isBlank(partnerId, partnerKey, notifyUrl, unifiedOrderUrl)) {
 			throw new MutilsException("微信支付初始化失败,请检查配置文件是否正确. A error when initialization the basic config for wechat pay, please check config");
 		}
 		if (withRefund) {
-			if (StringUtil.isBlank(certificatePath, refundUrl, certificateFormat)) {
+			if (StringUtil.isBlank(certificatePath, refundUrl, certificateFormat,publicAppId)) {
 				throw new MutilsException("微信支付退款初始化失败,请检查配置文件是否正确. The refund config of wechat pay was initialization failed.");
 			}
 		}

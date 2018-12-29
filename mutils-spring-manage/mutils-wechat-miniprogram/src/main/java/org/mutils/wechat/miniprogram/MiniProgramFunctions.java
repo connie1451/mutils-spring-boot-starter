@@ -24,8 +24,10 @@ import cn.minsin.core.thirdpart.HttpClientFactory;
 public class MiniProgramFunctions extends FunctionRule {
 	
 	/**
-	 * 获取sessionkey和openid,一般用于小程序授权登录.
+	 * 获取sessionkey和openid,一般用于小程序授权登录. 
+	 * @param code 小程序获取的code
 	 * @return
+	 * @throws MutilsErrorException
 	 */
 	public static Code2SessionReturnModel jscode2session(String code)  throws MutilsErrorException  {
 		try {

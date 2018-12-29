@@ -39,6 +39,8 @@ public class AlipayFunctions extends FunctionRule {
 	public static String createWebAlipayParams(String out_trade_no, BigDecimal price, String title)
 			throws MutilsErrorException {
 		try {
+			// 进行保留两位小数
+			price = price.setScale(2, RoundingMode.DOWN);
 			AlipayTradePrecreateRequest alipayRequest = new AlipayTradePrecreateRequest();
 			Map<String, Object> map = new HashMap<>();
 			map.put("subject", title);

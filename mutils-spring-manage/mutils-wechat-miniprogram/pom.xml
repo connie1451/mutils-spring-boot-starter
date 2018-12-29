@@ -14,11 +14,17 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bouncycastle.version>1.59</bouncycastle.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>cn.minsin</groupId>
 			<artifactId>mutils-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>${bouncycastle.version}</version>
 		</dependency>
 	</dependencies>
 </project>

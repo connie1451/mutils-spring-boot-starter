@@ -153,13 +153,4 @@ public class Result implements Serializable {
 	public static Result builderOutTime(String... msg) {
 		return new Result(DefaultResultOptions.OUTTIME, msg);
 	}
-	
-	public static void main(String[] args) {
-		String string = builderOutTime()
-				.data("123123","123123")
-				.data
-				.toString();
-		System.out.println(string);
-	}
-
 }

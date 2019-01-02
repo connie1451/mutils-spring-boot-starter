@@ -26,14 +26,22 @@ public class VO extends HashMap<String, Object> implements Serializable {
 	 * builder新对象
 	 * 
 	 * @return 2018年10月12日
-	 * @author mintonzhang@163.com
 	 */
 	public static VO builder() {
 		return new VO();
 	}
 
+	/**
+	 * builder新对象并添加一条数据
+	 * 
+	 * @return 2018年10月12日
+	 */
+	public static VO builder(String key, Object value) {
+		return new VO().put(key, value);
+	}
+
 	public VO put(String key, Object value) {
-		super.put(key, value==null?"":value);
+		super.put(key, value == null ? "" : value);
 		return this;
 	}
 
@@ -48,17 +56,18 @@ public class VO extends HashMap<String, Object> implements Serializable {
 
 	/**
 	 * 转换成指定对象
+	 * 
 	 * @param clazz
 	 * @return 指定Class
 	 */
-	public <T> T getObject(Class<T> clazz){
+	public <T> T getObject(Class<T> clazz) {
 		try {
 			return JSON.parseObject(this.toString(), clazz);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException("类型转换失败");
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return JSON.toJSONString(this);

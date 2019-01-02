@@ -155,7 +155,10 @@ public class Result implements Serializable {
 	}
 	
 	public static void main(String[] args) {
-		String string = builderOutTime().data("123123","123123").toString();
+		String string = builderOutTime()
+				.data("123123","123123")
+				.data
+				.toString();
 		System.out.println(string);
 	}
 

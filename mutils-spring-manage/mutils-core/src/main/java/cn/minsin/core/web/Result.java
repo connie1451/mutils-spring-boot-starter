@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import com.alibaba.fastjson.JSON;
 
+import cn.minsin.core.exception.MutilsException;
+
 /**
  * 构建者模式的Result Eg：Result.builderMissParamter().data('name',"张三")
  * 
@@ -17,71 +19,31 @@ public class Result implements Serializable {
 
 	private static final long serialVersionUID = -8603085056620027210L;
 
-	/**
-	 * 操作成功
-	 */
-	public final static int SUCCESS = 200;
+	protected Result() {
+	}
 
-	/**
-	 * 操作失败
-	 */
-	public final static int FAIL = 201;
-	
-	/**
-	 * Session失效、过期、超时
-	 */
-	public final static int OUTTIME = 202;
-
-	/**
-	 * 缺少参数
-	 */
-	public final static int MISSPARAMTER = 300;
-
-	/**
-	 * 异常
-	 */
-	public final static int EXCEPTION = 404;
+	protected Result(ResultOptions options, String... msg) {
+		if (options == null) {
+			throw new MutilsException("ResultOptions must not be null.");
+		}
+		String rmsg = options.getMsg();
+		if (msg != null && msg.length > 0) {
+			rmsg = msg[0];
+		}
+		this.code = options.getCode();
+		this.msg = rmsg;
+	}
 
 	private int code;
 
 	private String msg;
+	
+	private Object data;
 
-	/**
-	 * 单个对象
-	 */
-	private static Object data; 
+	private HashMap<String, Object> multidata = new HashMap<>();
 
-	/**
-	 * 多个对象
-	 */
-	private static HashMap<String, Object> multidata = new HashMap<>();
-
-	/**
-	 * @return the multidata
-	 */
 	public HashMap<String, Object> getMultidata() {
 		return multidata;
-	}
-
-	/**
-	 * @param code the code to set
-	 */
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	/**
-	 * @param msg the msg to set
-	 */
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	/**
-	 * @param data the data to set
-	 */
-	public void setData(Object data) {
-		Result.data = data;
 	}
 
 	public int getCode() {
@@ -95,12 +57,23 @@ public class Result implements Serializable {
 	public Object getData() {
 		return data;
 	}
-
-	protected Result() {}
-
-	private Result(int code, String msg) {
-		this.code = code;
-		this.msg = msg;
+	
+	/**
+	 * 重置提示语和code
+	 * @param option
+	 * @return
+	 */
+	public Result resetOption(ResultOptions option,String... msg) {
+		if (option == null) {
+			throw new MutilsException("ResultOptions must not be null.");
+		}
+		String rmsg = option.getMsg();
+		if (msg != null && msg.length > 0) {
+			rmsg = msg[0];
+		}
+		this.code = option.getCode();
+		this.msg = rmsg;
+		return this;
 	}
 
 	/* 以下为构建方法 */
@@ -120,15 +93,15 @@ public class Result implements Serializable {
 	}
 
 	/**
-	 * code 来自Result中的 SUCCESS 或 EXCEPTION
+	 * 构造result
 	 * 
-	 * @param code
-	 * @param message
-	 * @return 2018年10月10日
-	 * @author mintonzhang@163.com
+	 * @param option  需要实现接口ResultOptions 的枚举 默认枚举是 DefaultResultOptions
+	 * @param message 提示给前端的消息
+	 * @return
 	 */
-	public static Result builder(int code, String message) {
-		return new Result(code, message);
+	public static Result builder(ResultOptions option, String... message) {
+
+		return new Result(option, message);
 	}
 
 	/**
@@ -136,10 +109,9 @@ public class Result implements Serializable {
 	 * 
 	 * @param message this default is '操作成功'
 	 * @return 2018年10月10日
-	 * @author mintonzhang@163.com
 	 */
-	public static Result builderSuccess(String... message) {
-		return new Result(SUCCESS, message != null && message.length > 0 ? message[0] : "操作成功");
+	public static Result builderSuccess(String... msg) {
+		return new Result(DefaultResultOptions.SUCCESS, msg);
 	}
 
 	/**
@@ -147,10 +119,9 @@ public class Result implements Serializable {
 	 * 
 	 * @param message this default is '服务器异常'
 	 * @return 2018年10月10日
-	 * @author mintonzhang@163.com
 	 */
-	public static Result builderException(String... message) {
-		return new Result(EXCEPTION, message != null && message.length > 0 ? message[0] : "服务器异常,请重新登录试试");
+	public static Result builderException(String... msg) {
+		return new Result(DefaultResultOptions.EXCEPTION, msg);
 	}
 
 	/**
@@ -158,10 +129,9 @@ public class Result implements Serializable {
 	 * 
 	 * @param message this default is '缺少必要参数'
 	 * @return 2018年10月10日
-	 * @author mintonzhang@163.com
 	 */
-	public static Result builderMissParamter(String... message) {
-		return new Result(MISSPARAMTER, message != null && message.length > 0 ? message[0] : "缺少必要参数,请刷新后重试");
+	public static Result builderMissParamter(String... msg) {
+		return new Result(DefaultResultOptions.MISSPARAMTER, msg);
 	}
 
 	/**
@@ -169,10 +139,9 @@ public class Result implements Serializable {
 	 * 
 	 * @param message this default is '缺少必要参数'
 	 * @return 2018年10月10日
-	 * @author mintonzhang@163.com
 	 */
-	public static Result builderFail(String... message) {
-		return new Result(FAIL, message != null && message.length > 0 ? message[0] : "操作失败");
+	public static Result builderFail(String... msg) {
+		return new Result(DefaultResultOptions.FAIL, msg);
 	}
 
 	/**
@@ -180,9 +149,14 @@ public class Result implements Serializable {
 	 * 
 	 * @param message this default is '用户已失效'
 	 * @return 2018年10月10日
-	 * @author mintonzhang@163.com
 	 */
-	public static Result builderOutTime(String... message) {
-		return new Result(OUTTIME, message != null && message.length > 0 ? message[0] : "用户已失效");
+	public static Result builderOutTime(String... msg) {
+		return new Result(DefaultResultOptions.OUTTIME, msg);
 	}
+	
+	public static void main(String[] args) {
+		String string = builderOutTime().data("123123","123123").toString();
+		System.out.println(string);
+	}
+
 }

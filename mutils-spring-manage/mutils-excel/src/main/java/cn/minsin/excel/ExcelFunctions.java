@@ -85,7 +85,6 @@ public class ExcelFunctions extends FunctionRule {
 	 * 
 	 * @param excelVersion
 	 * @return 2018年10月11日
-	 * @author mintonzhang@163.com
 	 */
 	public static ExcelFunctions builder(ExcelVersion excelVersion) {
 		return new ExcelFunctions(excelVersion);
@@ -97,7 +96,6 @@ public class ExcelFunctions extends FunctionRule {
 	 * @param in
 	 * @param excelVersion
 	 * @return 2018年10月11日
-	 * @author mintonzhang@163.com
 	 * @throws Exception
 	 */
 	public static ExcelFunctions builder(InputStream in) throws Exception {
@@ -201,7 +199,7 @@ public class ExcelFunctions extends FunctionRule {
 			workbook.write(resp.getOutputStream());
 			workbook.close();
 		} catch (Exception e) {
-			throw new MutilsErrorException(e,"Excel读取失败！");
+			error(resp, "excel导出失败，已切换为错误模板", e);
 		}
 	}
 
@@ -318,7 +316,6 @@ public class ExcelFunctions extends FunctionRule {
 	 * 
 	 * @param cell
 	 * @return 2018年9月21日
-	 * @author mintonzhang@163.com
 	 */
 	public static String getCellRealValue(Cell cell) {
 		if (cell == null)
@@ -375,7 +372,6 @@ public class ExcelFunctions extends FunctionRule {
 	/**
 	 * Excel版本
 	 * 
-	 * @author mintonzhang 2018年10月11日
 	 */
 	public enum ExcelVersion {
 		VERSION_2003(".xls", 2003), VERSION_2007(".xlsx", 2007);
@@ -402,7 +398,6 @@ public class ExcelFunctions extends FunctionRule {
 	 * @param excelName
 	 * @return eg:static/xxx.xlsx
 	 * 2018年10月31日
-	 * @author  mintonzhang@163.com
 	 */
 	public static InputStream getExcelTempalte(String excelName) {
         InputStream inStream = ExcelFunctions.class.getClassLoader().getResourceAsStream(excelName);

@@ -8,7 +8,20 @@ public class FileConfig implements InitConfig {
 	public static FileConfig fileConfig;
 	
 
+	//文件所在磁盘
 	private String saveDisk;
+	
+	//项目访问地址 如果有项目名需要写上项目名,必须以/结尾
+	private String serverUrl ="http://127.0.0.1:8080/";
+	
+	
+	public String getServerUrl() {
+		return serverUrl;
+	}
+
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
+	}
 
 	public String getSaveDisk() {
 		return saveDisk;

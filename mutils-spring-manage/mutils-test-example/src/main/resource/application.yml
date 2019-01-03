@@ -1,0 +1,6 @@
+mutils:
+  functions:
+  - alipay
+  - file
+  file:    save-disk: D:/upload/
+    server-url: http://192.168.1.7:8080/pro_dianxin/

@@ -13,6 +13,7 @@ import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.FileConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.DateUtil;
+import cn.minsin.core.tools.StringUtil;
 
 public class FileFunctions extends FunctionRule {
 
@@ -31,7 +32,7 @@ public class FileFunctions extends FunctionRule {
 	/**
 	 * 保存单个文件
 	 * 
-	 * @param file
+	 * @param file 预保存文件
 	 * @return
 	 */
 	public static String saveFile(MultipartFile file) throws MutilsErrorException {
@@ -179,4 +180,15 @@ public class FileFunctions extends FunctionRule {
 		}
 	}
 
+	/**
+	 *  根据项目配置 获取文件的网页完整访问路径
+	 * @param path
+	 * @return
+	 */
+	public static String getRequestUrl(String path) {
+		if(StringUtil.isBlank(path)) {
+			return "";
+		}
+		return FileConfig.fileConfig.getServerUrl()+"files/"+path;
+	}
 }

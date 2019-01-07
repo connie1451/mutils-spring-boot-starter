@@ -3,7 +3,7 @@ package cn.minsin.core.init;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.tools.StringUtil;
 
-public class WechatPayCoreConfig implements InitConfig {
+public class WechatPayCoreConfig extends InitConfig {
 
 	public static WechatPayCoreConfig wechatPayConfig;
 

@@ -5,7 +5,7 @@ import java.io.File;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.tools.StringUtil;
 
-public class ExcelConfig  implements InitConfig{
+public class ExcelConfig  extends InitConfig{
 	
 	public  static ExcelConfig excelConfig;
 	

@@ -3,17 +3,31 @@ package cn.minsin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Random;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.FileConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.DateUtil;
-import cn.minsin.core.tools.StringUtil;
+import cn.minsin.core.web.Result;
 
 public class FileFunctions extends FunctionRule {
 
@@ -36,36 +50,36 @@ public class FileFunctions extends FunctionRule {
 	 * @return
 	 */
 	public static String saveFile(MultipartFile file) throws MutilsErrorException {
+		boolean local = FileConfig.fileConfig.isLocal();
+		if (local) {
+			return localSave(file);
+		}
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
+			String[] serverList = FileConfig.fileConfig.getServerList();
+			int nextInt = new Random().nextInt(serverList.length);
+			final String remote_url = serverList[nextInt] + "/upload";// 第三方服务器请求地址
+			HttpPost httpPost = new HttpPost(remote_url);
 			String fileName = file.getOriginalFilename();
-			String gName = fileName;
-			String savePath = DateUtil.date2String(new Date(), "yyyyMMdd/");
-			String path = FileConfig.fileConfig.getSaveDisk() + savePath;
-			// 定义上传路径
-			checkPath(path);
-			int count = 0;
-			while (true) {
-				String fileUrl = path + gName;
-				boolean exists = new File(fileUrl).exists();
-				if (exists) {
-					int index = fileName.lastIndexOf(".");
-					String extension = "";
-					if (index > 0) {
-						extension = fileName.substring(index, fileName.length());
-					}
-					count++;
-					gName = fileName.replace(extension, "") + "-副本(" + count + ")" + extension;
-					continue;
-				}
-				// 写入文件
-				OutputStream out = new FileOutputStream(fileUrl);
-				out.write(file.getBytes());
-				out.flush();
-				out.close();
-				return savePath + gName;
-			}
+			MultipartEntityBuilder builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.RFC6532);
+			builder.addBinaryBody("file", file.getInputStream(), ContentType.DEFAULT_BINARY, fileName);// 文件流
+			builder.addTextBody("filename", fileName);// 类似浏览器表单提交，对应input的name和value
+			HttpEntity entity = builder.build();
+			httpPost.setEntity(entity);
+			HttpResponse response = httpClient.execute(httpPost);// 执行提交
+			HttpEntity responseEntity = response.getEntity();
+			// 将响应内容转换为字符串
+			String result = EntityUtils.toString(responseEntity, Charset.forName("UTF-8"));
+			Result parseObject = JSON.parseObject(result, Result.class);
+			return parseObject.getMultidata().get("url").toString();
 		} catch (Exception e) {
-			throw new MutilsErrorException(e, "保存文件失败");
+			throw new MutilsErrorException(e, "文件保存失败. file save faild");
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+				throw new MutilsErrorException(e,"文件保存失败. file save faild");
+			}
 		}
 	}
 
@@ -83,7 +97,7 @@ public class FileFunctions extends FunctionRule {
 			try {
 				saveFile = saveFile(file[i]);
 			} catch (MutilsErrorException e) {
-				slog.info("{} save failed.error message {}", file[i].getOriginalFilename(),e);
+				slog.info("{} save failed.error message {}", file[i].getOriginalFilename(), e);
 			}
 			if (saveFile != null) {
 				result[i] = saveFile;
@@ -180,15 +194,38 @@ public class FileFunctions extends FunctionRule {
 		}
 	}
 
-	/**
-	 *  根据项目配置 获取文件的网页完整访问路径
-	 * @param path
-	 * @return
-	 */
-	public static String getRequestUrl(String path) {
-		if(StringUtil.isBlank(path)) {
-			return "";
+	static String localSave(MultipartFile file) throws MutilsErrorException {
+		try {
+			String fileName = file.getOriginalFilename().replace(",", "");
+			String gName = fileName;
+			String savePath = DateUtil.date2String(new Date(), "yyyyMMdd/");
+			String path = FileConfig.fileConfig.getSaveDisk() + savePath;
+			// 定义上传路径
+			checkPath(path);
+			int count = 0;
+			while (true) {
+				String fileUrl = path + gName;
+				boolean exists = new File(fileUrl).exists();
+				if (exists) {
+					int index = fileName.lastIndexOf(".");
+					String extension = "";
+					if (index > 0) {
+						extension = fileName.substring(index, fileName.length());
+					}
+					count++;
+					gName = fileName.replace(extension, "") + "-副本(" + count + ")" + extension;
+					continue;
+				}
+				// 写入文件
+				OutputStream out = new FileOutputStream(fileUrl);
+				out.write(file.getBytes());
+				out.flush();
+				out.close();
+				return savePath + gName;
+			}
+		} catch (Exception e) {
+			throw new MutilsErrorException(e, "文件保存失败. file save faild");
 		}
-		return FileConfig.fileConfig.getServerUrl()+"files/"+path;
+
 	}
 }

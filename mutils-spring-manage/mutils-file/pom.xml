@@ -26,6 +26,11 @@
 			<artifactId>spring-webmvc</artifactId>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>mutils-file</finalName>

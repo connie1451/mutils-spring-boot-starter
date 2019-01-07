@@ -147,7 +147,7 @@ public class MutilsProperties {
 		/**
 		 * *此属性不用填写
 		 * 这是对于FileConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.AlipayConfig} 查看各属性的意义
+		 * 请查看{@link cn.minsin.core.init.FileConfig} 查看各属性的意义
 		 */
 		private String description;
 

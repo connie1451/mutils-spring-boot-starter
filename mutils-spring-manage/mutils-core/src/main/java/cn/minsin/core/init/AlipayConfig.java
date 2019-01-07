@@ -3,7 +3,7 @@ package cn.minsin.core.init;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.tools.StringUtil;
 
-public class AlipayConfig implements InitConfig {
+public class AlipayConfig extends InitConfig {
 	
 	public static AlipayConfig alipayConfig;
 

@@ -18,8 +18,13 @@ import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 
+/**
+ * 	可以参考 {@link HttpClients} 这个帮助类
+ * @author minsin
+ */
 public class HttpClientUtil {
 	/**
 	 * 获取SSL验证的HttpClient
@@ -107,5 +112,4 @@ public class HttpClientUtil {
 		pmethod.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/;q=0.8");
 		return pmethod;
 	}
-
 }

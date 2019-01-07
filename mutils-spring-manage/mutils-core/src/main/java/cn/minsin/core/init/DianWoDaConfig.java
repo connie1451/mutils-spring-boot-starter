@@ -3,7 +3,7 @@ package cn.minsin.core.init;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.tools.StringUtil;
 
-public class DianWoDaConfig implements InitConfig {
+public class DianWoDaConfig extends InitConfig {
 
 	public static DianWoDaConfig dianWoDaConfig;
 	

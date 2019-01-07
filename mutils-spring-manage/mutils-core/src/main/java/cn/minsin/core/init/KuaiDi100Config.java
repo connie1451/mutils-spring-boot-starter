@@ -3,7 +3,7 @@ package cn.minsin.core.init;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.tools.StringUtil;
 
-public class KuaiDi100Config implements InitConfig {
+public class KuaiDi100Config extends InitConfig {
 	
 	public  static KuaiDi100Config kuaiDi100Config;
 	

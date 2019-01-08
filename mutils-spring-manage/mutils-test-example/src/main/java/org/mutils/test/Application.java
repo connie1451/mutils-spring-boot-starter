@@ -1,4 +1,4 @@
-package org.mutils.test.example;
+package org.mutils.test;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

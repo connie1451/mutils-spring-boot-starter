@@ -1,5 +1,7 @@
 package cn.minsin.alipay.model;
 
+import java.math.BigDecimal;
+
 import cn.minsin.core.rule.ModelRule;
 
 public class TransferModel extends ModelRule {
@@ -27,7 +29,7 @@ public class TransferModel extends ModelRule {
 	/**
 	 * 转账金额
 	 */
-	private String amount;
+	private BigDecimal amount;
 
 	/**
 	 * 转账名称
@@ -71,11 +73,11 @@ public class TransferModel extends ModelRule {
 		return this;
 	}
 
-	public String getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public TransferModel setAmount(String amount) {
+	public TransferModel setAmount(BigDecimal amount) {
 		this.amount = amount;
 		return this;
 	}

@@ -4,8 +4,12 @@ import java.math.BigDecimal;
 
 import cn.minsin.core.rule.ModelRule;
 
+/**
+ * 支付宝支付所需参数
+ * @author mintonzhang
+ * @date 2019年1月10日
+ */
 public class PayModel  extends ModelRule{
-	
 	/**
 	 * 
 	 */
@@ -16,7 +20,6 @@ public class PayModel  extends ModelRule{
 	private String out_trade_no;
 	//金额  两位小数 不能为负数
 	private BigDecimal total_amount;
-	
 	
 	public String getSubject() {
 		return subject;
@@ -36,7 +39,4 @@ public class PayModel  extends ModelRule{
 	public void setTotal_amount(BigDecimal total_amount) {
 		this.total_amount = total_amount;
 	}
-	
-	
-	
 }

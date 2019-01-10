@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 
 import cn.minsin.core.rule.ModelRule;
 
+/**
+ * 支付宝转账
+ * @author mintonzhang
+ * @date 2019年1月10日
+ */
 public class TransferModel extends ModelRule {
 
 	/**
@@ -107,10 +112,6 @@ public class TransferModel extends ModelRule {
 	public TransferModel setRemark(String remark) {
 		this.remark = remark;
 		return this;
-	}
-
-	public static TransferModel init() {
-		return new TransferModel();
 	}
 
 }

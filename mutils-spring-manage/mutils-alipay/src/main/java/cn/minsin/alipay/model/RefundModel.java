@@ -2,6 +2,11 @@ package cn.minsin.alipay.model;
 
 import cn.minsin.core.rule.ModelRule;
 
+/**
+ * 支付宝退款
+ * @author mintonzhang
+ * @date 2019年1月10日
+ */
 public class RefundModel extends ModelRule{
 
 	/**

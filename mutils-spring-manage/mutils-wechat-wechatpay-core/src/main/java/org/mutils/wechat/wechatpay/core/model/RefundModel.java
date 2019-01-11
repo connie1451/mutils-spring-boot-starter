@@ -50,7 +50,7 @@ public class RefundModel extends BaseWeChatPayModel {
 	 */
 	private String refund_desc;
 	
-	public void setAppid(String appid) {
+	protected void setAppid(String appid) {
 		this.appid = appid;
 	}
 	

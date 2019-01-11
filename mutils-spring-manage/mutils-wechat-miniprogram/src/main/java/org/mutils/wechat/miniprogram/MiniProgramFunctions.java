@@ -21,9 +21,9 @@ import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.encoders.Base64;
 import org.mutils.wechat.miniprogram.model.Code2SessionReturnModel;
 import org.mutils.wechat.miniprogram.model.MiniProgramOrderPayModel;
+import org.mutils.wechat.miniprogram.model.MiniProgramRefundModel;
 import org.mutils.wechat.miniprogram.model.UserInfoModel;
 import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
-import org.mutils.wechat.wechatpay.core.model.RefundModel;
 import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -154,8 +154,7 @@ public class MiniProgramFunctions extends WeChatPayFunctions {
 	 * @return
 	 * @throws MutilsErrorException
 	 */
-	public static Map<String, String> createMiniProgramRefundParamter(RefundModel model) throws MutilsErrorException {
-		model.setAppid(WechatMiniProgramConfig.wechatMiniProgramConfig.getAppid());
+	public static Map<String, String> createMiniProgramRefundParamter(MiniProgramRefundModel model) throws MutilsErrorException {
 		return createRefundRequest(model);
 	}
 }

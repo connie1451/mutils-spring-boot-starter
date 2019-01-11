@@ -5,12 +5,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.mutils.wechat.jsapi.model.JsapiOrderPayModel;
+import org.mutils.wechat.jsapi.model.JsapiRefundModel;
 import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
-import org.mutils.wechat.wechatpay.core.model.RefundModel;
 import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import cn.minsin.core.exception.MutilsErrorException;
-import cn.minsin.core.init.WechatMiniProgramConfig;
 import cn.minsin.core.init.WechatPayCoreConfig;
 
 /**
@@ -28,9 +27,7 @@ public class JsapiFunctions extends WeChatPayFunctions {
 	 * @return
 	 * @throws MutilsErrorException
 	 */
-	public static Map<String, String> createMiniProgramRefundParamter(RefundModel model) throws MutilsErrorException {
-		//TODO sjapi
-		model.setAppid(WechatMiniProgramConfig.wechatMiniProgramConfig.getAppid());
+	public static Map<String, String> createMiniProgramRefundParamter(JsapiRefundModel model) throws MutilsErrorException {
 		return createRefundRequest(model);
 	}
 	

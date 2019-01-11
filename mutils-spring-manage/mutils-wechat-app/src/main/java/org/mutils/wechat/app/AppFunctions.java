@@ -4,13 +4,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.mutils.wechat.app.model.AppOrderPayModel;
+import org.mutils.wechat.app.model.AppRefundModel;
 import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
-import org.mutils.wechat.wechatpay.core.model.BaseWeChatPayModel;
-import org.mutils.wechat.wechatpay.core.model.RefundModel;
 import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import cn.minsin.core.exception.MutilsErrorException;
-import cn.minsin.core.init.WechatMiniProgramConfig;
 import cn.minsin.core.init.WechatPayCoreConfig;
 
 /**
@@ -27,7 +26,7 @@ public class AppFunctions extends WeChatPayFunctions {
 	 * @return APP能发起的请求的包装内容
 	 * @throws MutilsErrorException
 	 */
-	public static Map<String, String> createAppPayParamter(BaseWeChatPayModel model) throws MutilsErrorException {
+	public static Map<String, String> createAppPayParamter(AppOrderPayModel model) throws MutilsErrorException {
 		Map<String, String> doXMLParse = createUnifiedOrder(model);
 		checkMap(doXMLParse);
 		SortedMap<String, String> sortMap = new TreeMap<>();
@@ -57,9 +56,7 @@ public class AppFunctions extends WeChatPayFunctions {
 	 * @return
 	 * @throws MutilsErrorException
 	 */
-	public static Map<String, String> createMiniProgramRefundParamter(RefundModel model) throws MutilsErrorException {
-		//TODO 设置app的相关配置
-		model.setAppid(WechatMiniProgramConfig.wechatMiniProgramConfig.getAppid());
+	public static Map<String, String> createMiniProgramRefundParamter(AppRefundModel model) throws MutilsErrorException {
 		return createRefundRequest(model);
 	}
 }

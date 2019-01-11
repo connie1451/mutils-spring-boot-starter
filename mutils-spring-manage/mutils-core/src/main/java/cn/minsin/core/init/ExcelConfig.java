@@ -3,23 +3,26 @@ package cn.minsin.core.init;
 import java.io.File;
 
 import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class ExcelConfig  extends InitConfig{
 	
 	public  static ExcelConfig excelConfig;
 	
-	/**
-	 * excel统一错误模板
-	 */
+	//excel统一错误模板
 	private String errorTemplatePath;
 	
+	//开始解析的sheet下标
 	private int errorTemplateSheetIndex=0;
 	
+	//开始解析的row下标
 	private int errorTemplateRowIndex=0;
 	
+	//开始解析的cell下标
 	private int errorTemplateCellIndex=0;
 	
+	//输出文件名
 	private String errorTemplateExportName="错误概要";
 	
 
@@ -74,7 +77,7 @@ public class ExcelConfig  extends InitConfig{
 
 
 	@Override
-	public void done() {
+	protected void done() {
 		if(StringUtil.isBlank(errorTemplatePath)) {
 			throw new MutilsException("Excel 初始化失败,请检查配置文件是否正确.");
 		}
@@ -82,6 +85,13 @@ public class ExcelConfig  extends InitConfig{
 			throw new MutilsException("Excel 初始化失败,错误模板文件:"+errorTemplatePath+" 不存在.");
 		}
 		excelConfig = this;
+	}
+
+
+	@Override
+	protected void showInfomation() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

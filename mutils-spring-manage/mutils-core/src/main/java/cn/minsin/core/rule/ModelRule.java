@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSON;
 
 /**
@@ -23,6 +26,8 @@ public abstract class ModelRule implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 57625408003186203L;
+	
+	protected  Logger  log = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public String toString() {
@@ -53,11 +58,16 @@ public abstract class ModelRule implements Serializable {
 	}
 
 	protected Set<Field> getAllFields() {
-		Field[] fields = this.getClass().getDeclaredFields();
-		Field[] de = ModelRule.class.getDeclaredFields();
 		Set<Field> hashset = new HashSet<>();
-		hashset.addAll(Arrays.asList(fields));
-		hashset.addAll(Arrays.asList(de));
+		Class<?> clazz = this.getClass();
+		while (true) {
+			if (clazz == null) {
+				break;
+			}
+			Field[] fields = clazz.getDeclaredFields();
+			hashset.addAll(Arrays.asList(fields));
+			clazz = clazz.getSuperclass();
+		}
 		return hashset;
 	}
 }

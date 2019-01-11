@@ -1,7 +1,22 @@
 mutils:
-  functions:  - file
-  file:    local: false
-    server-list:    - http://192.168.1.7:7749/
+  functions:
+  - excel
+  - wechat-app
+  - wechat-jsapi
+  - file
+  excel:
+    error-template-cell-index: 0
+    error-template-path: E://error.xlsx
+    error-template-row-index: 0
+    error-template-export-name: 我是错的
+    error-template-sheet-index: 23234
+  wechat-app:
+    appid: 
+  file:
+    local: false
+    server-list:
+    - http://192.168.1.7/
+    
 server:  port: 3333
   
 spring: 

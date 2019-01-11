@@ -1,12 +1,14 @@
 package cn.minsin.core.init;
 
 import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class DianWoDaConfig extends InitConfig {
 
 	public static DianWoDaConfig dianWoDaConfig;
 	
+	//点我达有测试地址和正式服地址 
 	private String url;
 	
 	private String pk;
@@ -81,10 +83,15 @@ public class DianWoDaConfig extends InitConfig {
 
 
 	@Override
-	public void done() {
+	protected void done() {
 		if(StringUtil.isBlank(url,pk,sercret)){
 			throw new MutilsException("点我达  初始化失败,请检查配置文件是否正确.");
 		}
 		dianWoDaConfig = this;
+	}
+
+	@Override
+	protected void showInfomation() {
+		
 	}
 }

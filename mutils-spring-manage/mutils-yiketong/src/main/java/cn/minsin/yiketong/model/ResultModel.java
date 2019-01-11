@@ -2,6 +2,11 @@ package cn.minsin.yiketong.model;
 
 import cn.minsin.core.rule.ModelRule;
 
+/**
+ * 返回结果集
+ * @author mintonzhang
+ * @date 2019年1月10日
+ */
 public class ResultModel extends ModelRule {
 
 	/**

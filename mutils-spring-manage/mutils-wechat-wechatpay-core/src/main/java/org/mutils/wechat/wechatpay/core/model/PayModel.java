@@ -11,32 +11,32 @@ public class PayModel extends BaseWeChatPayModel {
 
 	// 小程序 app 公众号 需要填写对应的appid
 	private String appid;
-
+	//商户id
 	private String mch_id = WechatPayCoreConfig.wechatPayConfig.getPartnerId();
-
+	//随机字符串
 	private String nonce_str = String.valueOf(System.currentTimeMillis());
-
+	//签名 不用设置
 	private String sign;
-
+	//签名类型
 	private String sign_type = "MD5";
-
+	//简介
 	private String body;
-
+	//订单号
 	private String out_trade_no;
-
+	//总金额
 	private int total_fee;
-
+	//ip
 	private String spbill_create_ip = "192.168.1.1";
-
+	//回调地址
 	private String notify_url;
-
+	//交易类型
 	private String trade_type;
 
 	public String getAppid() {
 		return appid;
 	}
 
-	public void setAppid(String appid) {
+	protected void setAppid(String appid) {
 		this.appid = appid;
 	}
 

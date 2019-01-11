@@ -1,6 +1,7 @@
 package cn.minsin.core.init;
 
 import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class WechatPayCoreConfig extends InitConfig {
@@ -36,6 +37,8 @@ public class WechatPayCoreConfig extends InitConfig {
 	
 	//提现地址
 	private String withdrawUrl ="https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+	
+	
 	
 	
 
@@ -123,7 +126,7 @@ public class WechatPayCoreConfig extends InitConfig {
 	}
 
 	@Override
-	public void done() {
+	protected void done() {
 		if (StringUtil.isBlank(partnerId, partnerKey, notifyUrl, unifiedOrderUrl)) {
 			throw new MutilsException("微信支付初始化失败,请检查配置文件是否正确. A error when initialization the basic config for wechat pay, please check config");
 		}
@@ -132,6 +135,13 @@ public class WechatPayCoreConfig extends InitConfig {
 				throw new MutilsException("微信支付退款初始化失败,请检查配置文件是否正确. The refund config of wechat pay was initialization failed.");
 			}
 		}
-		wechatPayConfig = this;
+		wechatPayConfig =this;
+	}
+
+
+	@Override
+	protected void showInfomation() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -196,7 +196,7 @@ public class FileFunctions extends FunctionRule {
 
 	static String localSave(MultipartFile file) throws MutilsErrorException {
 		try {
-			String fileName = file.getOriginalFilename().replace(",", "");
+			String fileName = file.getOriginalFilename();
 			String gName = fileName;
 			String savePath = DateUtil.date2String(new Date(), "yyyyMMdd/");
 			String path = FileConfig.fileConfig.getSaveDisk() + savePath;

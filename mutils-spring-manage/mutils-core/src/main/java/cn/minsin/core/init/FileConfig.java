@@ -1,13 +1,14 @@
 package cn.minsin.core.init;
 
 import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class FileConfig extends InitConfig {
 
 	public static FileConfig fileConfig;
 
-	//服务地址
+	//服务地址 远程保存地址
 	private String[] serverList;
 
 	// 是否使用本地化保存 如果为true saveDisk,serverUrl 不能为空 如果为false serverList 不能为空
@@ -55,11 +56,7 @@ public class FileConfig extends InitConfig {
 	}
 
 	@Override
-	public void done() {
-		log.info("\n如果isLocal为true,saveDisk和serverUrl是必填项.\n"
-				+ "如果isLocal为false,serverList是必填项.\n"
-				+ "If isLocal is true,saveDisk and serverUrl must not be null.\n"
-				+ "If isLocal is false,serverList must not be null.");
+	protected void done() {
 		if (isLocal) {
 			if (StringUtil.isBlank(saveDisk, serverUrl)) {
 				throw new MutilsException("文件上传  初始化失败,请检查配置文件是否正确.");
@@ -78,5 +75,10 @@ public class FileConfig extends InitConfig {
 			}
 		}
 		fileConfig = this;
+	}
+
+	@Override
+	protected void showInfomation() {
+		log.info("If isLocal is true,saveDisk and serverUrl must not be null.If isLocal is false,serverList must not be null.");
 	}
 }

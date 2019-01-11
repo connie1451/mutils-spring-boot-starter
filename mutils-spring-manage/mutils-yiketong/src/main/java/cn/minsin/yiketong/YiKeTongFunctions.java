@@ -25,9 +25,9 @@ import cn.minsin.yiketong.util.ParamUtil;
 import cn.minsin.yiketong.util.SignUtil;
 
 /**
- * 移客通号码转发功能
- * 
- * @author mintonzhang@163.com 2019年1月8日
+ * 移客通号码转发功能 功能列表
+ * @author mintonzhang
+ * @date 2019年1月10日
  */
 public class YiKeTongFunctions extends FunctionRule {
 

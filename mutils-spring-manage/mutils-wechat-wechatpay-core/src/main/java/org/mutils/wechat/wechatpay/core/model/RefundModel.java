@@ -14,9 +14,9 @@ public class RefundModel extends BaseWeChatPayModel {
 	 */
 	private static final long serialVersionUID = -3579818110826754665L;
 	/**
-	 * 公众账号ID
+	 * 支付时的appid
 	 */
-	private String appid = WechatPayCoreConfig.wechatPayConfig.getPublicAppId();
+	private String appid;
 	/**
 	 * 商户号
 	 */
@@ -49,6 +49,11 @@ public class RefundModel extends BaseWeChatPayModel {
 	 * 退款原因：可不填
 	 */
 	private String refund_desc;
+	
+	public void setAppid(String appid) {
+		this.appid = appid;
+	}
+	
 	public String getTransaction_id() {
 		return transaction_id;
 	}

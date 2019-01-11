@@ -2,9 +2,17 @@ package cn.minsin.spring.boot.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.alibaba.fastjson.JSON;
-
-import cn.minsin.core.init.MutilsFunctions;
+import cn.minsin.core.init.AlipayConfig;
+import cn.minsin.core.init.DianWoDaConfig;
+import cn.minsin.core.init.ExcelConfig;
+import cn.minsin.core.init.FileConfig;
+import cn.minsin.core.init.KuaiDi100Config;
+import cn.minsin.core.init.WechatAppConfig;
+import cn.minsin.core.init.WechatJsapiConfig;
+import cn.minsin.core.init.WechatMiniProgramConfig;
+import cn.minsin.core.init.WechatPayCoreConfig;
+import cn.minsin.core.init.YiKeTongConfig;
+import cn.minsin.core.init.core.MutilsFunctions;
 
 @ConfigurationProperties(prefix = MutilsProperties.MUTILS_PREFIX)
 public class MutilsProperties {
@@ -16,24 +24,87 @@ public class MutilsProperties {
 	 */
 	private MutilsFunctions[] functions;
 	/**
-	 * 支付宝初始化参数 {@code cn.minsin.core.init.AlipayConfig}
+	 * 支付宝初始化参数 {@code  cn.minsin.core.init.AlipayConfig}
 	 */
-	private Alipay alipay = new Alipay();
+	private AlipayConfig alipay = new AlipayConfig();
 
-	private Excel excel = new Excel();
+	/**
+	 * excel
+	 */
+	private ExcelConfig excel = new ExcelConfig();
 	
-	private File file = new File();
+	/**
+	 * 文件上传
+	 */
+	private FileConfig file = new FileConfig();
 	
-	private KuaiDi100 kuaidi100 = new KuaiDi100();
+	/**
+	 * 快递100配置文件
+	 */
+	private KuaiDi100Config kuaidi100 = new KuaiDi100Config();
 	
-	private  WechatPayCore wechatPayCore = new WechatPayCore();
+
+	/**
+	 * 移客通配置文件
+	 */
+	private YiKeTongConfig yiketong = new YiKeTongConfig();
 	
-	private YiKeTong yiketong = new YiKeTong();
+	/**
+	 * 点我达配置文件
+	 */
+	private DianWoDaConfig dianwoda = new DianWoDaConfig();
 	
-	private DianWoDa dianwoda = new DianWoDa();
+	/**
+	 * 微信支付相关配置 注意：微信支付必须要填写此项
+	 */
+	private  WechatPayCoreConfig wechatPayCore = new WechatPayCoreConfig();
 	
-	private WechatMiniProgram wechatMiniProgram = new WechatMiniProgram();
+	/**
+	 * 微信-小程序相关配置
+	 */
+	private WechatMiniProgramConfig wechatMiniProgram = new WechatMiniProgramConfig();
 	
+	/**
+	 * 微信-app相关配置
+	 */
+	private WechatAppConfig wechatApp = new WechatAppConfig();
+	
+	/**
+	 * 微信-jsapi的相关配置文件
+	 */
+	private WechatJsapiConfig wechatJsapi = new WechatJsapiConfig();
+	
+	/**
+	 * 描述文件:
+	 * 请查看对应config的配置文件
+	 * 
+	 */
+	private String readMe;
+	
+	
+	public String getReadMe() {
+		return readMe;
+	}
+
+	public void setReadMe(String readMe) {
+		this.readMe = readMe;
+	}
+
+	public WechatAppConfig getWechatApp() {
+		return wechatApp;
+	}
+
+	public void setWechatApp(WechatAppConfig wechatApp) {
+		this.wechatApp = wechatApp;
+	}
+
+	public WechatJsapiConfig getWechatJsapi() {
+		return wechatJsapi;
+	}
+
+	public void setWechatJsapi(WechatJsapiConfig wechatJsapi) {
+		this.wechatJsapi = wechatJsapi;
+	}
 
 	public MutilsFunctions[] getFunctions() {
 		return functions;
@@ -42,207 +113,68 @@ public class MutilsProperties {
 	public void setFunctions(MutilsFunctions[] functions) {
 		this.functions = functions;
 	}
-
-	public Alipay getAlipay() {
+	
+	public AlipayConfig getAlipay() {
 		return alipay;
 	}
 
-	public void setAlipay(Alipay alipay) {
+	public void setAlipay(AlipayConfig alipay) {
 		this.alipay = alipay;
 	}
 
-	public Excel getExcel() {
+	public ExcelConfig getExcel() {
 		return excel;
 	}
 
-	public void setExcel(Excel excel) {
+	public void setExcel(ExcelConfig excel) {
 		this.excel = excel;
 	}
 
-	public File getFile() {
+	public FileConfig getFile() {
 		return file;
 	}
 
-	public void setFile(File file) {
+	public void setFile(FileConfig file) {
 		this.file = file;
 	}
 
-	public KuaiDi100 getKuaidi100() {
+	public KuaiDi100Config getKuaidi100() {
 		return kuaidi100;
 	}
 
-	public void setKuaidi100(KuaiDi100 kuaidi100) {
+	public void setKuaidi100(KuaiDi100Config kuaidi100) {
 		this.kuaidi100 = kuaidi100;
 	}
 
-	public WechatPayCore getWechatPayCore() {
-		return wechatPayCore;
-	}
-
-	public void setWechatPayCore(WechatPayCore wechatPayCore) {
-		this.wechatPayCore = wechatPayCore;
-	}
-
-	public YiKeTong getYiketong() {
+	public YiKeTongConfig getYiketong() {
 		return yiketong;
 	}
 
-	public void setYiketong(YiKeTong yiketong) {
+	public void setYiketong(YiKeTongConfig yiketong) {
 		this.yiketong = yiketong;
 	}
 
-	public DianWoDa getDianwoda() {
+	public DianWoDaConfig getDianwoda() {
 		return dianwoda;
 	}
 
-	public void setDianwoda(DianWoDa dianwoda) {
+	public void setDianwoda(DianWoDaConfig dianwoda) {
 		this.dianwoda = dianwoda;
 	}
 
-	public WechatMiniProgram getWechatMiniProgram() {
+	public WechatPayCoreConfig getWechatPayCore() {
+		return wechatPayCore;
+	}
+
+	public void setWechatPayCore(WechatPayCoreConfig wechatPayCore) {
+		this.wechatPayCore = wechatPayCore;
+	}
+
+	public WechatMiniProgramConfig getWechatMiniProgram() {
 		return wechatMiniProgram;
 	}
 
-	public void setWechatMiniProgram(WechatMiniProgram wechatMiniProgram) {
+	public void setWechatMiniProgram(WechatMiniProgramConfig wechatMiniProgram) {
 		this.wechatMiniProgram = wechatMiniProgram;
 	}
-
-
-
-	static class Excel extends cn.minsin.core.init.ExcelConfig {
-		
-		/**
-		 * *此属性不用填写
-		 * 这是对于ExcelConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.ExcelConfig} 查看各属性的意义
-		 */
-		private String description;
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	static class Alipay extends cn.minsin.core.init.AlipayConfig {
-		/**
-		 * *此属性不用填写
-		 * 这是对于AlipayConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.AlipayConfig} 查看各属性的意义
-		 */
-		private String description;
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		
-	}
-	static class File extends cn.minsin.core.init.FileConfig{
-		/**
-		 * *此属性不用填写
-		 * 这是对于FileConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.FileConfig} 查看各属性的意义
-		 */
-		private String description;
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	static class KuaiDi100 extends cn.minsin.core.init.KuaiDi100Config{
-		/**
-		 * *此属性不用填写
-		 * 这是对于KuaiDi100Config 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.KuaiDi100Config} 查看各属性的意义
-		 */
-		private String description;
-		
-		public String getDescription() {
-			return description;
-		}
-		
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	static class WechatPayCore extends cn.minsin.core.init.WechatPayCoreConfig{
-		/**
-		 * *此属性不用填写
-		 * 这是对于WechatPayConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.WechatPayCoreConfig} 查看各属性的意义
-		 */
-		private String description;
-		
-		public String getDescription() {
-			return description;
-		}
-		
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	static class YiKeTong extends cn.minsin.core.init.YiKeTongConfig{
-		/**
-		 * *此属性不用填写
-		 * 这是对于YiKeTongConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.YiKeTongConfig} 查看各属性的意义
-		 */
-		private String description;
-		
-		public String getDescription() {
-			return description;
-		}
-		
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	static class DianWoDa extends cn.minsin.core.init.DianWoDaConfig{
-		/**
-		 * *此属性不用填写
-		 * 这是对于DianWoDaConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.DianWoDaConfig} 查看各属性的意义
-		 */
-		private String description;
-		
-		public String getDescription() {
-			return description;
-		}
-		
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	static class WechatMiniProgram extends cn.minsin.core.init.WechatMiniProgramConfig{
-		/**
-		 * *此属性不用填写
-		 * 这是对于MiniProgramConfig 的一个简单的描述.
-		 * 请查看{@link cn.minsin.core.init.WechatMiniProgramConfig} 查看各属性的意义
-		 */
-		private String description;
-		
-		public String getDescription() {
-			return description;
-		}
-		
-		public void setDescription(String description) {
-			this.description = description;
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return JSON.toJSONString(this);
-	}
-
 }

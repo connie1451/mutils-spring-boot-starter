@@ -2,6 +2,9 @@ package org.mutils.wechat.miniprogram;
 
 import java.security.AlgorithmParameters;
 import java.security.Security;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -17,23 +20,26 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.encoders.Base64;
 import org.mutils.wechat.miniprogram.model.Code2SessionReturnModel;
+import org.mutils.wechat.miniprogram.model.MiniProgramOrderPayModel;
 import org.mutils.wechat.miniprogram.model.UserInfoModel;
+import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
+import org.mutils.wechat.wechatpay.core.model.RefundModel;
+import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatMiniProgramConfig;
-import cn.minsin.core.rule.FunctionRule;
+import cn.minsin.core.init.WechatPayCoreConfig;
 import cn.minsin.core.tools.HttpClientUtil;
 
 /**
- * 小程序相关接口
- * 
- * @author minsin
- *
+ * 小程序相关功能
+ * @author mintonzhang
+ * @date 2019年1月10日
  */
-public class MiniProgramFunctions extends FunctionRule {
+public class MiniProgramFunctions extends WeChatPayFunctions {
 
 	/**
 	 * 获取sessionkey和openid,一般用于小程序授权登录.
@@ -107,4 +113,49 @@ public class MiniProgramFunctions extends FunctionRule {
 		}
 	}
 
+	
+	/**
+	 * 创建小程序支付的请求参数 小程序将用其发起微信支付
+	 * 
+	 * @param model 下单时的包装对象
+	 * @return 小程序能发起的请求的包装内容
+	 * @throws MutilsErrorException
+	 */
+	public static Map<String, String> createMiniProgramPayParamter(MiniProgramOrderPayModel model)
+			throws MutilsErrorException {
+		Map<String, String> doXMLParse = createUnifiedOrder(model);
+		checkMap(doXMLParse);
+		SortedMap<String, String> sortMap = new TreeMap<>();
+		try {
+			// appId、timeStamp、nonceStr、package、signType
+			String appId = doXMLParse.get("appid");
+			String nonceStr = doXMLParse.get("nonce_str");
+			String package_str = "prepay_id=" + doXMLParse.get("prepay_id");
+			String signType = "MD5";
+			String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
+			sortMap.put("appId", appId);
+			sortMap.put("nonceStr", nonceStr);
+			sortMap.put("package", package_str);
+			sortMap.put("signType", signType);
+			sortMap.put("timeStamp", timeStamp);
+			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
+			sortMap.put("paySign", sign);
+			sortMap.remove("appId");
+			return sortMap;
+		} catch (Exception e) {
+			throw new MutilsErrorException(e, "发起小程序支付失败");
+		}
+	}
+	
+	/**
+	 * 发起退款申请
+	 * 
+	 * @param model
+	 * @return
+	 * @throws MutilsErrorException
+	 */
+	public static Map<String, String> createMiniProgramRefundParamter(RefundModel model) throws MutilsErrorException {
+		model.setAppid(WechatMiniProgramConfig.wechatMiniProgramConfig.getAppid());
+		return createRefundRequest(model);
+	}
 }

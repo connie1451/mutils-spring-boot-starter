@@ -1,18 +1,19 @@
 package cn.minsin.core.init;
 
 import cn.minsin.core.exception.MutilsException;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class AlipayConfig extends InitConfig {
-	
+
 	public static AlipayConfig alipayConfig;
 
-	//支付宝的APPID 需要在官方申请
+	// 支付宝的APPID 需要在官方申请
 	private String appid;
 
 	// 2.私钥 pkcs8格式的
 	private String privateKey;
-	
+
 	// 3.支付宝公钥
 	private String publicKey;
 
@@ -23,7 +24,7 @@ public class AlipayConfig extends InitConfig {
 	private String returnUrl;
 
 	// 6.请求网关地址
-	private String serverUrl ="https://openapi.alipay.com/gateway.do";
+	private String serverUrl = "https://openapi.alipay.com/gateway.do";
 
 	// 7.编码
 	private String charset = "UTF-8";
@@ -74,7 +75,6 @@ public class AlipayConfig extends InitConfig {
 		this.returnUrl = returnUrl;
 	}
 
-
 	public String getServerUrl() {
 		return serverUrl;
 	}
@@ -108,10 +108,15 @@ public class AlipayConfig extends InitConfig {
 	}
 
 	@Override
-	public void done() {
-		if(StringUtil.isBlank(appid,privateKey,publicKey,notifyUrl,returnUrl,serverUrl)) {
+	protected void done() {
+		if (StringUtil.isBlank(appid, privateKey, publicKey, notifyUrl, returnUrl, serverUrl)) {
 			throw new MutilsException("支付宝支付初始化失败,请检查配置文件是否正确.");
 		}
 		alipayConfig = this;
+	}
+
+	@Override
+	protected void showInfomation() {
+		
 	}
 }

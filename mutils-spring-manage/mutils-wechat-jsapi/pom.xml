@@ -9,30 +9,20 @@
 		<artifactId>mutils-spring-manage</artifactId>
 		<version>0.2.0</version>
 	</parent>
-	<artifactId>mutils-core</artifactId>
-	<name>mutils-core</name>
+	<artifactId>mutils-wechat-jsapi</artifactId>
+	<name>mutils-wechat-jsapi</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-			<scope>compile</scope>
+			<groupId>cn.minsin</groupId>
+			<artifactId>mutils-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
+			<groupId>cn.minsin</groupId>
+			<artifactId>mutils-wechat-wechatpay-core</artifactId>
 		</dependency>
 	</dependencies>
 </project>

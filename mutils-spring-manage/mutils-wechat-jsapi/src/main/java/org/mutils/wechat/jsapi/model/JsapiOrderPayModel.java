@@ -14,6 +14,7 @@ public class JsapiOrderPayModel extends PayModel {
 	public JsapiOrderPayModel() {
 		super();
 		this.setAppid(WechatAppConfig.wechatAppConfig.getAppid());
+		this.setTrade_type("JSAPI");
 	}
 
 	// 支付人的openid

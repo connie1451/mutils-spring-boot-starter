@@ -27,7 +27,7 @@ public abstract class ModelRule implements Serializable {
 	 */
 	private static final long serialVersionUID = 57625408003186203L;
 	
-	protected  Logger  log = LoggerFactory.getLogger(this.getClass());
+	protected final Logger  log = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public String toString() {

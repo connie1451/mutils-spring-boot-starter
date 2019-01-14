@@ -10,7 +10,7 @@ public class WithdrawModel extends BaseWeChatPayModel {
 	private static final long serialVersionUID = -780552795118313747L;
 
 	//申请商户号的appid或商户号绑定的appid
-	private String mch_appid = WechatPayCoreConfig.wechatPayConfig.getPublicAppId();
+	private String mch_appid;
 	
 	//	微信支付分配的商户号
 	private String mchid =WechatPayCoreConfig.wechatPayConfig.getPartnerId();

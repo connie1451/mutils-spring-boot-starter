@@ -13,6 +13,6 @@ public abstract class FunctionRule {
 
 	protected static final Logger slog = LoggerFactory.getLogger(FunctionRule.class);
 
-	protected  Logger  log = LoggerFactory.getLogger(this.getClass());
+	protected final Logger  log = LoggerFactory.getLogger(this.getClass());
 
 }

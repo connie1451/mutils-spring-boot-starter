@@ -1,6 +1,8 @@
 package cn.minsin.core.init;
 
+import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.core.InitConfig;
+import cn.minsin.core.tools.StringUtil;
 
 public class WechatAppConfig extends InitConfig {
 	
@@ -34,7 +36,10 @@ public class WechatAppConfig extends InitConfig {
 
 	@Override
 	protected void done() {
-		
+		if(StringUtil.isBlank(appid,appSecret)) {
+			throw new MutilsException("The wechat-app config was initialization failed.");
+		}
+		wechatAppConfig = this;
 	}
 
 	@Override

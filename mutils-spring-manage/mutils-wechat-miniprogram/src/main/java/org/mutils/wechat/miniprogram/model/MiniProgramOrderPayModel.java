@@ -12,7 +12,9 @@ public class MiniProgramOrderPayModel extends PayModel {
 	private static final long serialVersionUID = -1298640499066790288L;
 
 	public MiniProgramOrderPayModel() {
+		super();
 		this.setAppid(WechatMiniProgramConfig.wechatMiniProgramConfig.getAppid());
+		this.setTrade_type("JSAPI");
 	}
 	
 	//支付人的openid

@@ -20,8 +20,8 @@
 		<module>mutils-kuaidi100</module>
 		<module>mutils-wechat-wechatpay-core</module>
 		<module>mutils-wechat-miniprogram</module>
-    <module>mutils-wechat-jsapi</module>
-    <module>mutils-wechat-app</module>
+	    <module>mutils-wechat-jsapi</module>
+	    <module>mutils-wechat-app</module>
   </modules>
 
 	<properties>

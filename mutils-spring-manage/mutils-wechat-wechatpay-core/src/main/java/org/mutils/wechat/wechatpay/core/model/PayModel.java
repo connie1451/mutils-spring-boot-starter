@@ -15,8 +15,6 @@ public class PayModel extends BaseWeChatPayModel {
 	private String mch_id = WechatPayCoreConfig.wechatPayConfig.getPartnerId();
 	//随机字符串
 	private String nonce_str = String.valueOf(System.currentTimeMillis());
-	//签名 不用设置
-	private String sign;
 	//签名类型
 	private String sign_type = "MD5";
 	//简介
@@ -28,7 +26,7 @@ public class PayModel extends BaseWeChatPayModel {
 	//ip
 	private String spbill_create_ip = "192.168.1.1";
 	//回调地址
-	private String notify_url;
+	private String notify_url =WechatPayCoreConfig.wechatPayConfig.getNotifyUrl();
 	//交易类型
 	private String trade_type;
 
@@ -50,14 +48,6 @@ public class PayModel extends BaseWeChatPayModel {
 
 	public void setNonce_str(String nonce_str) {
 		this.nonce_str = nonce_str;
-	}
-
-	public String getSign() {
-		return sign;
-	}
-
-	public void setSign(String sign) {
-		this.sign = sign;
 	}
 
 	public String getSign_type() {
@@ -112,7 +102,7 @@ public class PayModel extends BaseWeChatPayModel {
 		return trade_type;
 	}
 
-	public void setTrade_type(String trade_type) {
+	protected void setTrade_type(String trade_type) {
 		this.trade_type = trade_type;
 	}
 }

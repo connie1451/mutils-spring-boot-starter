@@ -39,7 +39,7 @@ import cn.minsin.core.tools.HttpClientUtil;
  * @author mintonzhang
  * @date 2019年1月10日
  */
-public class MiniProgramFunctions extends WeChatPayFunctions {
+public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 
 	/**
 	 * 获取sessionkey和openid,一般用于小程序授权登录.

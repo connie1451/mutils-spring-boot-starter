@@ -37,7 +37,7 @@ public abstract class BaseWeChatPayModel extends ModelRule {
 		StringBuffer sb = new StringBuffer("<xml>");
 		for (Field field : getAllFields()) {
 			try {
-				if (Modifier.isStatic(field.getModifiers()))
+				if (Modifier.isStatic(field.getModifiers())||Modifier.isFinal(field.getModifiers()))
 					continue;
 				field.setAccessible(true);
 				Object object = field.get(this);

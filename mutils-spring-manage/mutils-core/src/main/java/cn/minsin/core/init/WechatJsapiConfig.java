@@ -64,6 +64,6 @@ public class WechatJsapiConfig extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-
+		slog.info("Required for initialization appid,appSecret");
 	}
 }

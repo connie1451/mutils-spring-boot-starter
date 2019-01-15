@@ -130,6 +130,7 @@ public class WechatPayCoreConfig extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-		
+		slog.info("Required for initialization partnerId,partnerKey,notifyUrl,unifiedOrderUrl."
+				+ "When withRefund is true,You also need certificatePath, refundUrl, certificateFormat");
 	}
 }

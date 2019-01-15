@@ -20,9 +20,6 @@ public class MutilsException extends RuntimeException{
 	public MutilsException(Throwable cause, String msg) {
 		super(msg,cause);
 	}
-	
-	
-
 	public MutilsException(Throwable cause) {
 		super(cause);
 	}

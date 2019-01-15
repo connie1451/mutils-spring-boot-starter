@@ -92,6 +92,6 @@ public class DianWoDaConfig extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-		
+		slog.info("Required for initialization url, pk, secret.");
 	}
 }

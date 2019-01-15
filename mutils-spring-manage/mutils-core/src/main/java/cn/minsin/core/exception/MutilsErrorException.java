@@ -20,5 +20,9 @@ public class MutilsErrorException extends Exception {
 	public MutilsErrorException(Throwable cause, String msg) {
 		super(msg,cause);
 	}
+	
+	public MutilsErrorException(Throwable cause) {
+		super(cause);
+	}
 
 }

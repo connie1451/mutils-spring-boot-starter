@@ -29,7 +29,7 @@ public class MapUtil {
 				String key = field.getName();
 				field.setAccessible(true);
 				Object object = field.get(model);
-				if(object!=null&&!"".equals(object.toString())) {
+				if(!StringUtil.isBlank(object)) {
 					hashMap.put(key, object);
 				}
 			}catch (Exception e) {

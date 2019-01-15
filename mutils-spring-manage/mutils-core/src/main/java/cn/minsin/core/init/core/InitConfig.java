@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class InitConfig {
 
-	protected Logger log = LoggerFactory.getLogger(this.getClass());
-
-	private static Logger slog = LoggerFactory.getLogger(InitConfig.class);
+	protected static Logger slog = LoggerFactory.getLogger(InitConfig.class);
 
 	private final static Set<InitConfig> starters = new HashSet<>();
 

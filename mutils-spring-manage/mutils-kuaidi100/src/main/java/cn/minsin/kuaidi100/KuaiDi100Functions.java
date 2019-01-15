@@ -49,6 +49,7 @@ public class KuaiDi100Functions extends FunctionRule{
 			HttpResponse response = httpclient.execute(post);
 			String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
 			System.out.println("物流json是:" + jsonStr);
+			httpclient.close();
 			return jsonStr;
 		} catch (Exception e) {
 			throw new MutilsErrorException(e,"快递100查询物流失败");

@@ -90,8 +90,7 @@ public class ExcelConfig  extends InitConfig{
 
 	@Override
 	protected void showInfomation() {
-		// TODO Auto-generated method stub
-		
+		slog.info("Required for initialization errorTemplatePath,and this file must exists.");
 	}
 	
 }

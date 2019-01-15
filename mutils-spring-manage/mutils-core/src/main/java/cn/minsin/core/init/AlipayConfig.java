@@ -117,6 +117,6 @@ public class AlipayConfig extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-		
+		slog.info("Required for initialization appid、privateKey、publicKey、notifyUrl、returnUrl.");
 	}
 }

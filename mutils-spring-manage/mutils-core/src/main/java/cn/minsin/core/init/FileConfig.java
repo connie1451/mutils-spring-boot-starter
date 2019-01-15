@@ -95,6 +95,6 @@ public class FileConfig extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-		log.info("If isLocal is true,saveDisk and serverUrl and urlPrefix must not be null.If isLocal is false,serverList must not be null.");
+		slog.info("If isLocal is true,saveDisk and serverUrl and localMapping must not be null.If isLocal is false,serverList must not be null.");
 	}
 }

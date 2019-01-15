@@ -2,7 +2,6 @@ package cn.minsin.core.tools;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.SecureRandom;
@@ -112,13 +111,5 @@ public class HttpClientUtil {
 		pmethod.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
 		pmethod.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/;q=0.8");
 		return pmethod;
-	}
-	
-	public static void close(CloseableHttpClient close) {
-		try {
-			close.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

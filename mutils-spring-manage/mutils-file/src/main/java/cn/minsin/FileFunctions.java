@@ -3,7 +3,6 @@ package cn.minsin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -21,12 +20,14 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.util.IOUtils;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.FileConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.DateUtil;
+import cn.minsin.core.tools.IOUtil;
 import cn.minsin.core.web.Result;
 
 public class FileFunctions extends FunctionRule {
@@ -76,11 +77,7 @@ public class FileFunctions extends FunctionRule {
 		} catch (Exception e) {
 			throw new MutilsErrorException(e, "文件保存失败. file save faild");
 		} finally {
-			try {
-				httpClient.close();
-			} catch (IOException e) {
-				throw new MutilsErrorException(e, "文件保存失败. file save faild");
-			}
+			IOUtils.close(httpClient);
 		}
 	}
 
@@ -187,8 +184,7 @@ public class FileFunctions extends FunctionRule {
 						// 写入文件，复制
 						fos.write(b, 0, i);
 					}
-					fos.close();
-					fis.close();
+					IOUtil.close(fos,fis);
 				}
 			}
 		} catch (Exception e) {

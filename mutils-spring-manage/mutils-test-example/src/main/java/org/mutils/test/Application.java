@@ -30,8 +30,4 @@ public class Application implements CommandLineRunner {
 //		WechatAppFunctions.createAppPayParamter(model);
 		//WechatMiniProgramFunctions.createMiniProgramPayParamter(model);
 	}
-	
-	
-	
-
 }

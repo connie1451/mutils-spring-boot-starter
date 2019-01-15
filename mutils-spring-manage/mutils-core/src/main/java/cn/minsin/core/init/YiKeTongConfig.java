@@ -48,6 +48,6 @@ public class YiKeTongConfig extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-		
+		slog.info("Required for initialization corpKey,corpSecret,apiUrl");
 	}
 }

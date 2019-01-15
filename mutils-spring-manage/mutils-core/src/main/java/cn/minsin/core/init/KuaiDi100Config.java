@@ -48,8 +48,7 @@ public class KuaiDi100Config extends InitConfig {
 
 	@Override
 	protected void showInfomation() {
-		// TODO Auto-generated method stub
-		
+		slog.info("Required for initialization customer,key,url");
 	}
 }
 

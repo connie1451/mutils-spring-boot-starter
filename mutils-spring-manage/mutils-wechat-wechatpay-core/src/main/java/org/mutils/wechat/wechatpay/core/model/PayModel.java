@@ -1,5 +1,6 @@
 package org.mutils.wechat.wechatpay.core.model;
 
+import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.init.WechatPayCoreConfig;
 
 public class PayModel extends BaseWeChatPayModel {
@@ -9,25 +10,34 @@ public class PayModel extends BaseWeChatPayModel {
 	 */
 	private static final long serialVersionUID = -2917095075033071637L;
 
-	// 小程序 app 公众号 需要填写对应的appid
+	@NotNull("appid 初始化时自动填写")
 	private String appid;
-	//商户id
+	
+	@NotNull("商户号 初始化时自动填写")
 	private String mch_id = WechatPayCoreConfig.wechatPayConfig.getPartnerId();
-	//随机字符串
+	
+	@NotNull("随机字符串  默认当前时间的毫秒数")
 	private String nonce_str = String.valueOf(System.currentTimeMillis());
-	//签名类型
+	
+	@NotNull("签名类型 默认MD5")
 	private String sign_type = "MD5";
-	//简介
+	
+	@NotNull("下单时的商品描述信息")
 	private String body;
-	//订单号
+	
+	@NotNull("接入方的生成的唯一订单号")
 	private String out_trade_no;
-	//总金额
-	private int total_fee;
-	//ip
+	
+	@NotNull("总金额 单位为分 必须要大于0")
+	private Integer total_fee;
+	
+	@NotNull("下单ip 默认 192.168.1.1")
 	private String spbill_create_ip = "192.168.1.1";
-	//回调地址
+	
+	@NotNull("付款成功回调地址 初始化时自动填写")
 	private String notify_url =WechatPayCoreConfig.wechatPayConfig.getNotifyUrl();
-	//交易类型
+	
+	@NotNull("交易类型   可选JSAPI--JSAPI支付（或小程序支付）、NATIVE--Native支付、APP--app支付，MWEB--H5支付")
 	private String trade_type;
 
 	public String getAppid() {

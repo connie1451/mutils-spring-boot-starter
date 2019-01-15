@@ -32,6 +32,7 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse createWebAlipayParams(PayModel payModel) throws MutilsErrorException {
+		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
 		try {
 			AlipayTradePrecreateRequest alipayRequest = new AlipayTradePrecreateRequest();
 			alipayRequest.setBizContent(payModel.toString());
@@ -51,6 +52,7 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse createAlipayParams(PayModel payModel) throws MutilsErrorException {
+		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
 		try {
 			// 进行保留两位小数
 			AlipayTradeAppPayRequest alipayRequest = new AlipayTradeAppPayRequest();
@@ -71,6 +73,7 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse transfer(TransferModel model) throws MutilsErrorException {
+		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
 		try {
 			AlipayFundTransToaccountTransferRequest alipayRequest = new AlipayFundTransToaccountTransferRequest();
 			alipayRequest.setBizContent(model.toString());
@@ -88,6 +91,7 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse refund(RefundModel model) throws MutilsErrorException {
+		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
 		try {
 			AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
 			alipayRequest.setBizContent(model.toString());
@@ -98,9 +102,13 @@ public class AlipayFunctions extends FunctionRule {
 	}
 
 	static AlipayClient initAlipayClient() {
-		return new DefaultAlipayClient(AlipayConfig.alipayConfig.getServerUrl(), AlipayConfig.alipayConfig.getAppid(),
-				AlipayConfig.alipayConfig.getPrivateKey(), AlipayConfig.alipayConfig.getFormat(),
-				AlipayConfig.alipayConfig.getCharset(), AlipayConfig.alipayConfig.getPublicKey(),
+		return new DefaultAlipayClient(
+				AlipayConfig.alipayConfig.getServerUrl(),
+				AlipayConfig.alipayConfig.getAppid(),
+				AlipayConfig.alipayConfig.getPrivateKey(), 
+				AlipayConfig.alipayConfig.getFormat(),
+				AlipayConfig.alipayConfig.getCharset(),
+				AlipayConfig.alipayConfig.getPublicKey(),
 				AlipayConfig.alipayConfig.getSignType());
 	}
 }

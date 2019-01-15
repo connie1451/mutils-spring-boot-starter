@@ -1,5 +1,6 @@
 package org.mutils.wechat.wechatpay.core;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -25,7 +26,6 @@ import cn.minsin.core.tools.HttpClientUtil;
  */
 public class WeChatPayFunctions extends FunctionRule {
 
-
 	/**
 	 * 发起微信提现申请
 	 * 
@@ -37,10 +37,11 @@ public class WeChatPayFunctions extends FunctionRule {
 	 * @return
 	 */
 	public static String createWithdrawXml(WithdrawModel model) throws MutilsErrorException {
+		checkConfig("WeChatPayFunctions", WechatPayCoreConfig.wechatPayConfig);
 		// TODO 此处逻辑没完
-		 String xml = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
-		 slog.info("refund xml is {}", xml);
-		 return xml;
+		String xml = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
+		log.info("refund xml is {}", xml);
+		return xml;
 	}
 
 	/**
@@ -51,8 +52,9 @@ public class WeChatPayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	protected static Map<String, String> createRefundRequest(RefundModel model) throws MutilsErrorException {
+		checkConfig("WeChatPayFunctions", WechatPayCoreConfig.wechatPayConfig);
 		String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
-		slog.info("refund xml is {}", xmlParam);
+		log.info("refund xml is {}", xmlParam);
 		try {
 			CloseableHttpClient httpclient = HttpClientUtil.getSSLInstance(
 					WechatPayCoreConfig.wechatPayConfig.getPartnerId(),
@@ -62,7 +64,7 @@ public class WeChatPayFunctions extends FunctionRule {
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			HttpResponse response = httpclient.execute(httpost);
 			String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-			slog.info("refund json is {}", jsonStr);
+			log.info("refund json is {}", jsonStr);
 			httpclient.close();
 			return ParseXmlUtil.doXMLParse(jsonStr);
 		} catch (Exception e) {
@@ -76,26 +78,28 @@ public class WeChatPayFunctions extends FunctionRule {
 	 * @param model 预下单的对象
 	 * @return
 	 * @throws MutilsErrorException
+	 * @throws IOException
 	 */
-	protected static Map<String, String> createUnifiedOrder(BaseWeChatPayModel model) throws MutilsErrorException {
-		String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
-		slog.info("createUnifiedOrder xml is {}", xmlParam);
+	protected static Map<String, String> createUnifiedOrder(BaseWeChatPayModel model) throws Exception {
+		checkConfig("WeChatPayFunctions", WechatPayCoreConfig.wechatPayConfig);
 		CloseableHttpClient httpclient = HttpClientUtil.getInstance();// 先初始化;
 		HttpPost httpost = HttpClientUtil.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getUnifiedOrderUrl());
 		try {
+			String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
+			log.info("createUnifiedOrder xml is {}", xmlParam);
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			HttpResponse response = httpclient.execute(httpost);
 
 			String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-			slog.info("createUnifiedOrder json is {}", jsonStr);
+			log.info("createUnifiedOrder json is {}", jsonStr);
 			if (jsonStr.indexOf("FAIL") != -1) {
-				return null;
+				throw new MutilsErrorException(jsonStr);
 			}
-			httpclient.close();
 			return ParseXmlUtil.doXMLParse(jsonStr);
-		} catch (Exception e) {
-			throw new MutilsErrorException(e, "发起统一下单失败");
+		} finally {
+			HttpClientUtil.close(httpclient);
 		}
+
 	}
 
 	protected static boolean checkMap(Map<String, String> doXMLParse) throws MutilsErrorException {

@@ -3,6 +3,7 @@ package cn.minsin.alipay.model;
 import cn.minsin.alipay.AlipayFunctions;
 import cn.minsin.alipay.enum_type.HuaBeiSellerPercent;
 import cn.minsin.alipay.enum_type.HuaBeiStaging;
+import cn.minsin.core.annotation.NotNull;
 
 /**
  * 分期支付的实体类 可以正常传入正常传入到 {@link AlipayFunctions }使用支付功能
@@ -16,12 +17,14 @@ public class HuaBeiPayModel extends PayModel {
 	 */
 	private static final long serialVersionUID = -5887384829795015728L;
 
+	@NotNull("需要使用花呗分期，此项默认pcreditpayInstallment")
 	private String enable_pay_channels = "pcreditpayInstallment";
 
-	// 分期数 默认三期
-	private int hb_fq_num = 3;
-	// 商家承担比例 只能传入100或者0
-	private int hb_fq_seller_percent = 0;
+	@NotNull("分期数 默认3期")
+	private Integer hb_fq_num = 3;
+	
+	@NotNull("分期利率  默认用户承担所有分期费")
+	private Integer hb_fq_seller_percent = 0;
 
 	public String getEnable_pay_channels() {
 		return enable_pay_channels;

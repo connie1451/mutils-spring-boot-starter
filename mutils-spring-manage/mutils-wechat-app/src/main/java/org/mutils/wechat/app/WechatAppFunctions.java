@@ -17,7 +17,7 @@ import cn.minsin.core.init.WechatPayCoreConfig;
  * @author mintonzhang
  * @date 2019年1月10日
  */
-public class AppFunctions extends WeChatPayFunctions {
+public class WechatAppFunctions extends WeChatPayFunctions {
 
 	/**
 	 * 创建APP支付的请求参数 APP将用其发起微信支付
@@ -27,10 +27,11 @@ public class AppFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Map<String, String> createAppPayParamter(AppOrderPayModel model) throws MutilsErrorException {
-		Map<String, String> doXMLParse = createUnifiedOrder(model);
-		checkMap(doXMLParse);
-		SortedMap<String, String> sortMap = new TreeMap<>();
+		checkConfig("WechatAppFunctions",WechatPayCoreConfig.wechatPayConfig);
 		try {
+			Map<String, String> doXMLParse = createUnifiedOrder(model);
+			checkMap(doXMLParse);
+			SortedMap<String, String> sortMap = new TreeMap<>();
 			String appId = doXMLParse.get("appid");
 			String nonceStr = doXMLParse.get("nonce_str");
 			String prepayid = doXMLParse.get("prepay_id");
@@ -57,6 +58,7 @@ public class AppFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Map<String, String> createMiniProgramRefundParamter(AppRefundModel model) throws MutilsErrorException {
+		checkConfig("WechatAppFunctions",WechatPayCoreConfig.wechatPayConfig);
 		return createRefundRequest(model);
 	}
 }

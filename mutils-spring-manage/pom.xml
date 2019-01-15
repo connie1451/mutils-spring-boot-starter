@@ -6,7 +6,7 @@
 	<name>mutils-spring-manage</name>
 	<description>A mini utils for java.</description>
 	<url>https://github.com/mintonzhang/mutils-spring-boot-starter</url>
-	<version>0.2.0</version>
+	<version>0.2.1</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>mutils-core</module>
@@ -22,10 +22,10 @@
 		<module>mutils-wechat-miniprogram</module>
 	    <module>mutils-wechat-jsapi</module>
 	    <module>mutils-wechat-app</module>
-  </modules>
+	</modules>
 
 	<properties>
-		<mutils.version>0.2.0</mutils.version>
+		<mutils.version>0.2.1</mutils.version>
 		<commons-lang3.version>3.5</commons-lang3.version>
 		<spring-boot.version>2.0.0.RELEASE</spring-boot.version>
 		<fastjson.version>1.2.54</fastjson.version>

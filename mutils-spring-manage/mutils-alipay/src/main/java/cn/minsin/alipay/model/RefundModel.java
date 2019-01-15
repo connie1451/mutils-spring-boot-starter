@@ -1,5 +1,6 @@
 package cn.minsin.alipay.model;
 
+import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.rule.ModelRule;
 
 /**
@@ -14,15 +15,15 @@ public class RefundModel extends ModelRule{
 	 */
 	private static final long serialVersionUID = -1970408339324879973L;
 	
-	//退款订单号
+	@NotNull("接入方生成的退款订单号")
 	private String out_trade_no;
-	//退款金额  需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数
+	@NotNull("预退款金额 必须大于0、不能大于总金额 且最多两位小数")
 	private String refund_amount;
-	//支付宝交易号
+	@NotNull("付款成功时支付宝返回的订单号")
 	private String trade_no;
-	//随机数  不是全额退款，部分退款使用该参数
+	@NotNull(value="不是全额退款，部分退款使用该参数",notNull=false)
 	private String out_request_no = String.valueOf(System.currentTimeMillis());
-	//退款原因
+	@NotNull("退款原因")
 	private String refund_reason ="正常退款";
 
 	public String getOut_request_no() {

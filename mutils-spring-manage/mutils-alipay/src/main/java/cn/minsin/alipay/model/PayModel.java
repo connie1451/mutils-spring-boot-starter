@@ -2,6 +2,7 @@ package cn.minsin.alipay.model;
 
 import java.math.BigDecimal;
 
+import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.rule.ModelRule;
 
 /**
@@ -14,11 +15,14 @@ public class PayModel  extends ModelRule{
 	 * 
 	 */
 	private static final long serialVersionUID = -8285357081519576784L;
-	//简介
+	
+	@NotNull("反馈给用户的付款原因")
 	private String subject;
-	//订单号
+	
+	@NotNull("接入方生成的订单号")
 	private String out_trade_no;
-	//金额  两位小数 不能为负数
+	
+	@NotNull("付款金额 必须大于0且最多两位小数")
 	private BigDecimal total_amount;
 	
 	public String getSubject() {

@@ -355,6 +355,7 @@ public class ExcelFunctions extends FunctionRule {
 	}
 
 	public static void error(HttpServletResponse resp,String message,Exception error) throws  MutilsException{
+		checkConfig("ExcelFunctions",ExcelConfig.excelConfig);
 		try {
 			String errorTemplateUrl = ExcelConfig.excelConfig.getErrorTemplatePath();
 			String errorMessage = error==null?"":error.getMessage();

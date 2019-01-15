@@ -39,6 +39,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, String> createMiniProgramRefundParamter(JsapiRefundModel model)
 			throws MutilsErrorException {
+		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
 		return createRefundRequest(model);
 	}
 
@@ -53,6 +54,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, Object> createInitJSConfig(String url, boolean debug, String... functions)
 			throws MutilsErrorException {
+		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
 		try {
 			if (functions == null||functions.length==0) {
 				functions = new String[] { "openLocation", "getLocation", "chooseWXPay" };
@@ -92,6 +94,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 * @throws Exception
 	 */
 	public static AccessTokenModel getAccessToken() throws Exception {
+		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
 		CloseableHttpClient instance = HttpClientUtil.getInstance();
 		try {
 			String accessTokenUrl = WechatJsapiConfig.wechatJsapiConfig.getAccessTokenUrl();
@@ -137,11 +140,11 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Map<String, String> createJSAPIPayParamter(JsapiOrderPayModel model) throws MutilsErrorException {
-		Map<String, String> doXMLParse = createUnifiedOrder(model);
-		checkMap(doXMLParse);
-		SortedMap<String, String> sortMap = new TreeMap<>();
+		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
 		try {
-			// appId、timeStamp、nonceStr、package、signType
+			Map<String, String> doXMLParse = createUnifiedOrder(model);
+			checkMap(doXMLParse);
+			SortedMap<String, String> sortMap = new TreeMap<>();
 			String appId = doXMLParse.get("appid");
 			sortMap.put("appId", appId);
 			sortMap.put("nonceStr", doXMLParse.get("nonce_str"));

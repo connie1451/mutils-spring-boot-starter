@@ -2,6 +2,7 @@ package org.mutils.wechat.jsapi.model;
 
 import org.mutils.wechat.wechatpay.core.model.PayModel;
 
+import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.init.WechatAppConfig;
 
 public class JsapiOrderPayModel extends PayModel {
@@ -17,7 +18,7 @@ public class JsapiOrderPayModel extends PayModel {
 		this.setTrade_type("JSAPI");
 	}
 
-	// 支付人的openid
+	@NotNull("用户的openid")
 	private String openid;
 
 	public String getOpenid() {

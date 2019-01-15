@@ -35,6 +35,7 @@ public class KuaiDi100Functions extends FunctionRule{
 	 * @return 2018年7月20日
 	 */
 	public  String getLogistics(String logisticsCode, String logisticsNumber)  throws MutilsErrorException{
+		checkConfig("KuaiDi100Functions",KuaiDi100Config.kuaiDi100Config);
 		try {
 			String param = "{\"com\":\"" + logisticsNumber + "\",\"num\":\"" + logisticsCode + "\"}";
 			String sign = MD5Util.encode(param + KuaiDi100Config.kuaiDi100Config.getKey() + KuaiDi100Config.kuaiDi100Config.getCustomer());

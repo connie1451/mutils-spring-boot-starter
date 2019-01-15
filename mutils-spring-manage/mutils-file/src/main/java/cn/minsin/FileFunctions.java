@@ -50,6 +50,7 @@ public class FileFunctions extends FunctionRule {
 	 * @return
 	 */
 	public static String saveFile(MultipartFile file) throws MutilsErrorException {
+		checkConfig("FileFunctions", FileConfig.fileConfig);
 		boolean local = FileConfig.fileConfig.isLocal();
 		if (local) {
 			return localSave(file);
@@ -78,7 +79,7 @@ public class FileFunctions extends FunctionRule {
 			try {
 				httpClient.close();
 			} catch (IOException e) {
-				throw new MutilsErrorException(e,"文件保存失败. file save faild");
+				throw new MutilsErrorException(e, "文件保存失败. file save faild");
 			}
 		}
 	}
@@ -91,13 +92,14 @@ public class FileFunctions extends FunctionRule {
 	 * @throws Exception
 	 */
 	public static String[] saveFiles(MultipartFile[] file) throws MutilsException {
+		checkConfig("FileFunctions", FileConfig.fileConfig);
 		String[] result = new String[file.length];
 		for (int i = 0; i < result.length; i++) {
 			String saveFile = null;
 			try {
 				saveFile = saveFile(file[i]);
 			} catch (MutilsErrorException e) {
-				slog.info("{} save failed.error message {}", file[i].getOriginalFilename(), e);
+				log.info("{} save failed.error message {}", file[i].getOriginalFilename(), e);
 			}
 			if (saveFile != null) {
 				result[i] = saveFile;
@@ -227,5 +229,28 @@ public class FileFunctions extends FunctionRule {
 			throw new MutilsErrorException(e, "文件保存失败. file save faild");
 		}
 
+	}
+
+	/**
+	 * 	获取文件网页访问路径
+	 * 
+	 * @param path    文件名和保存地址 /20190101/test.jpg
+	 * @param def_img 默认图片 同path一样 填写
+	 * @return
+	 */
+	public static String getRequestUrl(String path, String def_img) {
+		checkConfig("FileFunctions", FileConfig.fileConfig);
+		try {
+			File file = new File(FileConfig.fileConfig.getSaveDisk() + path);
+			if(!file.exists()) {
+				File def = new File(FileConfig.fileConfig.getSaveDisk() + def_img);
+				if(!def.exists()) {
+					return "";
+				}
+				path = def_img;
+			}
+		
+		} catch (Exception e) {}
+		return FileConfig.fileConfig.fullPrefix()+ path;
 	}
 }

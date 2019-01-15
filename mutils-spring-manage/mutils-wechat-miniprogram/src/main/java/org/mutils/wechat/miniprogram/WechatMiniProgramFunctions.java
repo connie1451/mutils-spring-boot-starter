@@ -36,6 +36,7 @@ import cn.minsin.core.tools.HttpClientUtil;
 
 /**
  * 小程序相关功能
+ * 
  * @author mintonzhang
  * @date 2019年1月10日
  */
@@ -49,6 +50,7 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Code2SessionReturnModel jscode2session(String code) throws MutilsErrorException {
+		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
 		try {
 			String url = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 
@@ -64,7 +66,7 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 			String string = EntityUtils.toString(entity);
 			response.close();
 			build.close();
-			slog.info("Code2SessionReturnModel string is {}", string);
+			log.info("Code2SessionReturnModel string is {}", string);
 			return JSON.parseObject(string, Code2SessionReturnModel.class);
 		} catch (Exception e) {
 			throw new MutilsErrorException(e, "小程序使用code换取openid等信息失败");
@@ -72,14 +74,15 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	}
 
 	/**
-	 *   	解密用户敏感数据获取用户信息
-	 * 	 注意wx.login() 必须要在wx.getUserinfo()前调用
+	 * 解密用户敏感数据获取用户信息 注意wx.login() 必须要在wx.getUserinfo()前调用
+	 * 
 	 * @param sessionKey    数据进行加密签名的密钥
 	 * @param encryptedData 包括敏感数据在内的完整用户信息的加密数据
 	 * @param iv            加密算法的初始向量
 	 * @throws MutilsErrorException
 	 */
 	public static UserInfoModel getUserInfo(String encryptedData, String code, String iv) throws MutilsErrorException {
+		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
 		try {
 			Code2SessionReturnModel jscode2session = jscode2session(code);
 			// 被加密的数据
@@ -113,9 +116,8 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 		}
 	}
 
-	
 	/**
-	 * 创建小程序支付的请求参数 小程序将用其发起微信支付
+	 * 创建小程序支付的请求参数 小程序将用其发起微信支付 注意：小程序必须要要使用填写openid
 	 * 
 	 * @param model 下单时的包装对象
 	 * @return 小程序能发起的请求的包装内容
@@ -123,11 +125,12 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, String> createMiniProgramPayParamter(MiniProgramOrderPayModel model)
 			throws MutilsErrorException {
-		Map<String, String> doXMLParse = createUnifiedOrder(model);
-		checkMap(doXMLParse);
-		SortedMap<String, String> sortMap = new TreeMap<>();
+		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
+
 		try {
-			// appId、timeStamp、nonceStr、package、signType
+			Map<String, String> doXMLParse = createUnifiedOrder(model);
+			checkMap(doXMLParse);
+			SortedMap<String, String> sortMap = new TreeMap<>();
 			String appId = doXMLParse.get("appid");
 			String nonceStr = doXMLParse.get("nonce_str");
 			String package_str = "prepay_id=" + doXMLParse.get("prepay_id");
@@ -146,7 +149,7 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 			throw new MutilsErrorException(e, "发起小程序支付失败");
 		}
 	}
-	
+
 	/**
 	 * 发起退款申请
 	 * 
@@ -154,7 +157,9 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 * @return
 	 * @throws MutilsErrorException
 	 */
-	public static Map<String, String> createMiniProgramRefundParamter(MiniProgramRefundModel model) throws MutilsErrorException {
+	public static Map<String, String> createMiniProgramRefundParamter(MiniProgramRefundModel model)
+			throws MutilsErrorException {
+		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
 		return createRefundRequest(model);
 	}
 }

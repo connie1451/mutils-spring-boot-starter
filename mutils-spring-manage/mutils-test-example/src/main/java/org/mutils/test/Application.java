@@ -1,15 +1,10 @@
 package org.mutils.test;
 
-import java.util.Map;
-
-import org.mutils.wechat.miniprogram.WechatMiniProgramFunctions;
-import org.mutils.wechat.miniprogram.model.MiniProgramOrderPayModel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-import cn.minsin.core.tools.StringUtil;
 
 
 @SpringBootApplication(exclude=DataSourceAutoConfiguration.class)
@@ -21,16 +16,22 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+//		PayModel payModel = new PayModel();
+//		payModel.setTotal_amount(new BigDecimal("0.01"));
+//		payModel.setSubject("123123");
+//		AlipayResponse createAlipayParams = AlipayFunctions.createAlipayParams(payModel);
 		
-		MiniProgramOrderPayModel model = new MiniProgramOrderPayModel();
-		model.setBody("购买");
-		model.setTotal_fee(1);
-		model.setOpenid("oiyGa5Ut9uBy7UHG1pqjTgh9fKuE");
-		model.setOut_trade_no(StringUtil.getUUIDForLength(24));
-		Map<String, String> createMiniProgramPayParamter = WechatMiniProgramFunctions.createMiniProgramPayParamter(model);
-		System.out.println(createMiniProgramPayParamter);
+	//	MiniProgramOrderPayModel model = new MiniProgramOrderPayModel();
 		
-		
+//		AppOrderPayModel model = new AppOrderPayModel();
+//		model.setBody("下单");
+//		model.setTotal_fee(1);
+//		model.setOut_trade_no("ajwdjpowadp123123ojwadpowad");
+//		WechatAppFunctions.createAppPayParamter(model);
+		//WechatMiniProgramFunctions.createMiniProgramPayParamter(model);
 	}
+	
+	
+	
 
 }

@@ -39,6 +39,7 @@ public class YiKeTongFunctions extends FunctionRule {
 	 * @param tel_b
 	 */
 	public ResultModel binding(String area_code, String tel_a, String tel_b) throws MutilsErrorException {
+		checkConfig("YiKeTongFunctions",YiKeTongConfig.yiKeTongConfig);
 		String url = YiKeTongConfig.yiKeTongConfig.getApiUrl() + "number/axb/binding";
 
 		String ts = String.valueOf(System.currentTimeMillis() / 1000);
@@ -86,7 +87,7 @@ public class YiKeTongFunctions extends FunctionRule {
 	 * @return
 	 */
 	public ResultModel utilization() throws MutilsErrorException {
-
+		checkConfig("YiKeTongFunctions",YiKeTongConfig.yiKeTongConfig);
 		try {
 			String url = YiKeTongConfig.yiKeTongConfig.getApiUrl() + "monitor/axb/utilization";
 

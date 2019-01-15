@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.minsin</groupId>
 		<artifactId>mutils-spring-manage</artifactId>
-		<version>0.2.0</version>
+		<version>0.2.1</version>
 	</parent>
 	<artifactId>mutils-file</artifactId>
 	<packaging>jar</packaging>
@@ -25,8 +25,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<scope>compile</scope>
-		</dependency>
-
+		</dependency> 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
@@ -34,5 +33,15 @@
 	</dependencies>
 	<build>
 		<finalName>mutils-file</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resource</directory>
+				<targetPath>/META-INF/</targetPath>
+				<includes>
+					<include>**/*.provides</include>
+					<include>**/*.factories</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 </project>

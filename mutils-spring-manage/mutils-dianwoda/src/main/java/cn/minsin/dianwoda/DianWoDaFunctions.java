@@ -35,6 +35,7 @@ public class DianWoDaFunctions extends FunctionRule {
 	 * @throws Exception 
 	 */
 	public JSONObject order_send(OrderModel ot) throws MutilsErrorException {
+		checkConfig("DianWoDaFunctions",DianWoDaConfig.dianWoDaConfig);
 		return doSend("/api/v3/order-send.json", MapUtil.getMap(ot));
 	}
 
@@ -46,6 +47,7 @@ public class DianWoDaFunctions extends FunctionRule {
 	 * @return 响应结果
 	 */
 	static JSONObject doSend(String url, Map<String, Object> businessParams) throws MutilsErrorException {
+		checkConfig("DianWoDaFunctions",DianWoDaConfig.dianWoDaConfig);
 		if (DianWoDaConfig.dianWoDaConfig == null) {
 			throw new MutilsException("点我达配置尚未初始化. DianWoDa config was not initialized.");
 		}
@@ -68,13 +70,13 @@ public class DianWoDaFunctions extends FunctionRule {
 			post.setEntity(uefEntity);
 
 			CloseableHttpClient build = HttpClientBuilder.create().build();
-			slog.info("Request infomation is {}",JSONObject.toJSONString(list));
+			log.info("Request infomation is {}",JSONObject.toJSONString(list));
 			CloseableHttpResponse response = build.execute(post);
 			HttpEntity entity = response.getEntity();
 			String string = EntityUtils.toString(entity);
 			response.close();
 			build.close();
-			slog.info("Request infomation is {}",string);
+			log.info("Request infomation is {}",string);
 			return JSON.parseObject(string);
 		} catch (Exception e) {
 			throw new MutilsErrorException(e,"点我达请求下单失败");

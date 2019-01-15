@@ -2,6 +2,7 @@ package cn.minsin.alipay.model;
 
 import java.math.BigDecimal;
 
+import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.rule.ModelRule;
 
 /**
@@ -16,39 +17,25 @@ public class TransferModel extends ModelRule {
 	*/
 	private static final long serialVersionUID = 5266308521996557923L;
 
-	/**
-	 * 逻辑单号
-	 */
+	@NotNull("接入方生成的订单号")
 	private String out_biz_no;
 
-	/**
-	 * 收款方账户类型
-	 */
+	@NotNull("收款方账户类型")
 	private String payee_type;
 
-	/**
-	 * 收款方支付宝账号
-	 */
+	@NotNull("收款方支付宝账号")
 	private String payee_account;
 
-	/**
-	 * 转账金额
-	 */
+	@NotNull("转账金额 大于0 且最多两位小数")
 	private BigDecimal amount;
 
-	/**
-	 * 转账名称
-	 */
+	@NotNull("转账名称")
 	private String payer_show_name;
 
-	/**
-	 * 提现用户的真实姓名
-	 */
+	@NotNull("提现用户的真实姓名")
 	private String payee_real_name;
 
-	/**
-	 * 转账备注
-	 */
+	@NotNull("转账备注")
 	private String remark;
 
 	public String getOut_biz_no() {

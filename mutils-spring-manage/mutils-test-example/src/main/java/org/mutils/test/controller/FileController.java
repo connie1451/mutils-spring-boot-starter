@@ -16,7 +16,8 @@ public class FileController {
 	public Result upload(@RequestParam("file") MultipartFile file) {
 		try {
 			String saveFile = FileFunctions.saveFile(file);
-			return Result.builderSuccess().data(saveFile);
+			String requestUrl = FileFunctions.getRequestUrl(saveFile, "");
+			return Result.builderSuccess().data(requestUrl);
 		} catch (MutilsErrorException e) {
 			e.printStackTrace();
 		}

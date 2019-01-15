@@ -14,6 +14,7 @@ public class AppOrderPayModel extends PayModel {
 	
 	public AppOrderPayModel() {
 		this.setAppid(WechatAppConfig.wechatAppConfig.getAppid());
+		this.setTrade_type("APP");
 	}
 
 }

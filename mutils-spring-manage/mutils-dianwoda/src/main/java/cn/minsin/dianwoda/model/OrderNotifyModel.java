@@ -1,5 +1,6 @@
 package cn.minsin.dianwoda.model;
 
+import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.rule.ModelRule;
 
 /**
@@ -13,25 +14,25 @@ public class OrderNotifyModel extends ModelRule {
 	 * 
 	 */
 	private static final long serialVersionUID = 3839672482683503126L;
-	//FTP201511091198	渠道订单编号，派发订单接口中的order_original_id值
+	@NotNull("渠道订单编号，派发订单接口中的order_original_id值")
 	private String order_original_id;
-	//订单状态
+	@NotNull("订单状态 状态参考cn.minsin.dianwoda.code.StateCode")
 	private Integer order_status;	
-	//用户联系方式错了	订单取消原因
+	@NotNull("订单取消原因")
 	private String cancel_reason;
-	//联系不到用户	异常订单原因
+	@NotNull("异常订单原因")
 	private String abnormal_reason;
-	//邻居代收	妥投类型
+	@NotNull("妥投类型")
 	private String finish_reason;
-	//10088	配送员编号
+	@NotNull("配送员编号")
 	private String rider_code;
-	//配送员姓名
+	@NotNull("配送员姓名")
 	private String rider_name;
-	//否		配送员手机号
+	@NotNull("配送员手机号")
 	private String rider_mobile;	
-	//是		更新时间戳
+	@NotNull("更新时间戳")
 	private Long time_status_update;
-	//验证签名，签名生成规则，参照1.2.4
+	@NotNull("签名生成规则")
 	private String sig;
 	public String getOrder_original_id() {
 		return order_original_id;

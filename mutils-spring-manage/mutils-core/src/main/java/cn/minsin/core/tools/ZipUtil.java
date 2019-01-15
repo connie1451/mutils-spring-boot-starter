@@ -2,11 +2,12 @@ package cn.minsin.core.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import com.alibaba.fastjson.util.IOUtils;
 
 public class ZipUtil {
 	
@@ -32,13 +33,7 @@ public class ZipUtil {
 		} catch (Exception e) {
 			throw new RuntimeException("zip error from ZipUtils", e);
 		} finally {
-			if (zos != null) {
-				try {
-					zos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			IOUtils.close(zos);
 		}
 
 	}
@@ -71,13 +66,7 @@ public class ZipUtil {
 		} catch (Exception e) {
 			throw new RuntimeException("zip error from ZipUtils", e);
 		} finally {
-			if (zos != null) {
-				try {
-					zos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			IOUtils.close(zos);
 		}
 	}
 

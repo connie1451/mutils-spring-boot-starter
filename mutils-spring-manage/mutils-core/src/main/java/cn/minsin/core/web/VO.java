@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import com.alibaba.fastjson.JSON;
 
+import cn.minsin.core.exception.MutilsException;
+
 /**
  * 动态构建Vo对象 替代的实体类中的VO
  * 
@@ -20,7 +22,8 @@ public class VO extends HashMap<String, Object> implements Serializable {
 	 */
 	private static final long serialVersionUID = 6208106294465026862L;
 
-	protected VO() {}
+	protected VO() {
+	}
 
 	public static VO init() {
 		return new VO();
@@ -55,11 +58,11 @@ public class VO extends HashMap<String, Object> implements Serializable {
 	 * @param clazz
 	 * @return 指定Class
 	 */
-	public <T> T getObject(Class<T> clazz) {
+	public <T> T toObject(Class<T> clazz) {
 		try {
-			return JSON.parseObject(this.toString(), clazz);
+			return JSON.parseObject(toString(), clazz);
 		} catch (Exception e) {
-			throw new RuntimeException("类型转换失败");
+			throw new MutilsException(e, "类型转换失败");
 		}
 	}
 

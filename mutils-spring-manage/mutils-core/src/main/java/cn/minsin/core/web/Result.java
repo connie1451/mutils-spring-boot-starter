@@ -13,7 +13,8 @@ import cn.minsin.core.exception.MutilsException;
 /**
  * 构建者模式的Result Eg：Result.builderMissParamter().data('name',"张三")
  * 
- * @author mintonzhang 2018年10月10日
+ * @author mintonzhang 
+ * @since 0.1.0
  */
 public class Result implements Serializable {
 
@@ -22,9 +23,7 @@ public class Result implements Serializable {
 	protected Result() {}
 
 	protected Result(ResultOptions options, String... msg) {
-		if (options == null) {
-			throw new MutilsException("ResultOptions must not be null.");
-		}
+		validateOption(options);
 		String rmsg = options.getMsg();
 		if (msg != null && msg.length > 0) {
 			rmsg = msg[0];
@@ -36,7 +35,7 @@ public class Result implements Serializable {
 	private int code;
 
 	private String msg;
-	
+
 	private Object data;
 
 	private HashMap<String, Object> multidata = new HashMap<>();
@@ -56,16 +55,15 @@ public class Result implements Serializable {
 	public Object getData() {
 		return data;
 	}
-	
+
 	/**
 	 * 重置提示语和code
+	 * 
 	 * @param option
 	 * @return
 	 */
-	public Result resetOption(ResultOptions option,String... msg) {
-		if (option == null) {
-			throw new MutilsException("ResultOptions must not be null.");
-		}
+	public Result resetOption(ResultOptions option, String... msg) {
+		validateOption(option);
 		String rmsg = option.getMsg();
 		if (msg != null && msg.length > 0) {
 			rmsg = msg[0];
@@ -75,7 +73,6 @@ public class Result implements Serializable {
 		return this;
 	}
 
-	/* 以下为构建方法 */
 	public Result data(String key, Object value) {
 		multidata.put(key, value);
 		return this;
@@ -99,7 +96,6 @@ public class Result implements Serializable {
 	 * @return
 	 */
 	public static Result builder(ResultOptions option, String... message) {
-
 		return new Result(option, message);
 	}
 
@@ -107,7 +103,6 @@ public class Result implements Serializable {
 	 * code 来自Result中的 SUCCESS 或 EXCEPTION
 	 * 
 	 * @param message this default is '操作成功'
-	 * @return 2018年10月10日
 	 */
 	public static Result builderSuccess(String... msg) {
 		return new Result(DefaultResultOptions.SUCCESS, msg);
@@ -117,7 +112,6 @@ public class Result implements Serializable {
 	 * code 来自Result中的 SUCCESS 或 EXCEPTION
 	 * 
 	 * @param message this default is '服务器异常'
-	 * @return 2018年10月10日
 	 */
 	public static Result builderException(String... msg) {
 		return new Result(DefaultResultOptions.EXCEPTION, msg);
@@ -127,7 +121,6 @@ public class Result implements Serializable {
 	 * 构建缺少参数的Result
 	 * 
 	 * @param message this default is '缺少必要参数'
-	 * @return 2018年10月10日
 	 */
 	public static Result builderMissParamter(String... msg) {
 		return new Result(DefaultResultOptions.MISSPARAMTER, msg);
@@ -137,7 +130,6 @@ public class Result implements Serializable {
 	 * 构建失败消息
 	 * 
 	 * @param message this default is '缺少必要参数'
-	 * @return 2018年10月10日
 	 */
 	public static Result builderFail(String... msg) {
 		return new Result(DefaultResultOptions.FAIL, msg);
@@ -147,9 +139,14 @@ public class Result implements Serializable {
 	 * 构建后端用户过期
 	 * 
 	 * @param message this default is '用户已失效'
-	 * @return 2018年10月10日
 	 */
 	public static Result builderOutTime(String... msg) {
 		return new Result(DefaultResultOptions.OUTTIME, msg);
+	}
+
+	private void validateOption(ResultOptions option) {
+		if (option == null || !option.getClass().isEnum()) {
+			throw new MutilsException("ResultOptions must be an enumeration and implement ResultOptions.");
+		}
 	}
 }

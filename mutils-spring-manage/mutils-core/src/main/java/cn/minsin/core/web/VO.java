@@ -22,21 +22,11 @@ public class VO extends HashMap<String, Object> implements Serializable {
 
 	protected VO() {}
 
-	/**
-	 * builder新对象
-	 * 
-	 * @return 2018年10月12日
-	 */
-	public static VO builder() {
+	public static VO init() {
 		return new VO();
 	}
 
-	/**
-	 * builder新对象并添加一条数据
-	 * 
-	 * @return 2018年10月12日
-	 */
-	public static VO builder(String key, Object value) {
+	public static VO init(String key, Object value) {
 		return new VO().put(key, value);
 	}
 
@@ -47,6 +37,11 @@ public class VO extends HashMap<String, Object> implements Serializable {
 
 	public VO remove(String key) {
 		super.remove(key);
+		return this;
+	}
+
+	public VO removeAll() {
+		super.clear();
 		return this;
 	}
 

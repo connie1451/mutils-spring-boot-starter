@@ -19,8 +19,7 @@ public class Result implements Serializable {
 
 	private static final long serialVersionUID = -8603085056620027210L;
 
-	protected Result() {
-	}
+	protected Result() {}
 
 	protected Result(ResultOptions options, String... msg) {
 		if (options == null) {

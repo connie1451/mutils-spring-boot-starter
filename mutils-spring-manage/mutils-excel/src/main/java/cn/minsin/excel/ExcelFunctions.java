@@ -66,11 +66,11 @@ public class ExcelFunctions extends FunctionRule {
 	private Sheet sheet;
 
 	private ExcelFunctions(ExcelVersion excelVersion) {
-		int year = excelVersion.getYear();
-		if (year == 2003) {
-			workbook = new HSSFWorkbook();
-		} else if (year == 2007) {
+		if (excelVersion == null || excelVersion == ExcelVersion.VERSION_2007) {
 			workbook = new XSSFWorkbook();
+			excelVersion = ExcelVersion.VERSION_2007;
+		} else {
+			workbook = new HSSFWorkbook();
 		}
 		this.excelVersion = excelVersion;
 	}
@@ -101,11 +101,13 @@ public class ExcelFunctions extends FunctionRule {
 	public static ExcelFunctions builder(InputStream in) throws Exception {
 		try {
 			Workbook workbook = WorkbookFactory.create(in);
-			return new ExcelFunctions(workbook instanceof HSSFWorkbook?ExcelVersion.VERSION_2003:ExcelVersion.VERSION_2007, workbook);
+			return new ExcelFunctions(
+					workbook instanceof HSSFWorkbook ? ExcelVersion.VERSION_2003 : ExcelVersion.VERSION_2007, workbook);
 		} catch (Exception e) {
-			throw new MutilsException(e,"Excel读取失败！");
+			throw new MutilsException(e, "Excel读取失败！");
 		}
 	}
+
 	/**
 	 * 加载已经存在的excel文件 并制定excel的版本
 	 * 
@@ -115,14 +117,15 @@ public class ExcelFunctions extends FunctionRule {
 	 * @author mintonzhang@163.com
 	 * @throws Exception
 	 */
-	public static ExcelFunctions builder(InputStream in,ExcelVersion excelVersion) throws Exception {
+	public static ExcelFunctions builder(InputStream in, ExcelVersion excelVersion) throws Exception {
 		try {
 			Workbook workbook = WorkbookFactory.create(in);
 			return new ExcelFunctions(excelVersion, workbook);
 		} catch (Exception e) {
-			throw new MutilsException(e,"Excel读取失败！");
+			throw new MutilsException(e, "Excel读取失败！");
 		}
 	}
+
 	/**
 	 * 自定义解析Excel 在某些情况,通用的Excel解析是不会满足条件的，那么这个方法会提供了将Inputsteam转换成workbook
 	 * 
@@ -136,39 +139,38 @@ public class ExcelFunctions extends FunctionRule {
 		try {
 			return WorkbookFactory.create(in);
 		} catch (Exception e) {
-			throw new MutilsException(e,"Excel读取失败！");
+			throw new MutilsException(e, "Excel读取失败！");
 		}
 	}
-	
+
 	/**
 	 * 设置excel的版本
+	 * 
 	 * @param excelVersion
-	 * @return
-	 * 2018年10月14日
+	 * @return 2018年10月14日
 	 */
 	public ExcelFunctions version(ExcelVersion excelVersion) {
-		this.excelVersion =excelVersion;
+		this.excelVersion = excelVersion;
 		return this;
 	}
-	
+
 	public Workbook getWorkBook() {
 		return workbook;
 	}
-	
+
 	/**
 	 * 获取当前excel的Version
-	 * @return
-	 * 2018年10月14日
+	 * 
+	 * @return 2018年10月14日
 	 */
 	public ExcelVersion getVersion() {
 		return excelVersion;
-	} 
+	}
 
 	/**
 	 * D://upload/aaa
 	 * 
-	 * @param filename
-	 *            无后缀的文件名 2018年10月11日
+	 * @param filename 无后缀的文件名 2018年10月11日
 	 * @throws Exception
 	 */
 	public void export(String filename) throws MutilsErrorException {
@@ -178,15 +180,14 @@ public class ExcelFunctions extends FunctionRule {
 			fileOutputStream.close();
 			workbook.close();
 		} catch (Exception e) {
-			throw new MutilsErrorException(e,"Excel读取失败！");
+			throw new MutilsErrorException(e, "Excel读取失败！");
 		}
 	}
 
 	/**
 	 * aaa
 	 * 
-	 * @param filename
-	 *            无后缀的文件名 2018年10月11日
+	 * @param filename 无后缀的文件名 2018年10月11日
 	 * @author mintonzhang@163.com
 	 * @throws Exception
 	 */
@@ -243,43 +244,35 @@ public class ExcelFunctions extends FunctionRule {
 		if (value == null) {
 			cell.setCellValue("");
 			return this;
-		}
-		else if (value instanceof String) {
+		} else if (value instanceof String) {
 			cell.setCellValue((String) value);
-		}
-		else if (value instanceof Integer) {
+		} else if (value instanceof Integer) {
 			cell.setCellValue((Integer) value);
-		}
-		else if (value instanceof Boolean) {
+		} else if (value instanceof Boolean) {
 			cell.setCellValue((Boolean) value);
-		}
-		else if (value instanceof Calendar) {
+		} else if (value instanceof Calendar) {
 			cell.setCellValue((Calendar) value);
-		}
-		else if (value instanceof Date) {
+		} else if (value instanceof Date) {
 			cell.setCellValue((Date) value);
-		}else {
+		} else {
 			cell.setCellValue(value.toString());
 		}
-		
+
 		return this;
 	}
 
 	///////////////////////////////////// 以上为导出///////////////////////////////////////
 
-
 	/**
 	 * 获取指定的Excel中的值
 	 * 
-	 * @param sheetNames
-	 *            需要获取的sheet的名字
-	 * @param startRowIndex
-	 *            开始读取的行下标
-	 * @param cellIndex
-	 *            需要获取的cell下标数组
+	 * @param sheetNames    需要获取的sheet的名字
+	 * @param startRowIndex 开始读取的行下标
+	 * @param cellIndex     需要获取的cell下标数组
 	 * @return 2018年10月11日
 	 */
-	public Map<String, ExcelRowModel> getCellValueList(String[] sheetNames, int startRowIndex, int[] cellIndex)  throws MutilsErrorException  {
+	public Map<String, ExcelRowModel> getCellValueList(String[] sheetNames, int startRowIndex, int[] cellIndex)
+			throws MutilsErrorException {
 		Map<String, ExcelRowModel> returnMap = new HashMap<>();
 		for (String name : sheetNames) {
 			int index = 0;
@@ -354,22 +347,21 @@ public class ExcelFunctions extends FunctionRule {
 		return StringUtil.filterSpace(cellValue);
 	}
 
-	public static void error(HttpServletResponse resp,String message,Exception error) throws  MutilsException{
-		checkConfig("ExcelFunctions",ExcelConfig.excelConfig);
+	public static void error(HttpServletResponse resp, String message, Exception error) throws MutilsException {
+		checkConfig("ExcelFunctions", ExcelConfig.excelConfig);
 		try {
 			String errorTemplateUrl = ExcelConfig.excelConfig.getErrorTemplatePath();
-			String errorMessage = error==null?"":error.getMessage();
+			String errorMessage = error == null ? "" : error.getMessage();
 			ExcelFunctions.builder(new FileInputStream(errorTemplateUrl))
-			.sheet(ExcelConfig.excelConfig.getErrorTemplateSheetIndex())
-			.row(ExcelConfig.excelConfig.getErrorTemplateRowIndex())
-			.cell(ExcelConfig.excelConfig.getErrorTemplateCellIndex()
-					,message+"\n\n"+errorMessage)
-			.export(resp,ExcelConfig.excelConfig.getErrorTemplateExportName());
+					.sheet(ExcelConfig.excelConfig.getErrorTemplateSheetIndex())
+					.row(ExcelConfig.excelConfig.getErrorTemplateRowIndex())
+					.cell(ExcelConfig.excelConfig.getErrorTemplateCellIndex(), message + "\n\n" + errorMessage)
+					.export(resp, ExcelConfig.excelConfig.getErrorTemplateExportName());
 		} catch (Exception e) {
-			throw new MutilsException(e,"错误模板读取失败");
+			throw new MutilsException(e, "错误模板读取失败");
 		}
 	}
-	
+
 	/**
 	 * Excel版本
 	 * 
@@ -393,20 +385,19 @@ public class ExcelFunctions extends FunctionRule {
 			return year;
 		}
 	}
-	
+
 	/**
 	 * 获取Excel文件
+	 * 
 	 * @param excelName
-	 * @return eg:static/xxx.xlsx
-	 * 2018年10月31日
+	 * @return eg:static/xxx.xlsx 2018年10月31日
 	 */
 	public static InputStream getExcelTempalte(String excelName) {
-        InputStream inStream = ExcelFunctions.class.getClassLoader().getResourceAsStream(excelName);
-        if(inStream==null) {
-        	throw new MutilsException(excelName+" 模板文件不存在.");
-        }
-        return inStream;
+		InputStream inStream = ExcelFunctions.class.getClassLoader().getResourceAsStream(excelName);
+		if (inStream == null) {
+			throw new MutilsException(excelName + " 模板文件不存在.");
+		}
+		return inStream;
 	}
-	
-	
+
 }

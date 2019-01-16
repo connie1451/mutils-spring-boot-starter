@@ -25,17 +25,17 @@ public class MutilsProperties {
 	 */
 	private MutilsFunctions[] functions;
 	/**
-	 * 支付宝初始化参数 {@code  cn.minsin.core.init.AlipayConfig}
+	 * 支付宝初始化参数
 	 */
 	private AlipayConfig alipay = new AlipayConfig();
 
 	/**
-	 * excel
+	 * excel参数配置
 	 */
 	private ExcelConfig excel = new ExcelConfig();
 	
 	/**
-	 * 文件上传
+	 * 	文件上传指定参数
 	 */
 	private FileConfig file = new FileConfig();
 	
@@ -56,7 +56,7 @@ public class MutilsProperties {
 	private DianWoDaConfig dianwoda = new DianWoDaConfig();
 	
 	/**
-	 * 微信支付相关配置 注意：微信支付必须要填写此项
+	 * 微信支付相关配置  注意：微信支付必须要填写此项
 	 */
 	private  WechatPayCoreConfig wechatPayCore = new WechatPayCoreConfig();
 	
@@ -76,7 +76,7 @@ public class MutilsProperties {
 	private WechatJsapiConfig wechatJsapi = new WechatJsapiConfig();
 	
 	/**
-	 * 银联支付
+	 * 	银联支付
 	 */
 	private UnionPayConfig unionPayConfig = new UnionPayConfig();
 	

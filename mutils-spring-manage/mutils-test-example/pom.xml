@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.minsin</groupId>
 		<artifactId>mutils-spring-manage</artifactId>
-		<version>0.2.1</version>
+		<version>0.2.3</version>
 	</parent>
 	<artifactId>mutils-test-example</artifactId>
 	<name>mutils-test-example</name>

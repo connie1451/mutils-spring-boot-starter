@@ -23,7 +23,8 @@
 	    <module>mutils-wechat-jsapi</module>
 	    <module>mutils-wechat-app</module>
 	    <module>mutils-union-pay</module>
-	</modules>
+    	<module>mutils-gexin-push</module>
+  </modules>
 
 	<properties>
 		<mutils.version>0.2.3</mutils.version>
@@ -90,6 +91,11 @@
 			<dependency>
 				<groupId>cn.minsin</groupId>
 				<artifactId>mutils-union-pay</artifactId>
+				<version>${mutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.minsin</groupId>
+				<artifactId>mutils-gexin-push</artifactId>
 				<version>${mutils.version}</version>
 			</dependency>
 			<dependency>

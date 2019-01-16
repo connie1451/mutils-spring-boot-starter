@@ -29,6 +29,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.ExcelConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.StringUtil;
 import cn.minsin.excel.model.ExcelRowModel;
@@ -56,6 +57,8 @@ import cn.minsin.excel.model.ExcelRowModel;
  * @2018年10月11日
  */
 public class ExcelFunctions extends FunctionRule {
+	
+	private final static ExcelConfig config = InitConfig.loadConfig(ExcelConfig.class);
 
 	private ExcelVersion excelVersion;
 
@@ -348,15 +351,14 @@ public class ExcelFunctions extends FunctionRule {
 	}
 
 	public static void error(HttpServletResponse resp, String message, Exception error) throws MutilsException {
-		checkConfig("ExcelFunctions", ExcelConfig.excelConfig);
 		try {
-			String errorTemplateUrl = ExcelConfig.excelConfig.getErrorTemplatePath();
+			String errorTemplateUrl = config.getErrorTemplatePath();
 			String errorMessage = error == null ? "" : error.getMessage();
 			ExcelFunctions.builder(new FileInputStream(errorTemplateUrl))
-					.sheet(ExcelConfig.excelConfig.getErrorTemplateSheetIndex())
-					.row(ExcelConfig.excelConfig.getErrorTemplateRowIndex())
-					.cell(ExcelConfig.excelConfig.getErrorTemplateCellIndex(), message + "\n\n" + errorMessage)
-					.export(resp, ExcelConfig.excelConfig.getErrorTemplateExportName());
+					.sheet(config.getErrorTemplateSheetIndex())
+					.row(config.getErrorTemplateRowIndex())
+					.cell(config.getErrorTemplateCellIndex(), message + "\n\n" + errorMessage)
+					.export(resp, config.getErrorTemplateExportName());
 		} catch (Exception e) {
 			throw new MutilsException(e, "错误模板读取失败");
 		}

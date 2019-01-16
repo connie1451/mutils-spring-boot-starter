@@ -7,6 +7,7 @@ import cn.minsin.core.init.DianWoDaConfig;
 import cn.minsin.core.init.ExcelConfig;
 import cn.minsin.core.init.FileConfig;
 import cn.minsin.core.init.KuaiDi100Config;
+import cn.minsin.core.init.UnionPayConfig;
 import cn.minsin.core.init.WechatAppConfig;
 import cn.minsin.core.init.WechatJsapiConfig;
 import cn.minsin.core.init.WechatMiniProgramConfig;
@@ -75,13 +76,25 @@ public class MutilsProperties {
 	private WechatJsapiConfig wechatJsapi = new WechatJsapiConfig();
 	
 	/**
+	 * 银联支付
+	 */
+	private UnionPayConfig unionPayConfig = new UnionPayConfig();
+	
+	/**
 	 * 描述文件:
 	 * 请查看对应config的配置文件
 	 * 
 	 */
 	private String readMe;
 	
-	
+	public UnionPayConfig getUnionPayConfig() {
+		return unionPayConfig;
+	}
+
+	public void setUnionPayConfig(UnionPayConfig unionPayConfig) {
+		this.unionPayConfig = unionPayConfig;
+	}
+
 	public String getReadMe() {
 		return readMe;
 	}

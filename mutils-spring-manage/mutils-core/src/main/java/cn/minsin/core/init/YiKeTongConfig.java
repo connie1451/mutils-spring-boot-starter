@@ -5,13 +5,12 @@ import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class YiKeTongConfig extends InitConfig {
-	public static YiKeTongConfig yiKeTongConfig;
-	
-	//接入方的唯一key
+
+	// 接入方的唯一key
 	private String corpKey;
-	//接入方秘钥
+	// 接入方秘钥
 	private String corpSecret;
-	//服务请求地址 默认是正式服地址
+	// 服务请求地址 默认是正式服地址
 	private String apiUrl = "http://api.1ketong.com:81/ykt-pool/";
 
 	public String getCorpKey() {
@@ -39,15 +38,11 @@ public class YiKeTongConfig extends InitConfig {
 	}
 
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("Required for initialization corpKey,corpSecret,apiUrl");
 		if (StringUtil.isBlank(corpKey, corpSecret, apiUrl)) {
 			throw new MutilsException("移客通初始化失败,请检查配置文件是否正确.");
 		}
-		yiKeTongConfig =this;
-	}
 
-	@Override
-	protected void showInfomation() {
-		slog.info("Required for initialization corpKey,corpSecret,apiUrl");
 	}
 }

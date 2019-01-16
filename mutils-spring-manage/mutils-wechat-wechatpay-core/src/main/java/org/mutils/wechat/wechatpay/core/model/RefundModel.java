@@ -1,7 +1,6 @@
 package org.mutils.wechat.wechatpay.core.model;
 
 import cn.minsin.core.annotation.NotNull;
-import cn.minsin.core.init.WechatPayCoreConfig;
 
 /**
  * 用户用于发起微信退款的容器
@@ -10,6 +9,7 @@ import cn.minsin.core.init.WechatPayCoreConfig;
  *
  */
 public class RefundModel extends BaseWeChatPayModel {
+	
 	/**
 	 * 
 	 */
@@ -18,7 +18,7 @@ public class RefundModel extends BaseWeChatPayModel {
 	private String appid;
 	
 	@NotNull("商户号 初始化时自动填写")
-	private String mch_id = WechatPayCoreConfig.wechatPayConfig.getPartnerId();
+	private String mch_id = config.getPartnerId();
 	
 	@NotNull("随机字符串  默认当前时间的毫秒数")
 	private String nonce_str = String.valueOf(System.currentTimeMillis());
@@ -36,7 +36,7 @@ public class RefundModel extends BaseWeChatPayModel {
 	private int refund_fee;
 	
 	@NotNull("退款结果通知url 初始化时自动填写")
-	private String notify_url = WechatPayCoreConfig.wechatPayConfig.getRefundUrl();
+	private String notify_url = config.getRefundUrl();
 	
 	@NotNull(value = "退款原因", notNull = false)
 	private String refund_desc;

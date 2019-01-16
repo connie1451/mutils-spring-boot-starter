@@ -12,14 +12,13 @@ import org.mutils.wechat.jsapi.model.JsapiOrderPayModel;
 import org.mutils.wechat.jsapi.model.JsapiRefundModel;
 import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
 import org.mutils.wechat.wechatpay.core.util.Sha1Util;
-import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatJsapiConfig;
-import cn.minsin.core.init.WechatPayCoreConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.HttpClientUtil;
 
 /**
@@ -29,6 +28,8 @@ import cn.minsin.core.tools.HttpClientUtil;
  * @date 2019年1月10日
  */
 public class WechatJsapiFunctions extends WeChatPayFunctions {
+	
+	private static final WechatJsapiConfig config =InitConfig.loadConfig(WechatJsapiConfig.class);
 
 	/**
 	 * 发起退款申请
@@ -39,7 +40,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, String> createMiniProgramRefundParamter(JsapiRefundModel model)
 			throws MutilsErrorException {
-		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
+		
 		return createRefundRequest(model);
 	}
 
@@ -54,7 +55,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, Object> createInitJSConfig(String url, boolean debug, String... functions)
 			throws MutilsErrorException {
-		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
+		
 		try {
 			if (functions == null||functions.length==0) {
 				functions = new String[] { "openLocation", "getLocation", "chooseWXPay" };
@@ -73,7 +74,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 			String sign = Sha1Util.createSHA1Sign(packageParams);
 			
 			SortedMap<String, Object> returnMap = new TreeMap<>();
-			returnMap.put("appId", WechatJsapiConfig.wechatJsapiConfig.getAppid());
+			returnMap.put("appId", config.getAppid());
 			returnMap.put("nonceStr", nonce_str);
 			returnMap.put("timestamp", timestamp);
 			returnMap.put("signature", sign);
@@ -94,16 +95,16 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 * @throws Exception
 	 */
 	public static AccessTokenModel getAccessToken() throws Exception {
-		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
+		
 		CloseableHttpClient instance = HttpClientUtil.getInstance();
 		try {
-			String accessTokenUrl = WechatJsapiConfig.wechatJsapiConfig.getAccessTokenUrl();
+			String accessTokenUrl = config.getAccessTokenUrl();
 
-			String jsapiTicketUrl = WechatJsapiConfig.wechatJsapiConfig.getJsapiTicketUrl();
+			String jsapiTicketUrl = config.getJsapiTicketUrl();
 
-			String appid = WechatJsapiConfig.wechatJsapiConfig.getAppid();
+			String appid = config.getAppid();
 
-			String appSecret = WechatJsapiConfig.wechatJsapiConfig.getAppSecret();
+			String appSecret = config.getAppSecret();
 
 			String requestUrl = accessTokenUrl.replace("APPID", appid).replace("APPSECRET", appSecret);
 
@@ -140,7 +141,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Map<String, String> createJSAPIPayParamter(JsapiOrderPayModel model) throws MutilsErrorException {
-		checkConfig("WechatJsapiFunctions",WechatJsapiConfig.wechatJsapiConfig);
+		
 		try {
 			Map<String, String> doXMLParse = createUnifiedOrder(model);
 			checkMap(doXMLParse);
@@ -151,8 +152,7 @@ public class WechatJsapiFunctions extends WeChatPayFunctions {
 			sortMap.put("package", "prepay_id=" + doXMLParse.get("prepay_id"));
 			sortMap.put("signType", "MD5");
 			sortMap.put("timeStamp", System.currentTimeMillis() / 1000 + "");
-			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
-			sortMap.put("paySign", sign);
+			sortMap.put("paySign", createSign(sortMap));
 			sortMap.put("prepay_id", doXMLParse.get("prepay_id"));
 			return sortMap;
 		} catch (Exception e) {

@@ -2,6 +2,7 @@ package org.mutils.wechat.wechatpay.core;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.SortedMap;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -12,9 +13,11 @@ import org.mutils.wechat.wechatpay.core.model.BaseWeChatPayModel;
 import org.mutils.wechat.wechatpay.core.model.RefundModel;
 import org.mutils.wechat.wechatpay.core.model.WithdrawModel;
 import org.mutils.wechat.wechatpay.core.util.ParseXmlUtil;
+import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatPayCoreConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.HttpClientUtil;
 import cn.minsin.core.tools.IOUtil;
@@ -27,6 +30,9 @@ import cn.minsin.core.tools.IOUtil;
  */
 public class WeChatPayFunctions extends FunctionRule {
 
+	protected final static WechatPayCoreConfig payconfig = InitConfig.loadConfig(WechatPayCoreConfig.class);
+
+	
 	/**
 	 * 发起微信提现申请
 	 * 
@@ -38,9 +44,8 @@ public class WeChatPayFunctions extends FunctionRule {
 	 * @return
 	 */
 	public static String createWithdrawXml(WithdrawModel model) throws MutilsErrorException {
-		checkConfig("WeChatPayFunctions", WechatPayCoreConfig.wechatPayConfig);
 		// TODO 此处逻辑没完
-		String xml = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
+		String xml = model.toXml(payconfig.getPartnerKey());
 		log.info("refund xml is {}", xml);
 		return xml;
 	}
@@ -53,17 +58,16 @@ public class WeChatPayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	protected static Map<String, String> createRefundRequest(RefundModel model) throws MutilsErrorException {
-		checkConfig("WeChatPayFunctions", WechatPayCoreConfig.wechatPayConfig);
-		String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
+		String xmlParam = model.toXml(payconfig.getPartnerKey());
 		log.info("refund xml is {}", xmlParam);
 		CloseableHttpClient httpclient = null;
 		CloseableHttpResponse response = null;
 		try {
 			httpclient = HttpClientUtil.getSSLInstance(
-					WechatPayCoreConfig.wechatPayConfig.getPartnerId(),
-					WechatPayCoreConfig.wechatPayConfig.getCertificatePath(),
-					WechatPayCoreConfig.wechatPayConfig.getCertificateFormat());
-			HttpPost httpost = HttpClientUtil.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getRefundUrl());
+					payconfig.getPartnerId(),
+					payconfig.getCertificatePath(),
+					payconfig.getCertificateFormat());
+			HttpPost httpost = HttpClientUtil.getPostMethod(payconfig.getRefundUrl());
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			response = httpclient.execute(httpost);
 
@@ -86,13 +90,12 @@ public class WeChatPayFunctions extends FunctionRule {
 	 * @throws IOException
 	 */
 	protected static Map<String, String> createUnifiedOrder(BaseWeChatPayModel model) throws Exception {
-		checkConfig("WeChatPayFunctions", WechatPayCoreConfig.wechatPayConfig);
 		CloseableHttpClient httpclient = HttpClientUtil.getInstance();// 先初始化;
 		CloseableHttpResponse response = null;
 	
 		try {
-			HttpPost httpost = HttpClientUtil.getPostMethod(WechatPayCoreConfig.wechatPayConfig.getUnifiedOrderUrl());
-			String xmlParam = model.toXml(WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
+			HttpPost httpost = HttpClientUtil.getPostMethod(payconfig.getUnifiedOrderUrl());
+			String xmlParam = model.toXml(payconfig.getPartnerKey());
 			log.info("createUnifiedOrder xml is {}", xmlParam);
 			httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 			 response = httpclient.execute(httpost);
@@ -114,5 +117,14 @@ public class WeChatPayFunctions extends FunctionRule {
 					"统一支付XML生成失败,无法进行下一步操作. The value from createUnifiedOrder method is null,please check the parameters.");
 		}
 		return true;
+	}
+	
+	/**
+	 * 	生成签名
+	 * @param sortMap
+	 * @return
+	 */
+	protected static String createSign(SortedMap<String, String> sortMap) {
+		return SignUtil.createSign(sortMap,payconfig.getPartnerKey());
 	}
 }

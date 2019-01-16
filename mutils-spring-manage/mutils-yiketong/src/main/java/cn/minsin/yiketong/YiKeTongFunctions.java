@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.YiKeTongConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.IOUtil;
 import cn.minsin.yiketong.model.ResultModel;
@@ -33,6 +34,8 @@ import cn.minsin.yiketong.util.SignUtil;
  */
 public class YiKeTongFunctions extends FunctionRule {
 
+	private final static YiKeTongConfig config = InitConfig.loadConfig(YiKeTongConfig.class);
+
 	/**
 	 * 手机号进行虚拟号绑定
 	 * 
@@ -40,15 +43,15 @@ public class YiKeTongFunctions extends FunctionRule {
 	 * @param tel_a
 	 * @param tel_b
 	 */
-	public ResultModel binding(String area_code, String tel_a, String tel_b, int timeout) throws MutilsErrorException {
-		checkConfig("YiKeTongFunctions", YiKeTongConfig.yiKeTongConfig);
-		String url = YiKeTongConfig.yiKeTongConfig.getApiUrl() + "number/axb/binding";
+	public static ResultModel binding(String area_code, String tel_a, String tel_b, int timeout) throws MutilsErrorException {
+		
+		String url = config.getApiUrl() + "number/axb/binding";
 		CloseableHttpClient build = HttpClientBuilder.create().build();
 		CloseableHttpResponse response = null;
 		try {
 			String ts = String.valueOf(System.currentTimeMillis() / 1000);
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("appkey", YiKeTongConfig.yiKeTongConfig.getCorpKey());
+			params.put("appkey", config.getCorpKey());
 			params.put("ts", ts);
 			params.put("request_id", System.currentTimeMillis());
 			params.put("tel_a", tel_a);
@@ -57,7 +60,7 @@ public class YiKeTongFunctions extends FunctionRule {
 			params.put("expiration", timeout);
 
 			String orderStr = ParamUtil.createLinkString(params);
-			orderStr = orderStr + "&secret=" + YiKeTongConfig.yiKeTongConfig.getCorpSecret();
+			orderStr = orderStr + "&secret=" + config.getCorpSecret();
 			String sign = SignUtil.encode(orderStr);
 			params.put("sign", sign);
 			
@@ -83,18 +86,18 @@ public class YiKeTongFunctions extends FunctionRule {
 	 * 
 	 * @return
 	 */
-	public ResultModel utilization() throws MutilsErrorException {
-		checkConfig("YiKeTongFunctions", YiKeTongConfig.yiKeTongConfig);
+	public static ResultModel utilization() throws MutilsErrorException {
+		
 		CloseableHttpClient build = HttpClientBuilder.create().build();
 		CloseableHttpResponse response = null;
 		try {
-			String url = YiKeTongConfig.yiKeTongConfig.getApiUrl() + "monitor/axb/utilization";
+			String url = config.getApiUrl() + "monitor/axb/utilization";
 			String ts = String.valueOf(System.currentTimeMillis() / 1000);
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("appkey", YiKeTongConfig.yiKeTongConfig.getCorpKey());
+			params.put("appkey", config.getCorpKey());
 			params.put("ts", ts);
 			String orderStr = ParamUtil.createLinkString(params);
-			orderStr = orderStr + "&secret=" + YiKeTongConfig.yiKeTongConfig.getCorpSecret();
+			orderStr = orderStr + "&secret=" + config.getCorpSecret();
 			String sign = SignUtil.encode(orderStr);
 			params.put("sign", sign);
 			

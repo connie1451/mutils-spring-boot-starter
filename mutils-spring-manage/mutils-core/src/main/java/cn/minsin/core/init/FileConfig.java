@@ -8,7 +8,6 @@ import cn.minsin.core.tools.StringUtil;
 
 public class FileConfig extends InitConfig {
 
-	public static FileConfig fileConfig;
 
 	//服务地址 远程保存地址
 	private String[] serverList;
@@ -72,7 +71,8 @@ public class FileConfig extends InitConfig {
 	}
 
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("If isLocal is true,saveDisk and serverUrl and localMapping must not be null.If isLocal is false,serverList must not be null.");
 		if (isLocal) {
 			if (StringUtil.isBlank(saveDisk, serverUrl,localMapping)) {
 				throw new MutilsException("文件上传  初始化失败,请检查配置文件是否正确.");
@@ -90,11 +90,6 @@ public class FileConfig extends InitConfig {
 				}
 			}
 		}
-		fileConfig = this;
-	}
-
-	@Override
-	protected void showInfomation() {
-		slog.info("If isLocal is true,saveDisk and serverUrl and localMapping must not be null.If isLocal is false,serverList must not be null.");
+		
 	}
 }

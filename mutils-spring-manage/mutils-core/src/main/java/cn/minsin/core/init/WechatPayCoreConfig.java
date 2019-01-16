@@ -5,8 +5,6 @@ import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
 
 public class WechatPayCoreConfig extends InitConfig {
-
-	public static WechatPayCoreConfig wechatPayConfig;
 	
 	// 商户id
 	private String partnerId;
@@ -17,17 +15,17 @@ public class WechatPayCoreConfig extends InitConfig {
 	// 退款通知地址
 	private String refundUrl;
 
-	// 付款通知地址
-	private String notifyUrl;// 异步通知地址
+	//  异步通知地址
+	private String notifyUrl;
 
 	// 退款证书地址
-	private String certificatePath;// 证书地址
+	private String certificatePath;
 
 	// 统一下单地址
 	private String unifiedOrderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
 	// 退款证书格式
-	private String certificateFormat = "PKCS12";// 证书格式
+	private String certificateFormat = "PKCS12";
 
 	// 是否包含退款 如果为true 如果为true certificatePath、refundUrl、certificateFormat必填
 	private boolean withRefund = false;
@@ -115,7 +113,9 @@ public class WechatPayCoreConfig extends InitConfig {
 	}
 
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("Required for initialization partnerId,partnerKey,notifyUrl,unifiedOrderUrl."
+				+ "When withRefund is true,You also need certificatePath, refundUrl, certificateFormat");
 		if (StringUtil.isBlank(partnerId, partnerKey, notifyUrl, unifiedOrderUrl)) {
 			throw new MutilsException("微信支付初始化失败,请检查配置文件是否正确. A error when initialization the basic config for wechat pay, please check config");
 		}
@@ -124,13 +124,5 @@ public class WechatPayCoreConfig extends InitConfig {
 				throw new MutilsException("微信支付退款初始化失败,请检查配置文件是否正确. The refund config of wechat pay was initialization failed.");
 			}
 		}
-		wechatPayConfig =this;
-	}
-
-
-	@Override
-	protected void showInfomation() {
-		slog.info("Required for initialization partnerId,partnerKey,notifyUrl,unifiedOrderUrl."
-				+ "When withRefund is true,You also need certificatePath, refundUrl, certificateFormat");
 	}
 }

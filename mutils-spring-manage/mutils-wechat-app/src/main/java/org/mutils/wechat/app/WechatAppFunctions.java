@@ -7,10 +7,7 @@ import java.util.TreeMap;
 import org.mutils.wechat.app.model.AppOrderPayModel;
 import org.mutils.wechat.app.model.AppRefundModel;
 import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
-import org.mutils.wechat.wechatpay.core.util.SignUtil;
-
 import cn.minsin.core.exception.MutilsErrorException;
-import cn.minsin.core.init.WechatPayCoreConfig;
 
 /**
  * APP 移动端的API
@@ -19,6 +16,7 @@ import cn.minsin.core.init.WechatPayCoreConfig;
  */
 public class WechatAppFunctions extends WeChatPayFunctions {
 
+	
 	/**
 	 * 创建APP支付的请求参数 APP将用其发起微信支付
 	 * 
@@ -27,7 +25,7 @@ public class WechatAppFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Map<String, String> createAppPayParamter(AppOrderPayModel model) throws MutilsErrorException {
-		checkConfig("WechatAppFunctions",WechatPayCoreConfig.wechatPayConfig);
+		
 		try {
 			Map<String, String> doXMLParse = createUnifiedOrder(model);
 			checkMap(doXMLParse);
@@ -37,13 +35,12 @@ public class WechatAppFunctions extends WeChatPayFunctions {
 			String prepayid = doXMLParse.get("prepay_id");
 			String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
 			sortMap.put("appid", appId);
-			sortMap.put("partnerid", WechatPayCoreConfig.wechatPayConfig.getPartnerId());
+			sortMap.put("partnerid", payconfig.getPartnerId());
 			sortMap.put("noncestr", nonceStr);
 			sortMap.put("package", "Sign=WXPay");
 			sortMap.put("timestamp", timeStamp);
 			sortMap.put("prepayid", prepayid);
-			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
-			sortMap.put("sign", sign);
+			sortMap.put("sign", createSign(sortMap));
 			return sortMap;
 		} catch (Exception e) {
 			throw new MutilsErrorException(e, "发起APP支付失败");
@@ -58,7 +55,6 @@ public class WechatAppFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Map<String, String> createMiniProgramRefundParamter(AppRefundModel model) throws MutilsErrorException {
-		checkConfig("WechatAppFunctions",WechatPayCoreConfig.wechatPayConfig);
 		return createRefundRequest(model);
 	}
 }

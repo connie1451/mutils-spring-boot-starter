@@ -7,8 +7,6 @@ import cn.minsin.core.tools.StringUtil;
 public class WechatAppConfig extends InitConfig {
 	
 	
-	public static WechatAppConfig wechatAppConfig;
-	
 	//移动应用appid
 	private String appid;
 	
@@ -35,16 +33,11 @@ public class WechatAppConfig extends InitConfig {
 	}
 
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("Required for initialization appid,appSecret");
 		if(StringUtil.isBlank(appid,appSecret)) {
 			throw new MutilsException("The wechat-app config was initialization failed.");
 		}
-		wechatAppConfig = this;
-	}
-
-	@Override
-	protected void showInfomation() {
-		slog.info("Required for initialization appid,appSecret");
 	}
 
 }

@@ -7,12 +7,16 @@ import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import cn.minsin.core.annotation.NotNull;
 import cn.minsin.core.exception.MutilsErrorException;
+import cn.minsin.core.init.WechatPayCoreConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.ModelRule;
 import cn.minsin.core.tools.StringUtil;
 
 
 public abstract class BaseWeChatPayModel extends ModelRule {
 
+	protected final static WechatPayCoreConfig config = InitConfig.loadConfig(WechatPayCoreConfig.class);
+	
 	/**
 	 * 
 	 */

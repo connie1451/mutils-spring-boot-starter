@@ -1,9 +1,9 @@
 package org.mutils.wechat.wechatpay.core.model;
 
 import cn.minsin.core.annotation.NotNull;
-import cn.minsin.core.init.WechatPayCoreConfig;
 
 public class WithdrawModel extends BaseWeChatPayModel {
+
 
 	/**
 	 * 
@@ -14,7 +14,7 @@ public class WithdrawModel extends BaseWeChatPayModel {
 	private String mch_appid;
 
 	@NotNull("商户号 初始化时自动填写")
-	private String mchid = WechatPayCoreConfig.wechatPayConfig.getPartnerId();
+	private String mchid = config.getPartnerId();
 
 	@NotNull("随机字符串 默认当前时间毫秒数")
 	private String nonce_str = String.valueOf(System.currentTimeMillis());

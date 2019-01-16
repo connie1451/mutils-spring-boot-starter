@@ -16,35 +16,38 @@ import org.apache.http.util.EntityUtils;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.KuaiDi100Config;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.HttpClientUtil;
 import cn.minsin.kuaidi100.util.MD5Util;
 
 /**
  * 快递100物流查询
+ * 
  * @author mintonzhang 2018年7月19日
  */
-public class KuaiDi100Functions extends FunctionRule{
+public class KuaiDi100Functions extends FunctionRule {
+
+	private final static KuaiDi100Config config = InitConfig.loadConfig(KuaiDi100Config.class);
+
 	/**
 	 * 查询物流单号
 	 * 
-	 * @param logisticsCode
-	 *            物流公司code
-	 * @param logisticsNumber
-	 *            物流单号
+	 * @param logisticsCode   物流公司code
+	 * @param logisticsNumber 物流单号
 	 * @return 2018年7月20日
 	 */
-	public  String getLogistics(String logisticsCode, String logisticsNumber)  throws MutilsErrorException{
-		checkConfig("KuaiDi100Functions",KuaiDi100Config.kuaiDi100Config);
+	public static String getLogistics(String logisticsCode, String logisticsNumber) throws MutilsErrorException {
+
 		try {
 			String param = "{\"com\":\"" + logisticsNumber + "\",\"num\":\"" + logisticsCode + "\"}";
-			String sign = MD5Util.encode(param + KuaiDi100Config.kuaiDi100Config.getKey() + KuaiDi100Config.kuaiDi100Config.getCustomer());
+			String sign = MD5Util.encode(param + config.getKey() + config.getCustomer());
 			List<NameValuePair> params = new ArrayList<>();
 			params.add(new BasicNameValuePair("param", param));
 			params.add(new BasicNameValuePair("sign", sign));
-			params.add(new BasicNameValuePair("customer", KuaiDi100Config.kuaiDi100Config.getCustomer()));
+			params.add(new BasicNameValuePair("customer", config.getCustomer()));
 			CloseableHttpClient httpclient = HttpClientUtil.getInstance();
-			HttpPost post = HttpClientUtil.getPostMethod(KuaiDi100Config.kuaiDi100Config.getUrl());
+			HttpPost post = HttpClientUtil.getPostMethod(config.getUrl());
 			post.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
 			HttpResponse response = httpclient.execute(post);
 			String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -52,7 +55,7 @@ public class KuaiDi100Functions extends FunctionRule{
 			httpclient.close();
 			return jsonStr;
 		} catch (Exception e) {
-			throw new MutilsErrorException(e,"快递100查询物流失败");
+			throw new MutilsErrorException(e, "快递100查询物流失败");
 		}
 	}
 }

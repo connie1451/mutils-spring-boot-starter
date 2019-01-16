@@ -2,7 +2,6 @@ package cn.minsin.dianwoda;
 
 import com.alibaba.fastjson.JSONObject;
 
-import cn.minsin.core.init.DianWoDaConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.web.VO;
 
@@ -23,9 +22,8 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * @throws Exception 
 	 */
 	public static JSONObject orderAcceptedTest(String order_original_id) throws Exception {
-		checkConfig("DianWoDaFunctions-TestEnvironmentFunctions",DianWoDaConfig.dianWoDaConfig);
 		return DianWoDaFunctions.doSend("/api/v3/order-accepted-test.json",
-				VO.builder().put("order_original_id", order_original_id));
+				VO.init().put("order_original_id", order_original_id));
 	}
 
 	/**
@@ -36,9 +34,8 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * @throws Exception 
 	 */
 	public static JSONObject orderArriveTest(String order_original_id) throws Exception {
-		checkConfig("DianWoDaFunctions-TestEnvironmentFunctions",DianWoDaConfig.dianWoDaConfig);
 		return DianWoDaFunctions.doSend("/api/v3/order-arrive-test.json",
-				VO.builder().put("order_original_id", order_original_id));
+				VO.init().put("order_original_id", order_original_id));
 	}
 
 
@@ -49,9 +46,8 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * @throws Exception 
 	 */
 	public static JSONObject orderFetchTest(String order_original_id) throws Exception {
-		checkConfig("DianWoDaFunctions-TestEnvironmentFunctions",DianWoDaConfig.dianWoDaConfig);
 		return DianWoDaFunctions.doSend("/api/v3/order-fetch-test.json",
-				VO.builder().put("order_original_id", order_original_id));
+				VO.init().put("order_original_id", order_original_id));
 	}
 	
 	/**
@@ -61,8 +57,7 @@ public class TestEnvironmentFunctions  extends FunctionRule{
 	 * @throws Exception 
 	 */
 	public static JSONObject orderFinishTest(String order_original_id) throws Exception {
-		checkConfig("DianWoDaFunctions-TestEnvironmentFunctions",DianWoDaConfig.dianWoDaConfig);
 		return DianWoDaFunctions.doSend("/api/v3/order-finish-test.json",
-				VO.builder().put("order_original_id", order_original_id));
+				VO.init().put("order_original_id", order_original_id));
 	}
 }

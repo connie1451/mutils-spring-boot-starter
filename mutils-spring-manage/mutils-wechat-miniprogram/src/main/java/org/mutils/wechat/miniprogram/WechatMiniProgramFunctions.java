@@ -24,14 +24,13 @@ import org.mutils.wechat.miniprogram.model.MiniProgramOrderPayModel;
 import org.mutils.wechat.miniprogram.model.MiniProgramRefundModel;
 import org.mutils.wechat.miniprogram.model.UserInfoModel;
 import org.mutils.wechat.wechatpay.core.WeChatPayFunctions;
-import org.mutils.wechat.wechatpay.core.util.SignUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.WechatMiniProgramConfig;
-import cn.minsin.core.init.WechatPayCoreConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.HttpClientUtil;
 
 /**
@@ -41,6 +40,8 @@ import cn.minsin.core.tools.HttpClientUtil;
  * @date 2019年1月10日
  */
 public class WechatMiniProgramFunctions extends WeChatPayFunctions {
+	
+	private static final WechatMiniProgramConfig config =InitConfig.loadConfig(WechatMiniProgramConfig.class);
 
 	/**
 	 * 获取sessionkey和openid,一般用于小程序授权登录.
@@ -50,13 +51,11 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static Code2SessionReturnModel jscode2session(String code) throws MutilsErrorException {
-		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
+		
 		try {
 			String url = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 
-			WechatMiniProgramConfig miniProgramConfig = WechatMiniProgramConfig.wechatMiniProgramConfig;
-
-			url = url.replace("APPID", miniProgramConfig.getAppid()).replace("SECRET", miniProgramConfig.getAppSecret())
+			url = url.replace("APPID", config.getAppid()).replace("SECRET", config.getAppSecret())
 					.replace("JSCODE", code);
 			HttpGet get = HttpClientUtil.getGetMethod(url);
 
@@ -82,7 +81,7 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 * @throws MutilsErrorException
 	 */
 	public static UserInfoModel getUserInfo(String encryptedData, String code, String iv) throws MutilsErrorException {
-		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
+		
 		try {
 			Code2SessionReturnModel jscode2session = jscode2session(code);
 			// 被加密的数据
@@ -125,7 +124,6 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, String> createMiniProgramPayParamter(MiniProgramOrderPayModel model)
 			throws MutilsErrorException {
-		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
 
 		try {
 			Map<String, String> doXMLParse = createUnifiedOrder(model);
@@ -141,8 +139,7 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 			sortMap.put("package", package_str);
 			sortMap.put("signType", signType);
 			sortMap.put("timeStamp", timeStamp);
-			String sign = SignUtil.createSign(sortMap, WechatPayCoreConfig.wechatPayConfig.getPartnerKey());
-			sortMap.put("paySign", sign);
+			sortMap.put("paySign", createSign(sortMap));
 			sortMap.remove("appId");
 			return sortMap;
 		} catch (Exception e) {
@@ -159,7 +156,7 @@ public class WechatMiniProgramFunctions extends WeChatPayFunctions {
 	 */
 	public static Map<String, String> createMiniProgramRefundParamter(MiniProgramRefundModel model)
 			throws MutilsErrorException {
-		checkConfig("WechatMiniProgramFunctions", WechatPayCoreConfig.wechatPayConfig);
+		
 		return createRefundRequest(model);
 	}
 }

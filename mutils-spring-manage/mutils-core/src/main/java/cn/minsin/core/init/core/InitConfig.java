@@ -1,17 +1,23 @@
 package cn.minsin.core.init.core;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import cn.minsin.core.exception.MutilsException;
 
 public abstract class InitConfig {
 
 	protected static Logger slog = LoggerFactory.getLogger(InitConfig.class);
 
 	private final static Set<InitConfig> starters = new HashSet<>();
+	
+	private final static Map<Type,InitConfig> loadedConfig = new HashMap<>();
 
 	private static boolean isInit = false;
 
@@ -20,14 +26,14 @@ public abstract class InitConfig {
 	}
 
 	public static void init(MutilsFunctions[] functions) {
-		if (functions == null) {
-			slog.info("Function initialized failed, Please check config.");
-			return;
-		}
 		if (!isInit) {
 			isInit = true;
 		} else {
 			slog.error("The function has been initialized and the initialization failed.");
+			return;
+		}
+		if (functions == null) {
+			slog.info("Function initialized failed, Please check config.");
 			return;
 		}
 		slog.info("The selected function is about to be initialized.");
@@ -38,15 +44,22 @@ public abstract class InitConfig {
 				Type class1 = config.getClass();
 				if (clazz.equals(class1)) {
 					String artifactId = mutilsFunctions.getArtifactId();
-					config.showInfomation();
-					config.done();
+					config.checkConfig();
+					loadedConfig.put(class1, config);
 					slog.info("{} was initialize successful.", artifactId);
 				}
 			}
 		}
 	}
 
-	protected abstract void done();
-
-	protected abstract void showInfomation();
+	protected abstract void checkConfig();
+	
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends InitConfig> T loadConfig(Class<T> configClazz){
+		if(configClazz==null||!loadedConfig.containsKey(configClazz)) {
+			throw new MutilsException("The configuration file is not initialized or empty, please check the configuration file or select functions.");
+		}
+		return (T) loadedConfig.get(configClazz);
+	}
 }

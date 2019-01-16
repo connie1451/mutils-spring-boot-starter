@@ -99,7 +99,7 @@ public abstract class ModelRule implements Serializable {
 					String key = field.getName();
 					field.setAccessible(true);
 					Object object = field.get(this);
-					if (!StringUtil.isBlank(object)) {
+					if (StringUtil.isBlank(object)) {
 						String description = annotation.value();
 						throw new MutilsException(String.format(mssage, key, description));
 					}

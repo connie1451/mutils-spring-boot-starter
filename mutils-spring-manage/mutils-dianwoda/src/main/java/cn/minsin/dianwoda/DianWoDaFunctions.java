@@ -18,24 +18,24 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.minsin.core.exception.MutilsErrorException;
-import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.DianWoDaConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.MapUtil;
 import cn.minsin.dianwoda.model.OrderModel;
 import cn.minsin.dianwoda.util.SignUtil;
 
 public class DianWoDaFunctions extends FunctionRule {
-	
+
+	private final static DianWoDaConfig config = InitConfig.loadConfig(DianWoDaConfig.class);
 
 	/**
 	 * 派发订单 /api/v3/order-send.json
 	 * 
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public JSONObject order_send(OrderModel ot) throws MutilsErrorException {
-		checkConfig("DianWoDaFunctions",DianWoDaConfig.dianWoDaConfig);
+	public static JSONObject order_send(OrderModel ot) throws MutilsErrorException {
 		return doSend("/api/v3/order-send.json", MapUtil.getMap(ot));
 	}
 
@@ -47,21 +47,17 @@ public class DianWoDaFunctions extends FunctionRule {
 	 * @return 响应结果
 	 */
 	static JSONObject doSend(String url, Map<String, Object> businessParams) throws MutilsErrorException {
-		checkConfig("DianWoDaFunctions",DianWoDaConfig.dianWoDaConfig);
-		if (DianWoDaConfig.dianWoDaConfig == null) {
-			throw new MutilsException("点我达配置尚未初始化. DianWoDa config was not initialized.");
-		}
 
 		/* 生成签名 */
-		String sign = SignUtil.sign(businessParams, DianWoDaConfig.dianWoDaConfig.getSercret());
+		String sign = SignUtil.sign(businessParams, config.getSercret());
 
-		businessParams.put("pk", DianWoDaConfig.dianWoDaConfig.getPk());
-		businessParams.put("v", DianWoDaConfig.dianWoDaConfig.getVersion());
-		businessParams.put("format", DianWoDaConfig.dianWoDaConfig.getFormat());
+		businessParams.put("pk", config.getPk());
+		businessParams.put("v", config.getVersion());
+		businessParams.put("format", config.getFormat());
 		businessParams.put("sig", sign);
-		businessParams.put("timestamp", DianWoDaConfig.dianWoDaConfig.getTimestamp());
+		businessParams.put("timestamp", config.getTimestamp());
 		try {
-			HttpPost post = new HttpPost(DianWoDaConfig.dianWoDaConfig.getUrl() + url);
+			HttpPost post = new HttpPost(config.getUrl() + url);
 			List<NameValuePair> list = new LinkedList<>();
 			businessParams.keySet().forEach(k -> {
 				list.add(new BasicNameValuePair(k, businessParams.get(k).toString()));
@@ -70,16 +66,16 @@ public class DianWoDaFunctions extends FunctionRule {
 			post.setEntity(uefEntity);
 
 			CloseableHttpClient build = HttpClientBuilder.create().build();
-			log.info("Request infomation is {}",JSONObject.toJSONString(list));
+			log.info("Request infomation is {}", JSONObject.toJSONString(list));
 			CloseableHttpResponse response = build.execute(post);
 			HttpEntity entity = response.getEntity();
 			String string = EntityUtils.toString(entity);
 			response.close();
 			build.close();
-			log.info("Request infomation is {}",string);
+			log.info("Request infomation is {}", string);
 			return JSON.parseObject(string);
 		} catch (Exception e) {
-			throw new MutilsErrorException(e,"点我达请求下单失败");
+			throw new MutilsErrorException(e, "点我达请求下单失败");
 		}
 	}
 

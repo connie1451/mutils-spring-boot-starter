@@ -14,6 +14,7 @@ import cn.minsin.alipay.model.RefundModel;
 import cn.minsin.alipay.model.TransferModel;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.init.AlipayConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 
 /**
@@ -22,6 +23,8 @@ import cn.minsin.core.rule.FunctionRule;
  * @author mintonzhang@163.com 2018年12月6日
  */
 public class AlipayFunctions extends FunctionRule {
+
+	private final static AlipayConfig config = InitConfig.loadConfig(AlipayConfig.class);
 
 	/**
 	 * 发起支付宝网站支付
@@ -32,11 +35,11 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse createWebAlipayParams(PayModel payModel) throws MutilsErrorException {
-		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
+		
 		try {
 			AlipayTradePrecreateRequest alipayRequest = new AlipayTradePrecreateRequest();
 			alipayRequest.setBizContent(payModel.toString());
-			alipayRequest.setNotifyUrl(AlipayConfig.alipayConfig.getNotifyUrl());// 设置回调地址
+			alipayRequest.setNotifyUrl(config.getNotifyUrl());// 设置回调地址
 			return initAlipayClient().execute(alipayRequest);
 		} catch (Exception e) {
 			throw new MutilsErrorException(e, "Create Alipay Web payment failure.");
@@ -52,12 +55,11 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse createAlipayParams(PayModel payModel) throws MutilsErrorException {
-		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
 		try {
 			// 进行保留两位小数
 			AlipayTradeAppPayRequest alipayRequest = new AlipayTradeAppPayRequest();
 			alipayRequest.setBizContent(payModel.toString());
-			alipayRequest.setNotifyUrl(AlipayConfig.alipayConfig.getNotifyUrl());// 设置回调地址
+			alipayRequest.setNotifyUrl(config.getNotifyUrl());// 设置回调地址
 			return initAlipayClient().sdkExecute(alipayRequest);
 		} catch (AlipayApiException e) {
 			throw new MutilsErrorException(e, "Create Alipay mobile payment failure.");
@@ -73,7 +75,7 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse transfer(TransferModel model) throws MutilsErrorException {
-		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
+		
 		try {
 			AlipayFundTransToaccountTransferRequest alipayRequest = new AlipayFundTransToaccountTransferRequest();
 			alipayRequest.setBizContent(model.toString());
@@ -91,7 +93,7 @@ public class AlipayFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static AlipayResponse refund(RefundModel model) throws MutilsErrorException {
-		checkConfig("AlipayFunctions",AlipayConfig.alipayConfig);
+		
 		try {
 			AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
 			alipayRequest.setBizContent(model.toString());
@@ -103,12 +105,12 @@ public class AlipayFunctions extends FunctionRule {
 
 	static AlipayClient initAlipayClient() {
 		return new DefaultAlipayClient(
-				AlipayConfig.alipayConfig.getServerUrl(),
-				AlipayConfig.alipayConfig.getAppid(),
-				AlipayConfig.alipayConfig.getPrivateKey(), 
-				AlipayConfig.alipayConfig.getFormat(),
-				AlipayConfig.alipayConfig.getCharset(),
-				AlipayConfig.alipayConfig.getPublicKey(),
-				AlipayConfig.alipayConfig.getSignType());
+				config.getServerUrl(),
+				config.getAppid(),
+				config.getPrivateKey(), 
+				config.getFormat(),
+				config.getCharset(),
+				config.getPublicKey(),
+				config.getSignType());
 	}
 }

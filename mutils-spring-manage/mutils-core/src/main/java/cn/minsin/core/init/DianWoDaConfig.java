@@ -6,7 +6,6 @@ import cn.minsin.core.tools.StringUtil;
 
 public class DianWoDaConfig extends InitConfig {
 
-	public static DianWoDaConfig dianWoDaConfig;
 	
 	//点我达有测试地址和正式服地址 
 	private String url;
@@ -80,18 +79,11 @@ public class DianWoDaConfig extends InitConfig {
 		this.format = format;
 	}
 
-
-
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("Required for initialization url, pk, secret.");
 		if(StringUtil.isBlank(url,pk,sercret)){
 			throw new MutilsException("点我达  初始化失败,请检查配置文件是否正确.");
 		}
-		dianWoDaConfig = this;
-	}
-
-	@Override
-	protected void showInfomation() {
-		slog.info("Required for initialization url, pk, secret.");
 	}
 }

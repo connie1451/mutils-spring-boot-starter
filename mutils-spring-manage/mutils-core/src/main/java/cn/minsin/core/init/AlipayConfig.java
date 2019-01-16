@@ -6,8 +6,6 @@ import cn.minsin.core.tools.StringUtil;
 
 public class AlipayConfig extends InitConfig {
 
-	public static AlipayConfig alipayConfig;
-
 	// 支付宝的APPID 需要在官方申请
 	private String appid;
 
@@ -108,15 +106,12 @@ public class AlipayConfig extends InitConfig {
 	}
 
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("Required for initialization appid、privateKey、publicKey、notifyUrl、returnUrl.");
+		
 		if (StringUtil.isBlank(appid, privateKey, publicKey, notifyUrl, returnUrl, serverUrl)) {
 			throw new MutilsException("支付宝支付初始化失败,请检查配置文件是否正确.");
 		}
-		alipayConfig = this;
 	}
 
-	@Override
-	protected void showInfomation() {
-		slog.info("Required for initialization appid、privateKey、publicKey、notifyUrl、returnUrl.");
-	}
 }

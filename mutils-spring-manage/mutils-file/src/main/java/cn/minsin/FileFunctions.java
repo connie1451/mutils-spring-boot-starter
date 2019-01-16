@@ -25,12 +25,16 @@ import com.alibaba.fastjson.util.IOUtils;
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.FileConfig;
+import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.DateUtil;
 import cn.minsin.core.tools.IOUtil;
 import cn.minsin.core.web.Result;
 
 public class FileFunctions extends FunctionRule {
+	
+	private final static FileConfig config = InitConfig.loadConfig(FileConfig.class);
+
 
 	/**
 	 * path中不能出现\
@@ -51,14 +55,14 @@ public class FileFunctions extends FunctionRule {
 	 * @return
 	 */
 	public static String saveFile(MultipartFile file) throws MutilsErrorException {
-		checkConfig("FileFunctions", FileConfig.fileConfig);
-		boolean local = FileConfig.fileConfig.isLocal();
+		
+		boolean local = config.isLocal();
 		if (local) {
 			return localSave(file);
 		}
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
-			String[] serverList = FileConfig.fileConfig.getServerList();
+			String[] serverList = config.getServerList();
 			int nextInt = new Random().nextInt(serverList.length);
 			final String remote_url = serverList[nextInt] + "/upload";// 第三方服务器请求地址
 			HttpPost httpPost = new HttpPost(remote_url);
@@ -89,7 +93,7 @@ public class FileFunctions extends FunctionRule {
 	 * @throws Exception
 	 */
 	public static String[] saveFiles(MultipartFile[] file) throws MutilsException {
-		checkConfig("FileFunctions", FileConfig.fileConfig);
+		
 		String[] result = new String[file.length];
 		for (int i = 0; i < result.length; i++) {
 			String saveFile = null;
@@ -197,7 +201,7 @@ public class FileFunctions extends FunctionRule {
 			String fileName = file.getOriginalFilename();
 			String gName = fileName;
 			String savePath = DateUtil.date2String(new Date(), "yyyyMMdd/");
-			String path = FileConfig.fileConfig.getSaveDisk() + savePath;
+			String path = config.getSaveDisk() + savePath;
 			// 定义上传路径
 			checkPath(path);
 			int count = 0;
@@ -235,11 +239,11 @@ public class FileFunctions extends FunctionRule {
 	 * @return
 	 */
 	public static String getRequestUrl(String path, String def_img) {
-		checkConfig("FileFunctions", FileConfig.fileConfig);
+		
 		try {
-			File file = new File(FileConfig.fileConfig.getSaveDisk() + path);
+			File file = new File(config.getSaveDisk() + path);
 			if(!file.exists()) {
-				File def = new File(FileConfig.fileConfig.getSaveDisk() + def_img);
+				File def = new File(config.getSaveDisk() + def_img);
 				if(!def.exists()) {
 					return "";
 				}
@@ -247,6 +251,6 @@ public class FileFunctions extends FunctionRule {
 			}
 		
 		} catch (Exception e) {}
-		return FileConfig.fileConfig.fullPrefix()+ path;
+		return config.fullPrefix()+ path;
 	}
 }

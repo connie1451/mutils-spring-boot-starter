@@ -7,8 +7,6 @@ import cn.minsin.core.tools.StringUtil;
 public class WechatMiniProgramConfig extends InitConfig {
 	
 	
-	public static WechatMiniProgramConfig wechatMiniProgramConfig;
-	
 	// 小程序appid
 	private String appid;
 	
@@ -32,16 +30,12 @@ public class WechatMiniProgramConfig extends InitConfig {
 	}
 
 	@Override
-	protected void done() {
+	protected void checkConfig() {
+		slog.info("Required for initialization appid,appSecret");
+
 		if(StringUtil.isBlank(appid,appSecret)) {
 			throw new MutilsException("小程序 初始化失败,请检查配置文件是否正确. The mini program config was initialization failed.");
 		}
-		wechatMiniProgramConfig = this;
-	}
-
-	@Override
-	protected void showInfomation() {
-		slog.info("Required for initialization appid,appSecret");
 	}
 
 }

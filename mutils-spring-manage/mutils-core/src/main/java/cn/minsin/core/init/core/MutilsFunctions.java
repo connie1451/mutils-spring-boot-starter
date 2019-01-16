@@ -1,15 +1,6 @@
 package cn.minsin.core.init.core;
 
-import cn.minsin.core.init.AlipayConfig;
-import cn.minsin.core.init.ExcelConfig;
-import cn.minsin.core.init.FileConfig;
-import cn.minsin.core.init.KuaiDi100Config;
-import cn.minsin.core.init.UnionPayConfig;
-import cn.minsin.core.init.WechatAppConfig;
-import cn.minsin.core.init.WechatJsapiConfig;
-import cn.minsin.core.init.WechatMiniProgramConfig;
-import cn.minsin.core.init.WechatPayCoreConfig;
-import cn.minsin.core.init.YiKeTongConfig;
+import cn.minsin.core.init.*;
 
 public enum MutilsFunctions {
 	ALIPAY("mutils-alipay", AlipayConfig.class),

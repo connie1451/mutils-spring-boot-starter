@@ -46,7 +46,7 @@ public abstract class InitConfig {
 					String artifactId = mutilsFunctions.getArtifactId();
 					config.checkConfig();
 					loadedConfig.put(class1, config);
-					slog.info("{} was initialize successful.", artifactId);
+					slog.info("{} initialized successfully.", artifactId);
 				}
 			}
 		}

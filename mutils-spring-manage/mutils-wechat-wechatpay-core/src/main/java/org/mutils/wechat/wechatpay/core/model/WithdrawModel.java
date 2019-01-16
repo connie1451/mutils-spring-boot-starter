@@ -28,7 +28,7 @@ public class WithdrawModel extends BaseWeChatPayModel {
 	@NotNull("NO_CHECK：不校验真实姓名  FORCE_CHECK：强校验真实姓名 默认FORCE_CHECK")
 	private String check_name = "FORCE_CHECK";
 
-	@NotNull("收款用户真实姓名。 如果check_name设置为FORCE_CHECK，则必填用户真实姓名")
+	@NotNull(value="收款用户真实姓名。 如果check_name设置为FORCE_CHECK，则必填用户真实姓名",notNull=false)
 	private String re_user_name;
 
 	@NotNull("企业付款金额，单位为分 必须大于0")
@@ -110,6 +110,10 @@ public class WithdrawModel extends BaseWeChatPayModel {
 
 	public String getMchid() {
 		return mchid;
+	}
+
+	public void setMch_appid(String mch_appid) {
+		this.mch_appid = mch_appid;
 	}
 
 }

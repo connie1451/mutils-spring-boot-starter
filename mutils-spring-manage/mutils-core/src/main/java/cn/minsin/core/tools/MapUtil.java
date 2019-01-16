@@ -5,6 +5,10 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+
+import cn.minsin.core.exception.MutilsErrorException;
+
 /**
    *  此方法提供一些map的常用操作， 更多的可以查询 {@code org.apache.commons.collections4.MapUtils}
  * @author minsin
@@ -17,7 +21,7 @@ public class MapUtil {
 	 * @param model
 	 * @return
 	 */
-	public static <T> Map<String, Object> getMap(T model){
+	public static <T> Map<String, Object> toMap(T model){
 		HashMap<String, Object> hashMap = new HashMap<>();
 		Field[] fields = model.getClass().getDeclaredFields();
 		for (Field field : fields) {
@@ -38,6 +42,15 @@ public class MapUtil {
 			}
 		}
 		return hashMap;
+	}
+	
+	public static <T> T mapToObject(Map<String,?> map,Class<T> clazz) throws MutilsErrorException {
+		try {
+			String jsonString = JSON.toJSONString(map);
+			return JSON.parseObject(jsonString, clazz);
+		}catch (Exception e) {
+			throw new MutilsErrorException(e,"转换失败");
+		}
 	}
 
 	/**
@@ -60,4 +73,5 @@ public class MapUtil {
 		 map.put(k, v);
 		 return map;
 	}
+	
 }

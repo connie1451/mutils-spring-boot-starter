@@ -1,8 +1,13 @@
 package org.mutils.wechat.wechatpay.core;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.SortedMap;
+
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -10,6 +15,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.mutils.wechat.wechatpay.core.model.BaseWeChatPayModel;
+import org.mutils.wechat.wechatpay.core.model.NotifyModel;
 import org.mutils.wechat.wechatpay.core.model.RefundModel;
 import org.mutils.wechat.wechatpay.core.model.WithdrawModel;
 import org.mutils.wechat.wechatpay.core.util.ParseXmlUtil;
@@ -21,6 +27,7 @@ import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.rule.FunctionRule;
 import cn.minsin.core.tools.HttpClientUtil;
 import cn.minsin.core.tools.IOUtil;
+import cn.minsin.core.tools.MapUtil;
 
 /**
  * 微信配置文件(微信支付，微信公众号)
@@ -140,5 +147,28 @@ public class WeChatPayFunctions extends FunctionRule {
 	 */
 	protected static String createSign(SortedMap<String, String> sortMap) {
 		return SignUtil.createSign(sortMap, payconfig.getPartnerKey());
+	}
+	
+	/**
+	 * 	微信支付回调解析
+	 * 	<xml><return_code><![CDATA[STATE]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>
+	 * 	如果成功 将STATE替换为SUCCESS 如果失败替换为FAIL 反馈给微信服务器不用再重复请求。 使用PrintWriter.println直接输出
+	 * @param req
+	 * @throws MutilsErrorException 
+	 */
+	public static NotifyModel parseNotify(final HttpServletRequest req) throws MutilsErrorException {
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream) req.getInputStream()));
+			String line = null;
+			StringBuilder sb = new StringBuilder();
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			Map<String, String> map = ParseXmlUtil.doXMLParse(sb.toString());
+			return MapUtil.mapToObject(map, NotifyModel.class);
+		}catch (Exception e) {
+			throw new MutilsErrorException(e,"微信回调解析失败");
+		}
+
 	}
 }

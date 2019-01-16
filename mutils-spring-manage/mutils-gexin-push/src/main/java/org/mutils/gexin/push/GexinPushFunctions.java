@@ -65,7 +65,7 @@ public class GexinPushFunctions extends FunctionRule {
 	 * @throws MutilsErrorException
 	 */
 	public static IPushResult push(PushModel model) throws MutilsErrorException {
-		model.toString();// 检查
+		model.verificationField();// 检查
 		IGtPush push = initPush();
 		TransmissionTemplate template = new TransmissionTemplate();
 		template.setAppId(config.getAppId());

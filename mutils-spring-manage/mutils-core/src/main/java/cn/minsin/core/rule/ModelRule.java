@@ -90,7 +90,7 @@ public abstract class ModelRule implements Serializable {
 	/**
 	 * 验证字段
 	 */
-	protected void verificationField() {
+	public void verificationField() {
 		for (Field field : getAllFields()) {
 			if(verificationField(field)) continue;
 			NotNull annotation = field.getAnnotation(NotNull.class);

@@ -36,7 +36,7 @@ public class DianWoDaFunctions extends FunctionRule {
 	 * @throws Exception
 	 */
 	public static JSONObject order_send(OrderModel ot) throws MutilsErrorException {
-		return doSend("/api/v3/order-send.json", MapUtil.getMap(ot));
+		return doSend("/api/v3/order-send.json", MapUtil.toMap(ot));
 	}
 
 	/**

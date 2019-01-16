@@ -12,7 +12,8 @@ public enum MutilsFunctions {
 	WECHAT_JSAPI("mutils-wechat-jsapi",  WechatJsapiConfig.class),
 	WECHAT_MINIPROGRAM("mutils-wechat-miniprogram",  WechatMiniProgramConfig.class),
 	WECHATPAY_CORE("mutils-wechat-wechatpay-core",  WechatPayCoreConfig.class),
-	UNION_PAY("mutils-union-pay",  UnionPayConfig.class);
+	UNION_PAY("mutils-union-pay",  UnionPayConfig.class),
+	GEXIN_PUSH("mutils-gexin-push",  GexinPushConfig.class);
 
 	private String artifactId;
 

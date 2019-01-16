@@ -58,6 +58,14 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.minsin</groupId>
+			<artifactId>mutils-union-pay</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.minsin</groupId>
+			<artifactId>mutils-gexin-push</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.minsin</groupId>
 			<artifactId>mutils-wechat-wechatpay-core</artifactId>
 		</dependency>
 		<dependency>

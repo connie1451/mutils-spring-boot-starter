@@ -9,32 +9,43 @@ import org.apache.commons.lang3.StringUtils;
 public class StringUtil extends StringUtils {
 
 	// js提交到后台可能出现的错误情况,但提交上的值并不是null或""
-	private static  String[] keys = { "undefined", "null" };
+	private static String[] keys = { "undefined", "null" };
 
 	/**
-	 *   是否包含参数值为空的数据
+	 * 是否包含参数值为空的数据
 	 *
 	 * @param param 需要检查的为空的参数们
-	 * @return true 有 false 无 
+	 * @return true 有 false 无
 	 */
 	public static boolean isBlank(Object... param) {
 		for (Object object : param) {
-			if(object==null||isBlank(object.toString())) {
+			if (object == null || isBlank(object.toString())) {
 				return true;
 			}
 		}
-		return param.length==0?true:false;
+		return param.length == 0 ? true : false;
 	}
 
 	/**
-	 *     是否全部参数都为空
+	 * 判断是否为空 如果为空则返回默认值
+	 * 
+	 * @param cs 判断的字符串
+	 * @param def 默认值字符串
+	 * @return
+	 */
+	public static String isBlankWithDefault(String cs, String def) {
+		return isBlank(cs) ? cs : def;
+	}
+
+	/**
+	 * 是否全部参数都为空
 	 *
 	 * @param param 需要检查的为空的参数们
 	 * @return true 全部为空 false 数据中有非空数据
 	 */
 	public static boolean isAllBlank(Object... param) {
 		for (Object object : param) {
-			if(object!=null&&isNotBlank(object.toString())) {
+			if (object != null && isNotBlank(object.toString())) {
 				return false;
 			}
 		}
@@ -48,7 +59,7 @@ public class StringUtil extends StringUtils {
 	 * @param filterKey
 	 * @return 2018年7月27日
 	 */
-	public static  String filterSearchKey(String str, String... filterKey) {
+	public static String filterSearchKey(String str, String... filterKey) {
 		str = filterSpace(str);
 		if (filterKey != null && filterKey.length > 0 && str != null) {
 			for (String string : filterKey) {
@@ -65,7 +76,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月21日
 	 */
-	public static  String filterSpace(String str) {
+	public static String filterSpace(String str) {
 		str = StringUtils.isBlank(str) ? null : str.trim();
 		for (String key : keys) {
 			if (key.equals(str))
@@ -80,7 +91,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月21日
 	 */
-	public static  String filterAllSpace(String str) {
+	public static String filterAllSpace(String str) {
 		return filterSpace(str) == null ? null : str.replace(" ", "");
 	}
 
@@ -91,7 +102,7 @@ public class StringUtil extends StringUtils {
 	 * @param type -1 为%key 0为 %key% 1为key% 其他默认为0
 	 * @return 2018年7月27日
 	 */
-	public static  String likeSearch(String key, int type,String... filterKey) {
+	public static String likeSearch(String key, int type, String... filterKey) {
 		key = filterSearchKey(key, filterKey);
 		if (key != null) {
 			return type == -1 ? "%" + key : type == 1 ? key + "%" : "%" + key + "%";
@@ -104,7 +115,7 @@ public class StringUtil extends StringUtils {
 	 * 
 	 * @return 2018年9月12日
 	 */
-	public static  String getUUIDForLength(int length) {
+	public static String getUUIDForLength(int length) {
 		if (length < 1 || length > 32) {
 			length = 32;
 		}
@@ -117,7 +128,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月30日
 	 */
-	public static  String replaceSemicolonToEnglish(String str) {
+	public static String replaceSemicolonToEnglish(String str) {
 		if (StringUtil.isBlank(str))
 			return null;
 		return str.replace("；", ";");
@@ -129,7 +140,7 @@ public class StringUtil extends StringUtils {
 	 * @param str
 	 * @return 2018年9月30日
 	 */
-	public static  String replaceColonToEnglish(String str) {
+	public static String replaceColonToEnglish(String str) {
 		if (StringUtil.isBlank(str))
 			return null;
 		return str.replace("：", ":");
@@ -141,9 +152,9 @@ public class StringUtil extends StringUtils {
 	 * @param str       待定字符串
 	 * @param length    长度
 	 * @param allowNull 是否可以为空
-	 * @return true为不满足条件 false为满足条件 
+	 * @return true为不满足条件 false为满足条件
 	 */
-	public static  boolean checkStringLength(String str, int length, boolean allowNull) {
+	public static boolean checkStringLength(String str, int length, boolean allowNull) {
 		if (StringUtil.isBlank(str)) {
 			return !allowNull;
 		}

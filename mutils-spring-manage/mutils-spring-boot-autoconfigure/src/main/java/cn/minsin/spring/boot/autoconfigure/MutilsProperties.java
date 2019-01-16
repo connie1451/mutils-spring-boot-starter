@@ -6,6 +6,7 @@ import cn.minsin.core.init.AlipayConfig;
 import cn.minsin.core.init.DianWoDaConfig;
 import cn.minsin.core.init.ExcelConfig;
 import cn.minsin.core.init.FileConfig;
+import cn.minsin.core.init.GexinPushConfig;
 import cn.minsin.core.init.KuaiDi100Config;
 import cn.minsin.core.init.UnionPayConfig;
 import cn.minsin.core.init.WechatAppConfig;
@@ -78,7 +79,11 @@ public class MutilsProperties {
 	/**
 	 * 	银联支付
 	 */
-	private UnionPayConfig unionPayConfig = new UnionPayConfig();
+	private UnionPayConfig unionPay = new UnionPayConfig();
+	/**
+	 * 	个推推送
+	 */
+	private GexinPushConfig gexinPush = new GexinPushConfig();
 	
 	/**
 	 * 描述文件:
@@ -87,12 +92,21 @@ public class MutilsProperties {
 	 */
 	private String readMe;
 	
-	public UnionPayConfig getUnionPayConfig() {
-		return unionPayConfig;
+	
+	public UnionPayConfig getUnionPay() {
+		return unionPay;
 	}
 
-	public void setUnionPayConfig(UnionPayConfig unionPayConfig) {
-		this.unionPayConfig = unionPayConfig;
+	public void setUnionPay(UnionPayConfig unionPay) {
+		this.unionPay = unionPay;
+	}
+
+	public GexinPushConfig getGexinPush() {
+		return gexinPush;
+	}
+
+	public void setGexinPush(GexinPushConfig gexinPush) {
+		this.gexinPush = gexinPush;
 	}
 
 	public String getReadMe() {

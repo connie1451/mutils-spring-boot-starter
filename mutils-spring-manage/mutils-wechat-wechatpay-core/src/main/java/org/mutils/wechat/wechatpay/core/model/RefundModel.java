@@ -36,7 +36,7 @@ public class RefundModel extends BaseWeChatPayModel {
 	private int refund_fee;
 	
 	@NotNull("退款结果通知url 初始化时自动填写")
-	private String notify_url = config.getRefundUrl();
+	private String notify_url = config.getRefundNotifyUrl();
 	
 	@NotNull(value = "退款原因", notNull = false)
 	private String refund_desc;

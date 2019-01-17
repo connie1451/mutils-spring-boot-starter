@@ -1,7 +1,5 @@
 package cn.minsin.core.init;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.init.core.InitConfig;
 import cn.minsin.core.tools.StringUtil;
@@ -13,7 +11,7 @@ public class FileConfig extends InitConfig {
 	private String[] serverList;
 
 	// 是否使用本地化保存 如果为true saveDisk,serverUrl 不能为空 如果为false serverList 不能为空
-	@JSONField
+		
 	private boolean isLocal = true;
 
 	// 文件所在磁盘

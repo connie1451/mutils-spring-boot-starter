@@ -149,7 +149,13 @@ public class AlipayFunctions extends FunctionRule {
 	}
 
 	static AlipayClient initAlipayClient() {
-		return new DefaultAlipayClient(config.getServerUrl(), config.getAppid(), config.getPrivateKey(),
-				config.getFormat(), config.getCharset(), config.getPublicKey(), config.getSignType());
+		return new DefaultAlipayClient(
+				config.getServerUrl(),
+				config.getAppid(), 
+				config.getPrivateKey(),
+				config.getFormat(),
+				config.getCharset(), 
+				config.getPublicKey(), 
+				config.getSignType());
 	}
 }

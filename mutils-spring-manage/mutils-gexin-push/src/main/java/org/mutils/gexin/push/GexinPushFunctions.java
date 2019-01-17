@@ -58,7 +58,7 @@ public class GexinPushFunctions extends FunctionRule {
 	}
 
 	/**
-	 * 	推送主方法 推送一个或多个由pushMany 控制
+	 * 	 推送一个或多个由pushMany 控制
 	 * 
 	 * @param model 推送的对象
 	 * @return
@@ -82,7 +82,7 @@ public class GexinPushFunctions extends FunctionRule {
 
 		List<String> clientids = model.getClientids();
 		if (clientids.isEmpty()) {
-			throw new MutilsErrorException("推送至指定用户不能为空");
+			throw new MutilsErrorException("clientid不能为空");
 		}
 		try {
 			boolean pushMany = model.isPushMany();

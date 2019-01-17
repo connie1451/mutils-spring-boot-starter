@@ -8,7 +8,7 @@ import cn.minsin.core.tools.StringUtil;
 
 public class ExcelConfig extends InitConfig {
 
-	// excel统一错误模板
+	// excel统一错误模板路径
 	private String errorTemplatePath;
 
 	// 开始解析的sheet下标

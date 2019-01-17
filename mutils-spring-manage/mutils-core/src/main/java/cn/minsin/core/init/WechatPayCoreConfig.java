@@ -12,11 +12,14 @@ public class WechatPayCoreConfig extends InitConfig {
 	// 商户秘钥
 	private String partnerKey;
 
-	// 退款通知地址
-	private String refundUrl;
+	// 退款请求地址
+	private String refundUrl="https://api.mch.weixin.qq.com/secapi/pay/refund";
 
-	//  异步通知地址
+	// 付款通知地址
 	private String notifyUrl;
+	
+	// 退款通知地址
+	private String refundNotifyUrl;
 
 	// 退款证书地址
 	private String certificatePath;
@@ -34,8 +37,16 @@ public class WechatPayCoreConfig extends InitConfig {
 	private String withdrawUrl ="https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
 	
 	
-	
-	
+
+	public String getRefundNotifyUrl() {
+		return refundNotifyUrl;
+	}
+
+
+	public void setRefundNotifyUrl(String refundNotifyUrl) {
+		this.refundNotifyUrl = refundNotifyUrl;
+	}
+
 
 	public boolean isWithRefund() {
 		return withRefund;
@@ -115,12 +126,12 @@ public class WechatPayCoreConfig extends InitConfig {
 	@Override
 	protected void checkConfig() {
 		slog.info("Required for initialization partnerId,partnerKey,notifyUrl,unifiedOrderUrl."
-				+ "When withRefund is true,You also need certificatePath, refundUrl, certificateFormat");
+				+ "When withRefund is true,You also need certificatePath, refundUrl, certificateFormat,refundNotifyUrl");
 		if (StringUtil.isBlank(partnerId, partnerKey, notifyUrl, unifiedOrderUrl)) {
 			throw new MutilsException("微信支付初始化失败,请检查配置文件是否正确. A error when initialization the basic config for wechat pay, please check config");
 		}
 		if (withRefund) {
-			if (StringUtil.isBlank(certificatePath, refundUrl, certificateFormat)) {
+			if (StringUtil.isBlank(certificatePath, refundUrl, certificateFormat,refundNotifyUrl)) {
 				throw new MutilsException("微信支付退款初始化失败,请检查配置文件是否正确. The refund config of wechat pay was initialization failed.");
 			}
 		}

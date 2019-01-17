@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>cn.minsin</groupId>
 		<artifactId>mutils-spring-manage</artifactId>
-		<version>0.2.3</version>
+		<version>0.2.4</version>
 	</parent>
 	<artifactId>mutils-union-pay</artifactId>
 	<name>mutils-union-pay</name>
@@ -15,7 +15,7 @@
 	<description>
 	mutils-union-pay 是参照码云中的一款开源项目，为了更符合mutils的开发风格所以进行了部分优化。
 	地址：https://gitee.com/52itstyle/spring-boot-pay,
-	在此特别感谢作者代码，在此模块的开发上节省了大部分时间！
+	在此特别感谢TA的代码，在此模块的开发上节省了大部分时间！
 	
 	</description>
 	<properties>

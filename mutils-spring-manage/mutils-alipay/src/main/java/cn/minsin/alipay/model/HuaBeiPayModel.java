@@ -40,7 +40,7 @@ public class HuaBeiPayModel extends PayModel {
 
 	public void setHuaBeiStaging(HuaBeiStaging huaBeiStaging, HuaBeiSellerPercent huaBeiSellerPercent) {
 		if (huaBeiStaging == null || huaBeiSellerPercent == null) {
-			log.error(
+			log.info(
 					"HuaBeiStaging or huaBeiSellerPercent is null. so,the value of hb_fq_num is 3,hb_fq_seller_percent is 0.");
 			return;
 		}

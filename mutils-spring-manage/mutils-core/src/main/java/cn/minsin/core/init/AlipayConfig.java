@@ -15,22 +15,19 @@ public class AlipayConfig extends InitConfig {
 	// 3.支付宝公钥
 	private String publicKey;
 
-	// 4.服务器异步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
+	// 4.异步通知页面路径 不能写localhost或127.0.0.1等内网地址，必须要填写外网能够访问到的地址
 	private String notifyUrl;
 
-	// 5.页面跳转同步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	private String returnUrl;
-
-	// 6.请求网关地址
+	// 5.请求网关地址
 	private String serverUrl = "https://openapi.alipay.com/gateway.do";
 
-	// 7.编码
+	// 6.编码
 	private String charset = "UTF-8";
 
-	// 8.返回格式
+	// 7.返回格式
 	private String format = "json";
 
-	// 9.加密类型(推荐使用RSA2)
+	// 8.加密类型(推荐使用RSA2)
 	private String signType = "RSA2";
 
 	public String getAppid() {
@@ -63,14 +60,6 @@ public class AlipayConfig extends InitConfig {
 
 	public void setNotifyUrl(String notifyUrl) {
 		this.notifyUrl = notifyUrl;
-	}
-
-	public String getReturnUrl() {
-		return returnUrl;
-	}
-
-	public void setReturnUrl(String returnUrl) {
-		this.returnUrl = returnUrl;
 	}
 
 	public String getServerUrl() {
@@ -109,7 +98,7 @@ public class AlipayConfig extends InitConfig {
 	protected void checkConfig() {
 		slog.info("Required for initialization appid、privateKey、publicKey、notifyUrl、returnUrl.");
 		
-		if (StringUtil.isBlank(appid, privateKey, publicKey, notifyUrl, returnUrl, serverUrl)) {
+		if (StringUtil.isBlank(appid, privateKey, publicKey, notifyUrl, serverUrl)) {
 			throw new MutilsException("支付宝支付初始化失败,请检查配置文件是否正确.");
 		}
 	}
